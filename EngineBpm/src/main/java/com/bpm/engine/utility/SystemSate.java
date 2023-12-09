@@ -1,0 +1,5 @@
+package com.bpm.engine.utility;
+
+public enum SystemSate {
+    CREATE, ASSIGNED, WAITING_FOR_ACTION, STARTED, RUNNING, IN_PROGRESS, ACTIVE, COMPLETE, PAUSE, STOP, CANCELING ,CANCEL
+}

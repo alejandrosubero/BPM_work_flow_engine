@@ -1,0 +1,63 @@
+{
+  "name": "we out",
+  "procesTitle": "we out system",
+  "userCreate": "hx39075",
+  "global": false,
+  "visible": true,
+  "roles": [
+    {
+      "codeRole": "w23a",
+      "description": "developer",
+      "name": "Developer"
+    }
+  ],
+  "stages": [
+    {
+      "name": "go_to_party",
+      "title": "Go to party",
+      "type": "human",
+      "roles": [
+        {
+          "codeRole": "w23a",
+          "description": "developer",
+          "name": "Developer"
+        },
+        {
+          "codeRole": "li#1",
+          "description": "project_Manager",
+          "name": "Project Manager"
+        }
+      ],
+      "stageNumber": 1,
+      "stages": [],
+      "tasks": [
+        {
+          "name": "Task_test_1",
+          "title": "Task Test 1",
+          "roles": [
+            {
+              "codeRole": "li#1",
+              "description": "project_Manager",
+              "name": "Project Manager"
+            }
+          ],
+          "rulers": [
+            {
+              "action": "go to end",
+              "condition": "APRUBE"
+            },
+            {
+              "action": "go to STAR",
+              "condition": "REJECTED"
+            }
+          ],
+          "urlService": ".....xxxx....",
+          "taskUrl": "htttp....iiiiuuu...",
+          "type": {
+            "type": "Human"
+          }
+        }
+      ]
+    }
+  ]
+}

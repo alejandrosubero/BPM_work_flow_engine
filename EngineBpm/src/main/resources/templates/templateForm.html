@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Sample Form</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #137abf;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #d3ceced4;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 40%;
+
+             /* width: 40%; */
+            /* height: 100%;  */
+        }
+
+        .form-group {
+            margin: 10px 0;
+        }
+
+        form {
+            text-align: left;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+           justify-content: center;
+        }
+
+        input{
+            width: 100%;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1>Save Form Template</h1>
+
+    <form action="http://localhost:1111/bpm/config/template/processForm" method="post" enctype="multipart/form-data">
+        <label for="codeTemplate">Code of Template:</label>
+        <input type="text" id="codeTemplate" name="codeTemplate" required>
+        <br><br>
+
+        <label for="typeTemplate">Template type:</label>
+        <input type="text" id="typeTemplate" name="typeTemplate" required>
+        <br><br>
+
+        <label for="company">Company:</label>
+        <input type="text" id="company" name="company" required>
+        <br><br>
+
+        <label for="TempleteDescription">Templete description:</label>
+        <input type="text" id="TempleteDescription" name="TempleteDescription" required>
+        <br><br>
+
+        <!-- <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br><br> -->
+
+        <label for="file">File:</label>
+        <input type="file" id="file" name="file" accept=".txt, .pdf, .doc, .html" style="background-color: #60b6e1;">
+        <br><br>
+
+        <div class="btn">
+            <input type="submit" value="Submit" style="background-color: #97d5bd;">
+        </div>
+
+
+    </form>
+
+</div>
+
+</body>
+
+</html>
