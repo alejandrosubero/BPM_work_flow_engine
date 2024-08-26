@@ -1,9 +1,11 @@
 package com.bpm.engine.entitys;
 
+import javax.lang.model.element.Name;
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(name = "bpm_bpm_Assigned")
 public class BpmAssigned {
 
     @Id

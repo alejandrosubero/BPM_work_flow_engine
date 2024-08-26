@@ -11,16 +11,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BpmAssignedManager {
-
-    @Autowired
     private AssignedService assignedService;
-
-    @Autowired
     private AssignedMapper assignedMapper;
-
-    @Autowired
     private BpmAssignedService bpmAssignedService;
 
+    @Autowired
+    public BpmAssignedManager(AssignedService assignedService, AssignedMapper assignedMapper, BpmAssignedService bpmAssignedService) {
+        this.assignedService = assignedService;
+        this.assignedMapper = assignedMapper;
+        this.bpmAssignedService = bpmAssignedService;
+    }
 
     public Boolean saveOrUpdateBpmAssigned(BpmAssignedDTO assignedBPM) {
 

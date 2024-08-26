@@ -21,10 +21,18 @@ import java.util.Date;
 import java.util.Objects;
 
 import com.bpm.engine.entitys.TaskType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
-@Table(name = "task")
+@Table(name = "bpm_task")
 public class Task {
 
     @Id
@@ -73,127 +81,6 @@ public class Task {
     private List<Ruler> rulers = new ArrayList<>();
 
 
-    public Task() {
-    }
-
-    public List<Ruler> getRulerss() {
-        return rulers;
-    }
-
-    public void setRulerss(List<Ruler> rulerss) {
-        this.rulers = rulerss;
-    }
-
-    public Long getIdTask() {
-        return idTask;
-    }
-
-    public void setIdTask(Long idTask) {
-        this.idTask = idTask;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    public String getProcesCode() {
-        return procesCode;
-    }
-
-    public void setProcesCode(String procesCode) {
-        this.procesCode = procesCode;
-    }
-
-    public String getTaskUrl() {
-        return taskUrl;
-    }
-
-    public void setTaskUrl(String taskUrl) {
-        this.taskUrl = taskUrl;
-    }
-
-    public String getUrlService() {
-        return urlService;
-    }
-
-    public void setUrlService(String urlService) {
-        this.urlService = urlService;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-
-    public Date getDateCreate() {
-        return dateCreate;
-    }
-
-    public void setDateCreate(Date dateCreate) {
-        this.dateCreate = dateCreate;
-    }
-
-    public Date getTaskEnd() {
-        return taskEnd;
-    }
-
-    public void setTaskEnd(Date taskEnd) {
-        this.taskEnd = taskEnd;
-    }
-
-    public Integer getTaskDueTime() {
-        return taskDueTime;
-    }
-
-    public void setTaskDueTime(Integer taskDueTime) {
-        this.taskDueTime = taskDueTime;
-    }
-
-    public TaskType getType() {
-        return type;
-    }
-
-    public void setType(TaskType type) {
-        this.type = type;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return Objects.equals(idTask, task.idTask) && Objects.equals(title, task.title) && Objects.equals(name, task.name) && Objects.equals(dateCreate, task.dateCreate) && Objects.equals(taskEnd, task.taskEnd) && Objects.equals(taskDueTime, task.taskDueTime) && Objects.equals(procesCode, task.procesCode) && Objects.equals(taskUrl, task.taskUrl) && Objects.equals(urlService, task.urlService) && Objects.equals(code, task.code) && Objects.equals(type, task.type) && Objects.equals(roles, task.roles) && Objects.equals(rulers, task.rulers);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idTask, title, name, dateCreate, taskEnd, taskDueTime, procesCode, taskUrl, urlService, code, type, roles, rulers);
-    }
 }
  /*
  Copyright (C) 2008 Google Inc.

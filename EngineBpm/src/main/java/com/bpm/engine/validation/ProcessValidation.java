@@ -87,6 +87,11 @@ public class ProcessValidation {
                 return true;
             }
 
+            if (process.getGlobal() && process.getVisible() && process.getRoles().size() > 0) {
+                return true;
+            }
+
+
             if (process.getGlobal() && !process.getVisible() && process.getRoles().size() == 0) {
                 systemMenssageProsecess = "Fail during valid Visibility in process (0 Roles, !Visible)";
                 return false;
@@ -106,11 +111,11 @@ public class ProcessValidation {
                 systemMenssageProsecess = "Fail during valid Visibility in process (!Visible)";
                 return false;
             }
-
-            if (process.getGlobal() && process.getVisible() && process.getRoles().size() > 0) {
-                systemMenssageProsecess = "Fail during valid Visibility in process \"(The process cant' be Visible and Global in the same time)\" ";
-                return false;
-            }
+// TODO: ANALIZAR ESTE CASO POR QUE EXISTE
+//            if (process.getGlobal() && process.getVisible() && process.getRoles().size() > 0) {
+//                systemMenssageProsecess = "Fail during valid Visibility in process \"(The process cant' be Visible and Global in the same time)\" ";
+//                return false;
+//            }
 
         } else {
             systemMenssageProsecess = "Fail during valid Visibility general in process";

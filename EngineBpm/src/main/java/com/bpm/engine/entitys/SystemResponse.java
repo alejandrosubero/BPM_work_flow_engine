@@ -22,7 +22,7 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name = "systemresponse")
+@Table(name = "bpm_system_response")
 public class SystemResponse {
 
     //TODO: LE FALTA QUIEN RESPONDIO UN ID THE TASK Y USER SI LO HAY O QUE ESPECIFIQUE QUE FUE AUTOMATICA

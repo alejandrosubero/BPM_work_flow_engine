@@ -20,32 +20,33 @@ import java.util.stream.Collectors;
 @Service
 public class InstanceProcessManager {
 
-    @Autowired
     private ProcessService processService;
-
-    @Autowired
     private InstanceProcessService instanceProcessService;
-
-    @Autowired
     private InstanceStageService stageService;
-
-    @Autowired
     private InstanceTaskService taskService;
-
-    @Autowired
     private BpmAssignedService bpmAssignedService;
-
-    @Autowired
     private AssignedService assignedService;
-
-    @Autowired
     private TaskAssignedService taskAssignedService;
-
-    @Autowired
     private ControlProcessReferentService controlProcessReferentService;
+    private ConectBpmToEmployeeService conectBpmToEmployeeService;
+
 
     @Autowired
-    private ConectBpmToEmployeeService conectBpmToEmployeeService;
+    public InstanceProcessManager(ProcessService processService, InstanceProcessService instanceProcessService, InstanceStageService stageService,
+                                  InstanceTaskService taskService, BpmAssignedService bpmAssignedService, AssignedService assignedService,
+                                  TaskAssignedService taskAssignedService, ControlProcessReferentService controlProcessReferentService,
+                                  ConectBpmToEmployeeService conectBpmToEmployeeService) {
+        this.processService = processService;
+        this.instanceProcessService = instanceProcessService;
+        this.stageService = stageService;
+        this.taskService = taskService;
+        this.bpmAssignedService = bpmAssignedService;
+        this.assignedService = assignedService;
+        this.taskAssignedService = taskAssignedService;
+        this.controlProcessReferentService = controlProcessReferentService;
+        this.conectBpmToEmployeeService = conectBpmToEmployeeService;
+    }
+
 
     public Boolean createInstanceProcess(SystemRequest systemRequest) {
         ProcessModel processRequest = processService.findByProcesCode(systemRequest.getProcessCode());
@@ -77,6 +78,7 @@ public class InstanceProcessManager {
                     stageModelList.add(instanceStage);
                 });
             }
+            
             instanceProcess.setinstanceStage(stageModelList);
             String code = instanceProcess.getprocess().getProcesCode();
             ControlProcessReferentModel referentModel =
@@ -88,6 +90,7 @@ public class InstanceProcessManager {
                                     instanceProcess.getState(),
                                     Constants.TYPE_PROCESS,
                                     instanceProcess.getIdInstanceProcess()));
+
             instanceProcess.setIdControlProcessReferent(referentModel.getIdReference());
             instanceProcess.getinstanceStage().stream().forEach(instanceStageModel -> {
                 if(instanceStageModel.getState().equals(SystemSate.ASSIGNED.toString())){
@@ -100,6 +103,7 @@ public class InstanceProcessManager {
                     .stream().filter(instanceStageModel -> instanceStageModel.getState()
                             .equals(SystemSate.ASSIGNED.toString())).collect(Collectors.toList());
 
+            //This part create a ControlProcessReferentService for task into the principal Stage
             instancestageModel.forEach(instanceStageModel -> {
                 instanceStageModel.getinstancesTasks().forEach(instanceTaskModel -> {
                     controlProcessReferentService.saveOrUpdateInternalControlProcess(
@@ -120,6 +124,8 @@ public class InstanceProcessManager {
         }
     }
 
+
+    // READ the task into the StageModel a created the list.
     private List<InstanceTaskModel> setTask(StageModel stageModel, SystemRequest systemRequest, Long instanceProccesId) {
         List<InstanceTaskModel> taskList = new ArrayList<>();
 

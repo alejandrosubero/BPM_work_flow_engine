@@ -23,10 +23,18 @@ import java.util.Objects;
 import com.bpm.engine.entitys.Stage;
 import com.bpm.engine.model.ProcessModel;
 import com.bpm.engine.model.RoleModel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
-@Table(name = "process")
+@Table(name = "bpm_process")
 public class Process {
 
     @Id
@@ -70,117 +78,7 @@ public class Process {
     @JoinColumn(name = "process_id")
     private List<Role> roles = new ArrayList<>();
 
-	public Process() {
-	}
 
-	public Long getId_process() {
-        return id_process;
-    }
-
-    public void setId_process(Long id_process) {
-        this.id_process = id_process;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getUserCreate() {
-        return userCreate;
-    }
-
-    public void setUserCreate(String userCreate) {
-        this.userCreate = userCreate;
-    }
-
-    public String getProcesTitle() {
-        return procesTitle;
-    }
-
-    public void setProcesTitle(String procesTitle) {
-        this.procesTitle = procesTitle;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getProcesCode() {
-        return procesCode;
-    }
-
-    public void setProcesCode(String procesCode) {
-        this.procesCode = procesCode;
-    }
-
-    public Boolean getVisible() {
-        return visible;
-    }
-
-    public void setVisible(Boolean visible) {
-        this.visible = visible;
-    }
-
-    public Boolean getGlobal() {
-        return global;
-    }
-
-    public void setGlobal(Boolean global) {
-        this.global = global;
-    }
-
-    public Boolean getActivo() {
-        return activo;
-    }
-
-    public void setActivo(Boolean activo) {
-        this.activo = activo;
-    }
-
-    public List<Stage> getstages() {
-        return stages;
-    }
-
-    public void setstages(List<Stage> stages) {
-        this.stages = stages;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Process process = (Process) o;
-        return Objects.equals(id_process, process.id_process) && Objects.equals(name, process.name) && Objects.equals(createDate, process.createDate) && Objects.equals(userCreate, process.userCreate) && Objects.equals(procesTitle, process.procesTitle) && Objects.equals(state, process.state) && Objects.equals(procesCode, process.procesCode) && Objects.equals(visible, process.visible) && Objects.equals(global, process.global) && Objects.equals(activo, process.activo) && Objects.equals(stages, process.stages) && Objects.equals(roles, process.roles);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id_process, name, createDate, userCreate, procesTitle, state, procesCode, visible, global, activo, stages, roles);
-    }
 }
  /*
  Copyright (C) 2008 Google Inc.

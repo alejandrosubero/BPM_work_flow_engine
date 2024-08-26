@@ -19,7 +19,7 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name = "controlProcessReferent")
+@Table(name = "bpm_control_process_referent")
 public class ControlProcessReferent {
 
     @Id

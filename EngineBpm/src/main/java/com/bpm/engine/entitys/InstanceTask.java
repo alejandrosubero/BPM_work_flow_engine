@@ -22,10 +22,17 @@ import java.util.Objects;
 import com.bpm.engine.entitys.Assigned;
 import com.bpm.engine.entitys.Task;
 import com.bpm.engine.model.TaskAssignedModel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
-@Table(name = "instancetask")
+@Table(name = "bpm_instancetask")
 public class InstanceTask {
 
     @Id
@@ -65,7 +72,6 @@ public class InstanceTask {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "idInstanceTask")
     private List<TaskAssigned> assignes = new ArrayList<>();
-//    private List<Assigned> assignes = new ArrayList<>();
 
     @Column(name = "state", updatable = true, nullable = true, length = 200)
     private String state;
@@ -73,126 +79,8 @@ public class InstanceTask {
     @Column(name = "controlProcessReferent_Id", updatable = true, nullable = true, length = 200)
     private Long idControlProcessReferent;
 
-	public InstanceTask() {
-	}
-
-    public Long getIdControlProcessReferent() {
-        return idControlProcessReferent;
-    }
-
-    public void setIdControlProcessReferent(Long idControlProcessReferent) {
-        this.idControlProcessReferent = idControlProcessReferent;
-    }
-
-    public String getProcessCode() {
-        return processCode;
-    }
-
-    public void setProcessCode(String processCode) {
-        this.processCode = processCode;
-    }
-
-    public Long getIdInstanceTask() {
-        return idInstanceTask;
-    }
-
-    public void setIdInstanceTask(Long idInstanceTask) {
-        this.idInstanceTask = idInstanceTask;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public Date getDateStart() {
-        return dateStart;
-    }
-
-    public void setDateStart(Date dateStart) {
-        this.dateStart = dateStart;
-    }
-
-    public Date getDateEnd() {
-        return dateEnd;
-    }
-
-    public void setDateEnd(Date dateEnd) {
-        this.dateEnd = dateEnd;
-    }
-
-    public String getInstanceProcessCode() {
-        return instanceProcessCode;
-    }
-
-    public void setInstanceProcessCode(String instanceProcessCode) {
-        this.instanceProcessCode = instanceProcessCode;
-    }
-
-    public String getCodeTask() {
-        return codeTask;
-    }
-
-    public void setCodeTask(String codeTask) {
-        this.codeTask = codeTask;
-    }
-
-	public Integer getTaskDueTime() {
-		return taskDueTime;
-	}
-
-	public void setTaskDueTime(Integer taskDueTime) {
-		this.taskDueTime = taskDueTime;
-	}
-
-	public List<TaskAssigned> getAssignes() {
-		return assignes;
-	}
-
-	public void setAssignes(List<TaskAssigned> assignes) {
-		this.assignes = assignes;
-	}
 
 
-    public Task getTask() {
-        return task;
-    }
-
-    public void setTask(Task task) {
-        this.task = task;
-    }
-
-    public Long getInstanceProcessId() {
-        return instanceProcessId;
-    }
-
-    public void setInstanceProcessId(Long instanceProcessId) {
-        this.instanceProcessId = instanceProcessId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        InstanceTask that = (InstanceTask) o;
-        return Objects.equals(idInstanceTask, that.idInstanceTask) && Objects.equals(name, that.name) && Objects.equals(processCode, that.processCode) && Objects.equals(instanceProcessId, that.instanceProcessId) && Objects.equals(instanceProcessCode, that.instanceProcessCode) && Objects.equals(codeTask, that.codeTask) && Objects.equals(task, that.task) && Objects.equals(dateStart, that.dateStart) && Objects.equals(dateEnd, that.dateEnd) && Objects.equals(taskDueTime, that.taskDueTime) && Objects.equals(assignes, that.assignes) && Objects.equals(state, that.state) && Objects.equals(idControlProcessReferent, that.idControlProcessReferent);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idInstanceTask, name, processCode, instanceProcessId, instanceProcessCode, codeTask, task, dateStart, dateEnd, taskDueTime, assignes, state, idControlProcessReferent);
-    }
 }
  /*
  Copyright (C) 2008 Google Inc.

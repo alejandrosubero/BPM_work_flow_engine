@@ -13,40 +13,41 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 
 package com.bpm.engine.model;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Date;
-import java.util.ArrayList;
+
 import java.util.Objects;
 
 
-public class TaskTypeModel{
+public class TaskTypeModel {
 
-		private Long idTaskType;
+    private Long idTaskType;
 
-		private String type;
+    private String type;
 
-		public Long getIdTaskType() { 
-		return idTaskType;
-		}
-		public void setIdTaskType(Long  idTaskType) {
-			this.idTaskType = idTaskType;
-		}
-		public String getType() { 
-		return type;
-		}
-		public void setType(String  type) {
-			this.type = type;
-		}
-		public boolean equals(Object o) {
-			if (this == o) return true;
-				if (o == null || getClass() != o.getClass()) return false;
-					TaskTypeModel	tasktypemodel = (TaskTypeModel) o;
-					return 			Objects.equals(idTaskType, tasktypemodel.idTaskType) ||
-			Objects.equals(type, tasktypemodel.type);
+    public Long getIdTaskType() {
+        return idTaskType;
+    }
 
-}}
+    public void setIdTaskType(Long idTaskType) {
+        this.idTaskType = idTaskType;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TaskTypeModel tasktypemodel = (TaskTypeModel) o;
+        return Objects.equals(idTaskType, tasktypemodel.idTaskType) ||
+                Objects.equals(type, tasktypemodel.type);
+
+    }
+}
  /*
  Copyright (C) 2008 Google Inc.
 * Licensed to the Apache Software Foundation (ASF) under one or more

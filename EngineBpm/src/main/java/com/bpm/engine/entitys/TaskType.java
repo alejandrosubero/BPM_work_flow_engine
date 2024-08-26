@@ -13,6 +13,11 @@ Create on Sat Sep 16 23:15:49 EDT 2023
 
 package com.bpm.engine.entitys;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -21,8 +26,12 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
-@Table(name = "tasktype")
+@Table(name = "bpm_task_type")
 public class TaskType {
 
     @Id
@@ -35,36 +44,6 @@ public class TaskType {
     private String type;
 
 
-    public TaskType() {
-    }
-
-    public TaskType(String type) {
-        this.type = type;
-    }
-
-    public Long getIdTaskType() {
-        return idTaskType;
-    }
-
-    public void setIdTaskType(Long idTaskType) {
-        this.idTaskType = idTaskType;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TaskType tasktype = (TaskType) o;
-        return Objects.equals(idTaskType, tasktype.idTaskType) ||
-                Objects.equals(type, tasktype.type);
-    }
 }
  /*
  Copyright (C) 2008 Google Inc.

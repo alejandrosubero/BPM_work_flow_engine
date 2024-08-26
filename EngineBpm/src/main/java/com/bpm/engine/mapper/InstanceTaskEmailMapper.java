@@ -14,6 +14,7 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 
 
 package com.bpm.engine.mapper;
+
 import com.bpm.engine.entitys.InstanceTaskEmail;
 import com.bpm.engine.model.InstanceTaskEmailModel;
 import org.springframework.web.bind.annotation.*;
@@ -23,29 +24,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Date;
 import java.util.ArrayList;
+
 import org.modelmapper.ModelMapper;
 
-    @Component
-    public class InstanceTaskEmailMapper {
+@Component
+public class InstanceTaskEmailMapper {
 
     public InstanceTaskEmailModel entityToPojo(InstanceTaskEmail entity) {
- 		ModelMapper modelMapper = new ModelMapper();
+        ModelMapper modelMapper = new ModelMapper();
         InstanceTaskEmailModel pojo = null;
 
-		if ( entity != null) {
-			pojo = modelMapper.map(entity, InstanceTaskEmailModel.class);
-       }
-	return  pojo;
-}
+        if (entity != null) {
+            pojo = modelMapper.map(entity, InstanceTaskEmailModel.class);
+        }
+        return pojo;
+    }
+
     public InstanceTaskEmail pojoToEntity(InstanceTaskEmailModel pojo) {
-		ModelMapper modelMapper = new ModelMapper();
+        ModelMapper modelMapper = new ModelMapper();
         InstanceTaskEmail entity = null;
 
-		if ( pojo != null) {
-   		entity = modelMapper.map(pojo, InstanceTaskEmail.class);
-		}
-	return  entity;
-}
+        if (pojo != null) {
+            entity = modelMapper.map(pojo, InstanceTaskEmail.class);
+        }
+        return entity;
+    }
 }
  /*
  Copyright (C) 2008 Google Inc.

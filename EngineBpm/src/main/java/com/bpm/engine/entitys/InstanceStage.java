@@ -24,10 +24,18 @@ import com.bpm.engine.entitys.InstanceStage;
 import com.bpm.engine.entitys.Assigned;
 import com.bpm.engine.entitys.InstanceProcess;
 import com.bpm.engine.entitys.InstanceTask;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
-@Table(name = "instancestage")
+@Table(name = "bpm_instancestage")
 public class InstanceStage {
 
     @Id
@@ -75,122 +83,7 @@ public class InstanceStage {
     @Column(name = "stageNumber", updatable = true, nullable = false, length = 100)
     private Integer stageNumber;
 
-    public InstanceStage() {
-    }
 
-    public Integer getStageNumber() {
-        return stageNumber;
-    }
-
-    public void setStageNumber(Integer stageNumber) {
-        this.stageNumber = stageNumber;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public Date getDateStart() {
-        return dateStart;
-    }
-
-    public void setDateStart(Date dateStart) {
-        this.dateStart = dateStart;
-    }
-
-    public Date getDateEnd() {
-        return dateEnd;
-    }
-
-    public void setDateEnd(Date dateEnd) {
-        this.dateEnd = dateEnd;
-    }
-
-    public String getProcesCode() {
-        return procesCode;
-    }
-
-    public void setProcesCode(String procesCode) {
-        this.procesCode = procesCode;
-    }
-
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public List<InstanceStage> getinstanceStages() {
-        return instanceStages;
-    }
-
-    public void setinstanceStages(List<InstanceStage> instanceStages) {
-        this.instanceStages = instanceStages;
-    }
-
-    public List<Assigned> getassigned() {
-        return assigned;
-    }
-
-    public void setassigned(List<Assigned> assigned) {
-        this.assigned = assigned;
-    }
-
-    public Long getInstanceProcessId() {
-        return instanceProcessId;
-    }
-
-    public void setInstanceProcessId(Long instanceProcessId) {
-        this.instanceProcessId = instanceProcessId;
-    }
-
-    public List<InstanceTask> getinstancesTasks() {
-        return instancesTasks;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        InstanceStage that = (InstanceStage) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(code, that.code) && Objects.equals(dateStart, that.dateStart) && Objects.equals(dateEnd, that.dateEnd) && Objects.equals(procesCode, that.procesCode) && Objects.equals(title, that.title) && Objects.equals(instanceStages, that.instanceStages) && Objects.equals(assigned, that.assigned) && Objects.equals(instanceProcessId, that.instanceProcessId) && Objects.equals(instancesTasks, that.instancesTasks) && Objects.equals(state, that.state) && Objects.equals(stageNumber, that.stageNumber);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, code, dateStart, dateEnd, procesCode, title, instanceStages, assigned, instanceProcessId, instancesTasks, state, stageNumber);
-    }
 }
  /*
  Copyright (C) 2008 Google Inc.

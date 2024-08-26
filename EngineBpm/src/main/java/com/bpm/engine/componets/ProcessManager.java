@@ -22,17 +22,20 @@ import static com.bpm.engine.utility.SystemSate.CREATE;
 @Service
 public class ProcessManager implements RadomCode {
 
-    @Autowired
     private ProcessService processService;
-    @Autowired
     private ProcessValidation processValidationService;
-    @Autowired
     private ProcessMapper processMapper;
-    @Autowired
     private MapperEntityRespone mapperEntityRespone;
-    @Autowired
     private ControlProcessReferentService controlProcessReferent;
 
+    @Autowired
+    public ProcessManager(ProcessService processService, ProcessValidation processValidationService, ProcessMapper processMapper, MapperEntityRespone mapperEntityRespone, ControlProcessReferentService controlProcessReferent) {
+        this.processService = processService;
+        this.processValidationService = processValidationService;
+        this.processMapper = processMapper;
+        this.mapperEntityRespone = mapperEntityRespone;
+        this.controlProcessReferent = controlProcessReferent;
+    }
 
     public EntityRespone createProcess(ProcessModel processModel) {
         EntityRespone entityRespone = null;

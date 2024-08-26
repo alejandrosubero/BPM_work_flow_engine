@@ -22,10 +22,18 @@ import java.util.Objects;
 
 import com.bpm.engine.entitys.Role;
 import com.bpm.engine.model.AssignedModel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
-@Table(name = "assigned")
+@Table(name = "bpm_assigned")
 public class Assigned {
 
     @Id
@@ -42,6 +50,7 @@ public class Assigned {
 
     @Column(name = "mail", updatable = true, nullable = true, length = 200)
     private String mail;
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "idRole")
     private Role employeeRole;
@@ -53,78 +62,6 @@ public class Assigned {
     @Column(name = "active", updatable = true, nullable = true, length = 200)
     private Boolean active;
 
-    public Assigned() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCodeEmployee() {
-        return codeEmployee;
-    }
-
-    public void setCodeEmployee(String codeEmployee) {
-        this.codeEmployee = codeEmployee;
-    }
-
-    public Role getemployeeRole() {
-        return employeeRole;
-    }
-
-    public void setemployeeRole(Role employeeRole) {
-        this.employeeRole = employeeRole;
-    }
-
-    public List<ApprovedProcess> getApprovedProcess() {
-        return approvedProcess;
-    }
-
-    public void setApprovedProcess(List<ApprovedProcess> approvedProcess) {
-        this.approvedProcess = approvedProcess;
-    }
-
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    public Boolean isActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Assigned assigned = (Assigned) o;
-        return active == assigned.active && Objects.equals(id, assigned.id) && Objects.equals(name, assigned.name) && Objects.equals(codeEmployee, assigned.codeEmployee) && Objects.equals(mail, assigned.mail) && Objects.equals(employeeRole, assigned.employeeRole) && Objects.equals(approvedProcess, assigned.approvedProcess);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, codeEmployee, mail, employeeRole, approvedProcess, active);
-    }
 }
  /*
  Copyright (C) 2008 Google Inc.

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/EngineBpm")
+@RequestMapping("/engineBpm")
 public class EngineBpmController {
 
 	@Autowired
@@ -29,7 +29,7 @@ public class EngineBpmController {
 	@Autowired
 	private InstanceProcessManager instanceProcessManager;
 
-
+//		 http://localhost:1111/bpm/engineBpm/create/instance/process
 	@PostMapping("/create/instance/process")
 	private ResponseEntity<EntityRespone> createInstanceProcess(@RequestBody SystemRequest systemRequest) {
 		try {
@@ -42,6 +42,8 @@ public class EngineBpmController {
 		}
 	}
 
+
+//			http://localhost:1111/bpm/engineBpm/create/process
 	@PostMapping("/create/process")
 	private ResponseEntity<EntityRespone> createProcess(@RequestBody ProcessModel process) {
 		try {

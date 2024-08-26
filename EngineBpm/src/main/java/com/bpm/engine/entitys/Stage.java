@@ -23,10 +23,18 @@ import java.util.Objects;
 import com.bpm.engine.entitys.Stage;
 import com.bpm.engine.entitys.Role;
 import com.bpm.engine.entitys.Task;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
-@Table(name = "stage")
+@Table(name = "bpm_stage")
 public class Stage {
 
     @Id
@@ -65,102 +73,7 @@ public class Stage {
     @Column(name = "stageNumber", updatable = true, nullable = false, length = 100)
     private Integer stageNumber;
 
-    public Stage() {
-    }
 
-    public Integer getStageNumber() {
-        return stageNumber;
-    }
-
-    public void setStageNumber(Integer stageNumber) {
-        this.stageNumber = stageNumber;
-    }
-
-    public Long getIdStage() {
-        return idStage;
-    }
-
-    public void setIdStage(Long idStage) {
-        this.idStage = idStage;
-    }
-
-    public String getStageCode() {
-        return stageCode;
-    }
-
-    public void setStageCode(String stageCode) {
-        this.stageCode = stageCode;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Date getDateCreate() {
-        return dateCreate;
-    }
-
-    public void setDateCreate(Date dateCreate) {
-        this.dateCreate = dateCreate;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-
-    public List<Stage> getstages() {
-        return stages;
-    }
-
-    public void setstages(List<Stage> stages) {
-        this.stages = stages;
-    }
-
-    public List<Role> getroles() {
-        return roles;
-    }
-
-    public void setroles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-    public List<Task> gettasks() {
-        return tasks;
-    }
-
-    public void settasks(List<Task> tasks) {
-        this.tasks = tasks;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Stage stage = (Stage) o;
-        return Objects.equals(idStage, stage.idStage) && Objects.equals(stageCode, stage.stageCode) && Objects.equals(name, stage.name) && Objects.equals(title, stage.title) && Objects.equals(dateCreate, stage.dateCreate) && Objects.equals(type, stage.type) && Objects.equals(tasks, stage.tasks) && Objects.equals(stages, stage.stages) && Objects.equals(roles, stage.roles) && Objects.equals(stageNumber, stage.stageNumber);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idStage, stageCode, name, title, dateCreate, type, tasks, stages, roles, stageNumber);
-    }
 }
  /*
  Copyright (C) 2008 Google Inc.
