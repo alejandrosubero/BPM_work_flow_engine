@@ -10,7 +10,7 @@ public class BpmAssigned {
 
     @Id
     @GeneratedValue(generator = "sequence_bpm_assigned")
-    @SequenceGenerator(name = "sequence_bpm_assigned", initialValue = 0, allocationSize = 2000)
+    @SequenceGenerator(name = "sequence_bpm_assigned", initialValue = 1, allocationSize = 2000)
     @Column(name = "idBpmAssigned", updatable = true, nullable = false, length = 200)
     private Long idBpmAssigned;
 
