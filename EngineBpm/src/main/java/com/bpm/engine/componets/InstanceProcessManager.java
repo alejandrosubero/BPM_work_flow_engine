@@ -47,17 +47,20 @@ public class InstanceProcessManager {
         this.conectBpmToEmployeeService = conectBpmToEmployeeService;
     }
 
+    
+    //TODO: SEPARATE IN CLASS BUILD TASK STAGE O SONTHING LIKE THAT.
 
     public Boolean createInstanceProcess(SystemRequest systemRequest) {
         ProcessModel processRequest = processService.findByProcesCode(systemRequest.getProcessCode());
         InstanceProcessModel instanceProcess = null;
        
         if (processRequest != null) {
-            instanceProcess = instanceProcessService.saveInternal(new InstanceProcessModel(processRequest, systemRequest.getCodeEmployee()));
+            
+        	instanceProcess = instanceProcessService.saveInternal(new InstanceProcessModel(processRequest, systemRequest.getCodeEmployee()));
             Long instanceProccesId = instanceProcess.getIdInstanceProcess();
             List<InstanceStageModel> stageModelList = new ArrayList<>();
 
-            if (null != processRequest.getstages() && processRequest.getstages().size() > 0) {
+            if (instanceProccesId != null  && null != processRequest.getProcesCode() && null != processRequest.getstages() && processRequest.getstages().size() > 0 ) {
         
             	processRequest.getstages().stream().forEach(stageModel -> {
             	
