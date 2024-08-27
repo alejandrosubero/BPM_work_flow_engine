@@ -69,16 +69,21 @@ public class InstanceProcessModel {
     }
 
     public InstanceProcessModel(ProcessModel process, String user) {
-        if (null != process) {
-            this.process = process;
+       
+    	if (null != process) {
+        
+    		this.process = process;
             this.state = SystemSate.CREATE.toString();
             this.dateCreate = new Date();
+            
             if (process.getName() != null) {
-                this.name = name;
+                this.name = process.getName();
             }
+            
             if (null != user) {
-                this.createBy = createBy;
+                this.createBy = user;
             }
+            
             if (null != process.getProcesTitle()) {
                 this.title = process.getProcesTitle();
             }

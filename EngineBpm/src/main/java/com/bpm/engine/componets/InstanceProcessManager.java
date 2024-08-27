@@ -51,32 +51,50 @@ public class InstanceProcessManager {
     public Boolean createInstanceProcess(SystemRequest systemRequest) {
         ProcessModel processRequest = processService.findByProcesCode(systemRequest.getProcessCode());
         InstanceProcessModel instanceProcess = null;
+       
         if (processRequest != null) {
             instanceProcess = instanceProcessService.saveInternal(new InstanceProcessModel(processRequest, systemRequest.getCodeEmployee()));
             Long instanceProccesId = instanceProcess.getIdInstanceProcess();
             List<InstanceStageModel> stageModelList = new ArrayList<>();
 
             if (null != processRequest.getstages() && processRequest.getstages().size() > 0) {
-                processRequest.getstages().stream().forEach(stageModel -> {
+        
+            	processRequest.getstages().stream().forEach(stageModel -> {
+            	
+            		//this point is create the instance stage father
                     InstanceStageModel instanceStage = new InstanceStageModel(stageModel, processRequest.getProcesCode());
+
                     //this point evaluate the stage internal...
                     if (null != stageModel.getstages() && stageModel.getstages().size() > 0 && null != processRequest.getProcesCode()) {
+                    	
                         stageModel.getstages().stream().forEach(internalsStageModels -> {
+                        	
+                        					//TODO: THIS POINT WORK WITH INSTANCES STAGE INTERNAL OF STAGE
                             InstanceStageModel internalInstanceStage = new InstanceStageModel(internalsStageModels, processRequest.getProcesCode());
+                            
                             if (internalsStageModels.gettasks().size() > 0) {
+                            	
                                 internalInstanceStage.setinstancesTasks(this.setTask(stageModel, systemRequest, instanceProccesId));
                                 internalInstanceStage.setInstanceProcessId(instanceProccesId);
+                                
+                                //TODO: THIS POINT ADD TO STAGE FATHER
                                 instanceStage.getinstanceStages().add(internalInstanceStage);
+                          
                             }
+                            
                         });
+                        
                     }
+                    
                     //this point set task of the stage...
                     if (stageModel.gettasks().size() > 0) {
                         instanceStage.setinstancesTasks(this.setTask(stageModel, systemRequest, instanceProccesId));
                     }
                     instanceStage.setInstanceProcessId(instanceProccesId);
                     stageModelList.add(instanceStage);
+                    
                 });
+            	
             }
             
             instanceProcess.setinstanceStage(stageModelList);

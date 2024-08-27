@@ -12,6 +12,7 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -28,11 +29,11 @@ public class TaskRepositoryTest {
         dateCreate = new Date();
         return  Task.builder().name("Task_test_1").title("Task Test 1").urlService( ".....xxxx....")
                 .taskUrl("htttp....iiiiuuu...")
-                .rulers(List.of(
+                .rulers(Arrays.asList(
                         Ruler.builder().condition("APRUBE").action("go to end").build(),
                         Ruler.builder().condition("CANCEL").action("go to STAR").build()
                 ))
-                .roles(List.of(
+                .roles(Arrays.asList(
                         Role.builder().name("Developer").codeRole("w23a").description("developer").build(),
                         Role.builder().name("DeveloperII").codeRole("w25a").description("Developer Senor").build()
                 ))

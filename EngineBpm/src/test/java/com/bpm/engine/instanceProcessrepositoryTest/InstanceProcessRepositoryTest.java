@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class InstanceProcessRepositoryTest {
         this.instanceStageRepository = instanceStageRepository;
         this.instanceTaskRepository = instanceTaskRepository;
         this.taskRepository = taskRepository;
-        roles = List.of(
+        roles = Arrays.asList(
                 Role.builder().name("Developer").codeRole("w23a").description("developer").build(),
                 Role.builder().name("DeveloperII").codeRole("w25a").description("Developer Senor").build()
         );
@@ -45,11 +46,11 @@ public class InstanceProcessRepositoryTest {
         dateCreate = new Date();
         return  Task.builder().name("Task_test_1").title("Task Test 1").urlService( ".....xxxx....")
                 .taskUrl("htttp....iiiiuuu...")
-                .rulers(List.of(
+                .rulers(Arrays.asList(
                         Ruler.builder().condition("APRUBE").action("go to end").build(),
                         Ruler.builder().condition("CANCEL").action("go to STAR").build()
                 ))
-                .roles(List.of(
+                .roles(Arrays.asList(
                         Role.builder().name("Developer").codeRole("w23a").description("developer").build(),
                         Role.builder().name("DeveloperII").codeRole("w25a").description("Developer Senor").build()
                 ))
@@ -66,7 +67,7 @@ public class InstanceProcessRepositoryTest {
                 .title("Go to party")
                 .type("human")
                 .dateCreate(dateCreate)
-                .tasks(List.of(this.getTask()))
+                .tasks(Arrays.asList(this.getTask()))
                 .stages(new ArrayList<Stage>())
                 .roles(roles)
                 .stageNumber(1)
@@ -83,7 +84,7 @@ public class InstanceProcessRepositoryTest {
                 .task(task)
                 .dateStart(this.dateCreate)
                 .assignes(
-                        List.of(TaskAssigned.builder().taskId(task.getIdTask()).idBpmAssigned(2121L).build())
+                		Arrays.asList(TaskAssigned.builder().taskId(task.getIdTask()).idBpmAssigned(2121L).build())
                 )
                 .state(SystemSate.CREATE.toString())
                 .idControlProcessReferent(1l)
@@ -98,13 +99,13 @@ public class InstanceProcessRepositoryTest {
                 .title("InstanceStage_Test")
                 .procesCode("procesCode")
                 .instanceProcessId(112l)
-                .instancesTasks(List.of(this.getInstanceTask()))
+                .instancesTasks(Arrays.asList(this.getInstanceTask()))
                 .stageNumber(1)
                 .state(SystemSate.CREATE.toString())
                 .build();
     }
     private Process getProcess(){
-        List<Stage> stages = List.of(this.getAStage());
+        List<Stage> stages = Arrays.asList(this.getAStage());
         return Process.builder()
                 .name("we out")
                 .procesTitle("we out system")
@@ -127,7 +128,7 @@ public class InstanceProcessRepositoryTest {
                 .employeeRole(
                         Role.builder().name("Developer").codeRole("w23a").description("developer").build())
                 .approvedProcess(
-                        List.of(
+                		Arrays.asList(
                                 ApprovedProcess.builder().processCode(processCode).idProcess(processId).granted(true).build()
                         ))
                 .active(true)
@@ -144,8 +145,8 @@ public class InstanceProcessRepositoryTest {
                 .instanceCode("InstanceProcessCode")
                 .title("Instance_Process_test_repository")
                 .process(process)
-                .instanceStage(List.of(this.getInstanceStage()))
-                .assigned(List.of(
+                .instanceStage(Arrays.asList(this.getInstanceStage()))
+                .assigned(Arrays.asList(
                         this.getAssigned(process.getProcesCode(), process.getId_process())
                 ))
                 .idControlProcessReferent(1L)

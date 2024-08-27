@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class ProcessRespositoriyTest {
     public ProcessRespositoriyTest(ProcessRepository processRepository) {
         this.processRepository = processRepository;
         dateCreate = new Date();
-       this.roles = List.of(
+       this.roles = Arrays.asList(
                 Role.builder().name("Developer").codeRole("w23a").description("developer").build(),
                 Role.builder().name("DeveloperII").codeRole("w25a").description("Developer Senor").build()
         );
@@ -41,7 +42,7 @@ public class ProcessRespositoriyTest {
                 .title("Go to party")
                 .type("human")
                 .dateCreate(dateCreate)
-                .tasks(List.of(this.getTask()))
+                .tasks(Arrays.asList(this.getTask()))
                 .stages(new ArrayList<Stage>())
                 .roles(roles)
                 .stageNumber(1)
@@ -51,7 +52,7 @@ public class ProcessRespositoriyTest {
     private Task getTask(){
         return  Task.builder().name("Task_test_1").title("Task Test 1").urlService( ".....xxxx....")
                 .taskUrl("htttp....iiiiuuu...")
-                .rulers(List.of(
+                .rulers(Arrays.asList(
                         Ruler.builder().condition("APRUBE").action("go to end").build(),
                         Ruler.builder().condition("CANCEL").action("go to STAR").build()
                 ))
@@ -64,7 +65,7 @@ public class ProcessRespositoriyTest {
     }
 
     private Process getProcess(){
-        List<Stage> stages = List.of(this.getAStage());
+        List<Stage> stages = Arrays.asList(this.getAStage());
         return Process.builder()
                 .name("we out")
                 .procesTitle("we out system")

@@ -12,6 +12,7 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.Arrays;
 import java.util.List;
 
 @DataJpaTest
@@ -36,7 +37,7 @@ public class AssignedRepositoryTest {
                 .employeeRole(
                         Role.builder().name("Developer").codeRole("w23a").description("developer").build())
                 .approvedProcess(
-                        List.of(
+                		Arrays.asList(
                                  ApprovedProcess.builder().processCode("codeProcess").idProcess(1L).granted(true).build()
                         ))
                 .active(true)
