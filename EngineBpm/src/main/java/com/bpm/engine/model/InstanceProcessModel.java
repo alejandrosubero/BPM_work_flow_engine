@@ -24,194 +24,213 @@ import com.bpm.engine.utility.SystemSate;
 
 public class InstanceProcessModel {
 
-    private Long idInstanceProcess;
-    private String name;
-    private String createBy;
-    private String state;
-    private Date dateCreate;
-    private Date dateEnd;
-    private String instanceCode;
-    private String title;
-    private List<InstanceStageModel> instanceStage = new ArrayList<>();
-    private ProcessModel process;
-    private List<AssignedModel> assigned = new ArrayList<>();
+	private Long idInstanceProcess;
+	private String name;
+	private String createBy;
+	private String state;
+	private Date dateCreate;
+	private Date dateEnd;
+	private String instanceCode;
+	private String title;
+	private List<InstanceStageModel> instanceStage = new ArrayList<>();
+	private ProcessModel process;
+	private List<AssignedModel> assigned = new ArrayList<>();
 
-    private Long idControlProcessReferent;
+	private Long idControlProcessReferent;
 
-    public InstanceProcessModel() {
-    }
+	public InstanceProcessModel() {
+	}
 
-    public InstanceProcessModel(String name, String createBy, String state, Date dateCreate, Date dateEnd, String title, List<InstanceStageModel> instanceStage, ProcessModel process) {
-        this.name = name;
-        this.createBy = createBy;
-        this.state = state;
-        this.dateCreate = dateCreate;
-        this.dateEnd = dateEnd;
-        this.title = title;
-        this.instanceStage = instanceStage;
-        this.process = process;
-    }
+	public InstanceProcessModel(String name, String createBy, String state, Date dateCreate, Date dateEnd, String title,
+			List<InstanceStageModel> instanceStage, ProcessModel process) {
+		this.name = name;
+		this.createBy = createBy;
+		this.state = state;
+		this.dateCreate = dateCreate;
+		this.dateEnd = dateEnd;
+		this.title = title;
+		this.instanceStage = instanceStage;
+		this.process = process;
+	}
 
+	public InstanceProcessModel(ProcessModel process, String user, Map<String, List<String>> assigned) {
+		if (null != process) {
+			this.process = process;
+			this.state = SystemSate.CREATE.toString();
+			this.dateCreate = new Date();
+			if (process.getName() != null) {
+				this.name = name;
+			}
+			if (null != user) {
+				this.createBy = createBy;
+			}
+			if (null != process.getProcesTitle()) {
+				this.title = process.getProcesTitle();
+			}
 
-    public InstanceProcessModel(ProcessModel process, String user, Map<String, List<String> > assigned) {
-        if(null != process ){
-            this.process = process;
-            this.state = SystemSate.CREATE.toString();
-            this.dateCreate = new Date();
-            if(process.getName() != null){this.name = name;}
-            if(null != user ) {this.createBy = createBy;}
-            if(null != process.getProcesTitle() ){this.title = process.getProcesTitle();}
+			if (null != process.getstages() && process.getstages().size() > 0) {
+				process.getstages().stream().forEach(stageModel -> this.instanceStage
+						.add(new InstanceStageModel(stageModel, process.getProcesCode())));
+			}
+		}
+	}
 
-            if(null != process.getstages() && process.getstages().size() > 0){
-                process.getstages().stream().forEach(stageModel ->  this.instanceStage.add(new InstanceStageModel(stageModel, process.getProcesCode())));
-            }
-        }
-    }
+	public InstanceProcessModel(ProcessModel process, String user) {
+		
+		if (null != process) {
+			this.process = process;
+			this.state = SystemSate.CREATE.toString();
+			this.dateCreate = new Date();
 
-    public InstanceProcessModel(ProcessModel process, String user) {
-        if (null != process) {
-            this.process = process;
-            this.state = SystemSate.CREATE.toString();
-            this.dateCreate = new Date();
-            if (process.getName() != null) {
-                this.name = name;
-            }
-            if (null != user) {
-                this.createBy = createBy;
-            }
-            if (null != process.getProcesTitle()) {
-                this.title = process.getProcesTitle();
-            }
+			if (process.getName() != null) {
+				this.name = process.getName();
+			}
+
+			if (null != user) {
+				this.createBy = user;
+			}
+
+			if (null != process.getProcesTitle()) {
+				this.title = process.getProcesTitle();
+			}
 
 //            if (null != process.getstages() && process.getstages().size() > 0) {
 //                process.getstages().stream().forEach(stageModel -> this.instanceStage.add(new InstanceStageModel(stageModel, process.getProcesCode())));
 //            }
-        }
-    }
-    public Long getIdInstanceProcess() {
-        return idInstanceProcess;
-    }
+		}
+	}
 
-    public void setIdInstanceProcess(Long idInstanceProcess) {
-        this.idInstanceProcess = idInstanceProcess;
-    }
+	public Long getIdInstanceProcess() {
+		return idInstanceProcess;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setIdInstanceProcess(Long idInstanceProcess) {
+		this.idInstanceProcess = idInstanceProcess;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getCreateBy() {
-        return createBy;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
+	public String getCreateBy() {
+		return createBy;
+	}
 
-    public String getState() {
-        return state;
-    }
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
+	}
 
-    public void setState(String state) {
-        this.state = state;
-    }
+	public String getState() {
+		return state;
+	}
 
-    public Date getDateCreate() {
-        return dateCreate;
-    }
+	public void setState(String state) {
+		this.state = state;
+	}
 
-    public void setDateCreate(Date dateCreate) {
-        this.dateCreate = dateCreate;
-    }
+	public Date getDateCreate() {
+		return dateCreate;
+	}
 
-    public Date getDateEnd() {
-        return dateEnd;
-    }
+	public void setDateCreate(Date dateCreate) {
+		this.dateCreate = dateCreate;
+	}
 
-    public void setDateEnd(Date dateEnd) {
-        this.dateEnd = dateEnd;
-    }
+	public Date getDateEnd() {
+		return dateEnd;
+	}
 
-    public String getInstanceCode() {
-        return instanceCode;
-    }
+	public void setDateEnd(Date dateEnd) {
+		this.dateEnd = dateEnd;
+	}
 
-    public void setInstanceCode(String instanceCode) {
-        this.instanceCode = instanceCode;
-    }
+	public String getInstanceCode() {
+		return instanceCode;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public void setInstanceCode(String instanceCode) {
+		this.instanceCode = instanceCode;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public List<InstanceStageModel> getinstanceStage() {
-        return instanceStage;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public void setinstanceStage(List<InstanceStageModel> instanceStage) {
-        this.instanceStage = instanceStage;
-    }
+	public List<InstanceStageModel> getinstanceStage() {
+		return instanceStage;
+	}
 
-    public ProcessModel getprocess() {
-        return process;
-    }
+	public void setinstanceStage(List<InstanceStageModel> instanceStage) {
+		this.instanceStage = instanceStage;
+	}
 
-    public void setprocess(ProcessModel process) {
-        this.process = process;
-    }
+	public ProcessModel getprocess() {
+		return process;
+	}
 
-    public List<AssignedModel> getassigned() {
-        return assigned;
-    }
+	public void setprocess(ProcessModel process) {
+		this.process = process;
+	}
 
-    public void setassigned(List<AssignedModel> assigned) {
-        this.assigned = assigned;
-    }
+	public List<AssignedModel> getassigned() {
+		return assigned;
+	}
 
-    public Long getIdControlProcessReferent() {
-        return idControlProcessReferent;
-    }
+	public void setassigned(List<AssignedModel> assigned) {
+		this.assigned = assigned;
+	}
 
-    public void setIdControlProcessReferent(Long idControlProcessReferent) {
-        this.idControlProcessReferent = idControlProcessReferent;
-    }
+	public Long getIdControlProcessReferent() {
+		return idControlProcessReferent;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        InstanceProcessModel that = (InstanceProcessModel) o;
-        return Objects.equals(idInstanceProcess, that.idInstanceProcess) && Objects.equals(name, that.name) && Objects.equals(createBy, that.createBy) && Objects.equals(state, that.state) && Objects.equals(dateCreate, that.dateCreate) && Objects.equals(dateEnd, that.dateEnd) && Objects.equals(instanceCode, that.instanceCode) && Objects.equals(title, that.title) && Objects.equals(instanceStage, that.instanceStage) && Objects.equals(process, that.process) && Objects.equals(assigned, that.assigned) && Objects.equals(idControlProcessReferent, that.idControlProcessReferent);
-    }
+	public void setIdControlProcessReferent(Long idControlProcessReferent) {
+		this.idControlProcessReferent = idControlProcessReferent;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(idInstanceProcess, name, createBy, state, dateCreate, dateEnd, instanceCode, title, instanceStage, process, assigned, idControlProcessReferent);
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		InstanceProcessModel that = (InstanceProcessModel) o;
+		return Objects.equals(idInstanceProcess, that.idInstanceProcess) && Objects.equals(name, that.name)
+				&& Objects.equals(createBy, that.createBy) && Objects.equals(state, that.state)
+				&& Objects.equals(dateCreate, that.dateCreate) && Objects.equals(dateEnd, that.dateEnd)
+				&& Objects.equals(instanceCode, that.instanceCode) && Objects.equals(title, that.title)
+				&& Objects.equals(instanceStage, that.instanceStage) && Objects.equals(process, that.process)
+				&& Objects.equals(assigned, that.assigned)
+				&& Objects.equals(idControlProcessReferent, that.idControlProcessReferent);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(idInstanceProcess, name, createBy, state, dateCreate, dateEnd, instanceCode, title,
+				instanceStage, process, assigned, idControlProcessReferent);
+	}
 }
- /*
- Copyright (C) 2008 Google Inc.
-* Licensed to the Apache Software Foundation (ASF) under one or more
-* contributor license agreements.  See the NOTICE file distributed with
-* this work for additional information regarding copyright ownership.
-* The ASF licenses this file to You under the Apache License, Version 2.0
-* (the "License"); you may not use this file except in compliance with
-* the License.  You may obtain a copy of the License at
-*
-*      http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
-
+/*
+ * Copyright (C) 2008 Google Inc. Licensed to the Apache Software Foundation
+ * (ASF) under one or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information regarding copyright
+ * ownership. The ASF licenses this file to You under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
