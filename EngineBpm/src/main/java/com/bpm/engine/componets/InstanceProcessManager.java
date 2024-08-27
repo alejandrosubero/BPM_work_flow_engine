@@ -57,31 +57,18 @@ public class InstanceProcessManager {
             List<InstanceStageModel> stageModelList = new ArrayList<>();
 
             if (null != processRequest.getstages() && processRequest.getstages().size() > 0) {
-               
-            	processRequest.getstages().stream().forEach(stageModel -> {
-            		
+                processRequest.getstages().stream().forEach(stageModel -> {
                     InstanceStageModel instanceStage = new InstanceStageModel(stageModel, processRequest.getProcesCode());
                     //this point evaluate the stage internal...
                     if (null != stageModel.getstages() && stageModel.getstages().size() > 0 && null != processRequest.getProcesCode()) {
-                        
-                    	
-                    	//TODO: CHECK THIS CODE IS FOR INTERNALS STAGE 
-                    	stageModel.getstages().stream().forEach(internalsStageModels -> {
-                    		
+                        stageModel.getstages().stream().forEach(internalsStageModels -> {
                             InstanceStageModel internalInstanceStage = new InstanceStageModel(internalsStageModels, processRequest.getProcesCode());
-                            
                             if (internalsStageModels.gettasks().size() > 0) {
-                            	
-                            	//TODO: THIS PART OF CODE IS FOR INTERNAL STAGE BUT IN THE CODE REFERENCE TO THE STAGE FATHER NO THE STAGE INTERNAL FOR WOR IN TASK'S
                                 internalInstanceStage.setinstancesTasks(this.setTask(stageModel, systemRequest, instanceProccesId));
                                 internalInstanceStage.setInstanceProcessId(instanceProccesId);
-                                
-                                // TODO: THIS PART OF CODE IS FOR SET THE INSTANCE INTERNAL STAGE IN TO STAGE FATHER.
                                 instanceStage.getinstanceStages().add(internalInstanceStage);
                             }
-                        
-                    	});
-                    	
+                        });
                     }
                     //this point set task of the stage...
                     if (stageModel.gettasks().size() > 0) {
@@ -89,7 +76,6 @@ public class InstanceProcessManager {
                     }
                     instanceStage.setInstanceProcessId(instanceProccesId);
                     stageModelList.add(instanceStage);
-                    
                 });
             }
             
@@ -144,27 +130,21 @@ public class InstanceProcessManager {
         List<InstanceTaskModel> taskList = new ArrayList<>();
 
         if (null != stageModel.gettasks() && stageModel.gettasks().size() > 0) {
-        	
             stageModel.gettasks().stream().forEach(taskModel -> {
-            
-            	if (systemRequest.getAssigned() != null && systemRequest.getAssigned().containsKey(taskModel.getCode())
+                if (systemRequest.getAssigned() != null && systemRequest.getAssigned().containsKey(taskModel.getCode())
                         && systemRequest.getAssigned().get(taskModel.getCode()).size() > 0) {
-            		
 
                     List<TaskAssignedModel> taskAssignedModelList = new ArrayList<>();
-                    
-                    systemRequest.getAssigned().get(taskModel.getCode()).forEach(codeEmployee -> 
-                    taskAssignedModelList.addAll(setTaskAssigned(taskModel.getCode(), codeEmployee, instanceProccesId, 0)));
+                    systemRequest.getAssigned().get(taskModel.getCode())
+                            .forEach(codeEmployee -> taskAssignedModelList.addAll(
+                                    setTaskAssigned(taskModel.getCode(), codeEmployee, instanceProccesId, 0)
+                            ));
                     taskList.add(new InstanceTaskModel(taskAssignedModelList, taskModel, instanceProccesId));
-                
-            	} else {
-                	
+                } else {
                     List<TaskAssignedModel> assignes = setTaskAssigned(
                             taskModel.getCode(), systemRequest.getCodeEmployee(), instanceProccesId, 1);
                     taskList.add(new InstanceTaskModel(assignes, taskModel, instanceProccesId));
-               
                 }
-            	
             });
         }
         return taskList;
