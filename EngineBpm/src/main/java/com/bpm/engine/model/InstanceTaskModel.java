@@ -86,7 +86,6 @@ public class InstanceTaskModel {
 
             this.setTaskAssigned(this.task.getCode());
         }
-
     }
 
 
@@ -101,12 +100,12 @@ public class InstanceTaskModel {
         this.assignes = assignes;
     }
 
-    //TODO: falta resolver el caso cuando se asigna directamente a una persona que no importa
-    // si esta o no en la asignacion (table) "BpmAssigned".
+
     // HAY DOS CASOS CUANDO SE PROPORCIONA EL ASIGNADO Y CUANDO HAY QUE IR A BUSCARLO COMO APROBADOR.
     private void setTaskAssigned(String taskCode){
         BpmAssignedServiceImplement bpmAssignedServiceImplement = new BpmAssignedServiceImplement();
-        bpmAssignedServiceImplement.findByTaskCode(taskCode).stream().forEach(bpmAssignedModel -> this.assignes.add(new TaskAssignedModel(bpmAssignedModel.getIdBpmAssigned())));
+        bpmAssignedServiceImplement.findByTaskCode(taskCode).stream().forEach(bpmAssignedModel ->
+                this.assignes.add(new TaskAssignedModel(bpmAssignedModel.getIdBpmAssigned())));
     }
 
     private void set(TaskModel taskModel) {
@@ -116,8 +115,8 @@ public class InstanceTaskModel {
             this.dateStart = new Date();
             this.state = SystemSate.CREATE.toString();
 
-            if (null != taskModel) {
-                this.name = name;
+            if (null != taskModel.getName()) {
+                this.name =  taskModel.getName();
             }
 
             if (null != taskModel.getTaskDueTime()) {

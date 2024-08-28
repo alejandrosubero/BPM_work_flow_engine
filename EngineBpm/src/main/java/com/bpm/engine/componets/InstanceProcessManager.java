@@ -58,6 +58,8 @@ public class InstanceProcessManager {
             
         	instanceProcess = instanceProcessService.saveInternal(new InstanceProcessModel(processRequest, systemRequest.getCodeEmployee()));
             Long instanceProccesId = instanceProcess.getIdInstanceProcess();
+            instanceProcess.setprocess(processRequest);
+
             List<InstanceStageModel> stageModelList = new ArrayList<>();
 
             if (instanceProccesId != null  && null != processRequest.getProcesCode() && null != processRequest.getstages() && processRequest.getstages().size() > 0 ) {

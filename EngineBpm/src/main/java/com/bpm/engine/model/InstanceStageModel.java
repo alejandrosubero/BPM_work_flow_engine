@@ -71,7 +71,7 @@ public class InstanceStageModel {
 
     public InstanceStageModel(StageModel stageModel, String procesCode) {
 
-        this.dateStart = dateStart; // WHERE I RECIVE THIS VALUE 
+        this.dateStart = new Date(); // WHERE I RECIVE THIS VALUE
         
         if(null != procesCode){
             this.procesCode = procesCode;
@@ -89,7 +89,7 @@ public class InstanceStageModel {
             this.stageNumber = stageModel.getStageNumber();
         }
 
-        if(this.stageNumber ==1){ // WHAT HAPEN HERE THE STAGE NUNMBER IS FOR SEPARATE THE STAGE OF OTERS ESTAGE OR FOR WORK WITH STATE.
+        if(this.state != null){
             this.state = SystemSate.ASSIGNED.toString();
         }else {
             this.state = SystemSate.CREATE.toString();
