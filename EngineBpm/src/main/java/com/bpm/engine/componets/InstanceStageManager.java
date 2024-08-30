@@ -26,11 +26,11 @@ public class InstanceStageManager {
 
     public InstanceStageModel generate(InstanceProcessModel instanceProcess, SystemRequest systemRequest) {
 
-        Long instanceProccesId = instanceProcess.getIdInstanceProcess();
+//        Long instanceProccesId = instanceProcess.getIdInstanceProcess();
         ProcessModel processRequest = instanceProcess.getprocess();
         List<InstanceStageModel> stageModelList = new ArrayList<>();
 
-        if (instanceProccesId != null && null != processRequest.getProcesCode() && null != processRequest.getstages() && processRequest.getstages().size() > 0) {
+        if (instanceProcess.getIdInstanceProcess() != null && null != processRequest.getProcesCode() && null != processRequest.getstages() && processRequest.getstages().size() > 0) {
 
 
             processRequest.getstages().stream().forEach(stageModel -> {
@@ -48,8 +48,8 @@ public class InstanceStageManager {
 
                         if (internalsStageModels.gettasks().size() > 0) {
 
-                            internalInstanceStage.setinstancesTasks(this.taskManager.setTask(stageModel, systemRequest, instanceProccesId));
-                            internalInstanceStage.setInstanceProcessId(instanceProccesId);
+                            internalInstanceStage.setinstancesTasks(this.taskManager.setTask(stageModel, systemRequest, instanceProcess.getIdInstanceProcess()));
+                            internalInstanceStage.setInstanceProcessId(instanceProcess.getIdInstanceProcess());
 
                             //TODO: THIS POINT ADD TO STAGE FATHER
                             instanceStage.getinstanceStages().add(internalInstanceStage);
@@ -60,9 +60,9 @@ public class InstanceStageManager {
 
                 //this point set task of the stage...
                 if (stageModel.gettasks().size() > 0) {
-                    instanceStage.setinstancesTasks(this.taskManager.setTask(stageModel, systemRequest, instanceProccesId));
+                    instanceStage.setinstancesTasks(this.taskManager.setTask(stageModel, systemRequest, instanceProcess.getIdInstanceProcess()));
                 }
-                instanceStage.setInstanceProcessId(instanceProccesId);
+                instanceStage.setInstanceProcessId(instanceProcess.getIdInstanceProcess());
                 stageModelList.add(instanceStage);
 
             });

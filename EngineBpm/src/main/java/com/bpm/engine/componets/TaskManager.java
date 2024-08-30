@@ -42,13 +42,19 @@ public class TaskManager {
                         !systemRequest.getAssigned().get(taskModel.getCode()).isEmpty()
                 ) {
                     List<TaskAssignedModel> taskAssignedModelList = new ArrayList<>();
-                    systemRequest.getAssigned().get(taskModel.getCode()).forEach(codeEmployee ->
-                            taskAssignedModelList.addAll(setTaskAssigned(taskModel.getCode(), codeEmployee, instanceProccesId, 0)
-                            ));
+                    
+                    
+                    List<String> systemRequestAssigned = systemRequest.getAssigned().get(taskModel.getCode());
+                    		
+                    systemRequestAssigned.forEach(codeEmployee ->taskAssignedModelList.addAll(setTaskAssigned(taskModel.getCode(), codeEmployee, instanceProccesId, 0)));
+                    
                     taskList.add(new InstanceTaskModel(taskAssignedModelList, taskModel, instanceProccesId));
+                    
                 } else {
+                	
                     List<TaskAssignedModel> assignes = setTaskAssigned(taskModel.getCode(), systemRequest.getCodeEmployee(), instanceProccesId, 1);
                     taskList.add(new InstanceTaskModel(assignes, taskModel, instanceProccesId));
+                    
                 }
             });
         }
