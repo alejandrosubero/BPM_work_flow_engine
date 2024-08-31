@@ -1,8 +1,11 @@
 package com.bpm.engine.entitys;
 
-import javax.lang.model.element.Name;
-import javax.persistence.*;
-import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "bpm_bpm_Assigned")
@@ -23,6 +26,9 @@ public class BpmAssigned {
     @Column(name = "instanciaProccesId", updatable = true, nullable = true, length = 100)
     private Long instanciaProccesId;
 
+    @Column(name = "active", updatable = true, nullable = true, length = 100)
+    private Boolean active;
+    
 
     public BpmAssigned() {
     }
@@ -60,16 +66,66 @@ public class BpmAssigned {
         this.instanciaProccesId = instanciaProccesId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BpmAssigned that = (BpmAssigned) o;
-        return Objects.equals(idBpmAssigned, that.idBpmAssigned) && Objects.equals(idAssigned, that.idAssigned) && Objects.equals(taskCode, that.taskCode) && Objects.equals(instanciaProccesId, that.instanciaProccesId);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(idBpmAssigned, idAssigned, taskCode, instanciaProccesId);
-    }
+	public Boolean getActive() {
+		return active;
+	}
+
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((active == null) ? 0 : active.hashCode());
+		result = prime * result + ((idAssigned == null) ? 0 : idAssigned.hashCode());
+		result = prime * result + ((idBpmAssigned == null) ? 0 : idBpmAssigned.hashCode());
+		result = prime * result + ((instanciaProccesId == null) ? 0 : instanciaProccesId.hashCode());
+		result = prime * result + ((taskCode == null) ? 0 : taskCode.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BpmAssigned other = (BpmAssigned) obj;
+		if (active == null) {
+			if (other.active != null)
+				return false;
+		} else if (!active.equals(other.active))
+			return false;
+		if (idAssigned == null) {
+			if (other.idAssigned != null)
+				return false;
+		} else if (!idAssigned.equals(other.idAssigned))
+			return false;
+		if (idBpmAssigned == null) {
+			if (other.idBpmAssigned != null)
+				return false;
+		} else if (!idBpmAssigned.equals(other.idBpmAssigned))
+			return false;
+		if (instanciaProccesId == null) {
+			if (other.instanciaProccesId != null)
+				return false;
+		} else if (!instanciaProccesId.equals(other.instanciaProccesId))
+			return false;
+		if (taskCode == null) {
+			if (other.taskCode != null)
+				return false;
+		} else if (!taskCode.equals(other.taskCode))
+			return false;
+		return true;
+	}
+
+ 
 }

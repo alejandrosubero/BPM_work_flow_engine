@@ -10,7 +10,9 @@ import java.util.List;
 @Repository
 public interface BpmAssignedRepository extends CrudRepository<BpmAssigned, Long> {
 
-    public BpmAssigned save(BpmAssigned bpmAssigned);
+    @SuppressWarnings("unchecked")
+	public BpmAssigned save(BpmAssigned bpmAssigned);
+    
     public List<BpmAssigned> findByIdAssigned(Long idAssigned);
 
     public List<BpmAssigned> findByIdAssignedContaining(Long idAssigned);
@@ -27,4 +29,7 @@ public interface BpmAssignedRepository extends CrudRepository<BpmAssigned, Long>
 
     public List<BpmAssigned> findByTaskCodeAndInstanciaProccesIdNull(String taskCode);
 
+    public List<BpmAssigned> findByTaskCodeAndActiveAndInstanciaProccesIdNull(String taskCode, Boolean active);
+    
+    public List<BpmAssigned> findByTaskCodeAndActive(String taskCode, Boolean active);
 }

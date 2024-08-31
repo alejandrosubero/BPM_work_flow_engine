@@ -16,6 +16,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
+//TODO: routed -> AssignedModel-> mach(codeEmployee) and go to -> (List<ApprovedProcessModel> approvedProcess -> ApprovedProcessModel -> processCode or idProcess are granted
+//Note: resquest fron front tu the engine.
+
+
 // this class handled the creation on InstanceProcess and the state of InstanceProcess.
 @Service
 public class InstanceProcessManager {

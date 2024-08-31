@@ -1,14 +1,13 @@
 package com.bpm.engine.service;
 
-import com.bpm.engine.entitys.Assigned;
-import com.bpm.engine.entitys.BpmAssigned;
-import com.bpm.engine.model.BpmAssignedModel;
-
 import java.util.List;
+
+import com.bpm.engine.model.BpmAssignedModel;
 
 public interface BpmAssignedService {
 
     public BpmAssignedModel instanceBpmAssigned(Long idAssigned, String taskCode, Long instanciaProccesId);
+    
     public BpmAssignedModel findByIdBpmAssigned(Long id);
 
     public List<BpmAssignedModel> findByIdAssigned(Long idAssigned);
@@ -26,5 +25,9 @@ public interface BpmAssignedService {
     public List<BpmAssignedModel> findByTaskCodeAndInstanciaProccesId(String taskCode, Long instanciaProccesId);
 
     public List<BpmAssignedModel> findByTaskCodeAndInstanciaProccesIdNull(String taskCode);
+    
+    public List<BpmAssignedModel> findByTaskCodeAndInstanciaProccesIdNull(String taskCode, Boolean active);
+    
+    public List<BpmAssignedModel> findByTaskCodeActive(String taskCode, Boolean active);
 
 }

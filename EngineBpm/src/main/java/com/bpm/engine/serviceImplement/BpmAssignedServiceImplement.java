@@ -1,16 +1,15 @@
 package com.bpm.engine.serviceImplement;
 
 
-import com.bpm.engine.entitys.BpmAssigned;
-import com.bpm.engine.mapper.BpmAssignedMapper;
-import com.bpm.engine.model.AssignedModel;
-import com.bpm.engine.model.BpmAssignedModel;
-import com.bpm.engine.repository.BpmAssignedRepository;
-import com.bpm.engine.service.BpmAssignedService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.bpm.engine.mapper.BpmAssignedMapper;
+import com.bpm.engine.model.BpmAssignedModel;
+import com.bpm.engine.repository.BpmAssignedRepository;
+import com.bpm.engine.service.BpmAssignedService;
 
 @Service
 public class BpmAssignedServiceImplement implements BpmAssignedService {
@@ -55,10 +54,11 @@ public class BpmAssignedServiceImplement implements BpmAssignedService {
             repository.save(mapper.pojoToEntity(assignedBase));
             return true;
         }
+        
         if (repository.save(mapper.pojoToEntity(assigned)) != null) {
             return true;
         }
-
+        
         return false;
     }
 
@@ -82,5 +82,17 @@ public class BpmAssignedServiceImplement implements BpmAssignedService {
     public BpmAssignedModel instanceBpmAssigned(Long idAssigned, String taskCode, Long instanciaProccesId){
         return mapper.entityToPojo(repository.save(mapper.pojoToEntity(new BpmAssignedModel(idAssigned, taskCode, instanciaProccesId))));
     }
+
+    
+    
+	@Override
+	public List<BpmAssignedModel> findByTaskCodeAndInstanciaProccesIdNull(String taskCode, Boolean active) {
+		 return mapper.entityListToPojoList(repository.findByTaskCodeAndActiveAndInstanciaProccesIdNull(taskCode, active));
+	}
+	
+	@Override
+	public List<BpmAssignedModel> findByTaskCodeActive(String taskCode, Boolean active) {
+		 return mapper.entityListToPojoList(repository.findByTaskCodeAndActive(taskCode, active));
+	}
 
 }

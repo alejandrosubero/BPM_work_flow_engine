@@ -100,6 +100,11 @@ public class InstanceTaskModel {
         this.assignes = assignes;
     }
 
+    public InstanceTaskModel(TaskModel taskModel, Long instanceProccesId ) {
+        this.set(taskModel);
+       this.instanceProcessId = instanceProccesId;
+    }
+    
 
     // HAY DOS CASOS CUANDO SE PROPORCIONA EL ASIGNADO Y CUANDO HAY QUE IR A BUSCARLO COMO APROBADOR.
     private void setTaskAssigned(String taskCode){

@@ -1,22 +1,20 @@
 package com.bpm.engine.componets;
 
-import com.bpm.engine.dto.AssignedDTO;
-import com.bpm.engine.dto.EntityRespone;
-import com.bpm.engine.interfaces.IBaseModel;
-import com.bpm.engine.model.ApprovedProcessModel;
-import com.bpm.engine.model.AssignedModel;
-import com.bpm.engine.model.RoleModel;
-import com.bpm.engine.serviceImplement.RestTemplateService;
-import com.google.gson.Gson;
+import java.util.Arrays;
+import java.util.HashMap;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.*;
+import com.bpm.engine.dto.AssignedDTO;
+import com.bpm.engine.dto.EntityRespone;
+import com.bpm.engine.interfaces.IBaseModel;
+import com.bpm.engine.model.AssignedModel;
+import com.bpm.engine.serviceImplement.RestTemplateService;
+import com.google.gson.Gson;
 
 /*
 This componet or service is custom for each company in this case we use the service in the repositoria app Employee.
@@ -44,6 +42,7 @@ public class ConectBpmToEmployeeService implements IBaseModel {
     private RestTemplateService templateService;
 
     public AssignedModel getAssigned(String employeeNumber, String positionCode) {
+    	
         return this.decodeHttpEntity(templateService.sendGetRequest(
                 new HashMap<String, String>() {{
                             put("employeeNumber", employeeNumber);
@@ -51,13 +50,6 @@ public class ConectBpmToEmployeeService implements IBaseModel {
                         }},
                         stringEnsamble(Arrays.asList(employeeServiceUrl, employeeServiceAssigned)))
         );
-        //        String employeeApproveServiceUrl = stringEnsamble(Arrays.asList(employeeServiceUrl, employeeServiceAssigned));
-//        Map<String, String> vars= new HashMap<String, String>() {{
-//            put("employeeNumber", employeeNumber);
-//            put("positionCode", positionCode);
-//        }};
-//        HttpEntity<String> request = templateService.sendGetRequest(vars, employeeApproveServiceUrl);
-//        return request;
     }
 
 
