@@ -222,6 +222,20 @@ public class ProcessServiceImplement implements ProcessService, RadomCode {
         }
     }
 
+    
+    @Override
+    public ProcessModel save(ProcessModel process) {
+        logger.info("Save Process");
+        try {
+            return processMapper.entityToPojo(processrepository.save(processMapper.pojoToEntity(process)));
+        } catch (DataAccessException e) {
+            logger.error(" ERROR : " + e);
+            return new ProcessModel();
+        }
+    }
+    
+    
+    
     @Override
     public boolean updateProcess(Process process) {
         logger.info("Update ENTITY");

@@ -14,15 +14,10 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 package com.bpm.engine.model;
 
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Date;
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Date;
+import java.util.List;
 
-import com.bpm.engine.model.AssignedModel;
-import com.bpm.engine.model.TaskModel;
-import com.bpm.engine.service.BpmAssignedService;
 import com.bpm.engine.serviceImplement.BpmAssignedServiceImplement;
 import com.bpm.engine.utility.SystemSate;
 
@@ -69,7 +64,7 @@ public class InstanceTaskModel {
             this.state = SystemSate.CREATE.toString();
 
             if(null != taskModel ) {
-                this.name = name;
+                this.name = taskModel.getName();
             }
 
             if(null != taskModel.getTaskDueTime() ) {
@@ -93,16 +88,19 @@ public class InstanceTaskModel {
         this.set(taskModel);
        this.assignes = assignes;
        this.instanceProcessId = instanceProccesId;
+       this.state = SystemSate.ASSIGNED.toString();
     }
 
     public InstanceTaskModel(  List<TaskAssignedModel> assignes, TaskModel taskModel ) {
         this.set(taskModel);
         this.assignes = assignes;
+        this.state = SystemSate.ASSIGNED.toString();
     }
 
     public InstanceTaskModel(TaskModel taskModel, Long instanceProccesId ) {
         this.set(taskModel);
        this.instanceProcessId = instanceProccesId;
+       this.state = SystemSate.CREATE.toString();
     }
     
 
@@ -118,7 +116,7 @@ public class InstanceTaskModel {
         if (taskModel != null) {
             this.task = taskModel;
             this.dateStart = new Date();
-            this.state = SystemSate.CREATE.toString();
+            
 
             if (null != taskModel.getName()) {
                 this.name =  taskModel.getName();

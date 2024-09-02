@@ -13,16 +13,10 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 
 package com.bpm.engine.model;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
-
-import com.bpm.engine.model.StageModel;
-import com.bpm.engine.model.RoleModel;
-import com.bpm.engine.model.TaskModel;
 
 public class StageModel {
 
@@ -37,8 +31,19 @@ public class StageModel {
     private List<RoleModel> roles = new ArrayList<>();
     private List<TaskModel> tasks = new ArrayList<>();
     private Integer stageNumber;
+    
     public StageModel() {
     }
+    
+    /***
+     * 
+     * @return true if stages have elements.
+     */
+    
+    public Boolean stagesIsNoEmpty() {
+    	return (this.stages != null && !this.stages.isEmpty())? true:false;
+    }
+    
 
     public Integer getStageNumber() {
         return stageNumber;
@@ -140,6 +145,9 @@ public class StageModel {
     public int hashCode() {
         return Objects.hash(idStage, stageCode, name, title, dateCreate, type, nextStageCode, stages, roles, tasks, stageNumber);
     }
+    
+    
+    
 }
  /*
  Copyright (C) 2008 Google Inc.

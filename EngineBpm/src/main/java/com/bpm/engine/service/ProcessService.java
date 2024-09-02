@@ -28,6 +28,8 @@ import com.bpm.engine.entitys.Stage;
 public interface ProcessService {
 
     public ProcessModel save(Process process);
+    
+    public ProcessModel save(ProcessModel process);
 
     public ProcessModel findByName(String name);
 

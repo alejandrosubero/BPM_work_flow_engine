@@ -13,14 +13,10 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 
 package com.bpm.engine.model;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
-
-import com.bpm.engine.model.StageModel;
 
 public class ProcessModel {
     private Long id_process;
@@ -160,6 +156,20 @@ public class ProcessModel {
     public int hashCode() {
         return Objects.hash(id_process, name, createDate, userCreate, procesTitle, state, procesCode, visible, global, activo, stages, roles);
     }
+    
+    
+    /***
+     * 
+     * @return true is proces_code Exit and Stages are No Empty.
+     */
+    public Boolean codeExitStagesIsNoEmpty() {
+    
+    	if(this.procesCode != null && this.stages != null && !this.stages.isEmpty()) {
+    		return true;
+    	}
+    	return false;
+    }
+     
 }
  /*
  Copyright (C) 2008 Google Inc.

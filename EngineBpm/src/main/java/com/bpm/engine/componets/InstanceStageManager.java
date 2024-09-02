@@ -5,6 +5,9 @@ import com.bpm.engine.model.InstanceProcessModel;
 import com.bpm.engine.model.InstanceStageModel;
 import com.bpm.engine.model.ProcessModel;
 import com.bpm.engine.service.InstanceStageService;
+import com.bpm.engine.utility.SystemSate;
+
+import org.hibernate.validator.constraints.ISBN;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,61 +17,73 @@ import java.util.List;
 @Component
 public class InstanceStageManager {
 
-    private InstanceStageService stageService;
     private TaskManager taskManager;
 
     @Autowired
-    public InstanceStageManager(InstanceStageService stageService, TaskManager taskManager) {
-        this.stageService = stageService;
+    public InstanceStageManager(TaskManager taskManager) {
         this.taskManager = taskManager;
     }
 
 
-    public InstanceStageModel generate(InstanceProcessModel instanceProcess, SystemRequest systemRequest) {
+    public  List<InstanceStageModel> generate(InstanceProcessModel instanceProcess, SystemRequest systemRequest) {
 
-//        Long instanceProccesId = instanceProcess.getIdInstanceProcess();
-        ProcessModel processRequest = instanceProcess.getprocess();
-        List<InstanceStageModel> stageModelList = new ArrayList<>();
 
-        if (instanceProcess.getIdInstanceProcess() != null && null != processRequest.getProcesCode() && null != processRequest.getstages() && processRequest.getstages().size() > 0) {
+    	List<InstanceStageModel> stageModelList = new ArrayList<>();
+
+    	ProcessModel processRequest = instanceProcess.getprocess();
+
+        if (instanceProcess.getIdInstanceProcess() != null && processRequest.codeExitStagesIsNoEmpty()) {
 
 
             processRequest.getstages().stream().forEach(stageModel -> {
 
                 //this point is create the instance stage father
-                InstanceStageModel   instanceStage = new InstanceStageModel(stageModel, processRequest.getProcesCode());
+                InstanceStageModel instanceStage = new InstanceStageModel(stageModel, processRequest.getProcesCode());
+                instanceStage.setInstanceProcessId(instanceProcess.getIdInstanceProcess());
 
+                if (stageModel.getStageNumber() == 1) {
+                	instanceStage.setState( SystemSate.ASSIGNED.toString());
+                }
+                
                 //this point evaluate the stage internal...
-                if (null != stageModel.getstages() && stageModel.getstages().size() > 0 && null != processRequest.getProcesCode()) {
+                if (stageModel.stagesIsNoEmpty()) {
 
-                    stageModel.getstages().stream().forEach(internalsStageModels -> {
+                    stageModel.getstages().forEach(internalsStageModels -> {
 
                         //TODO: THIS POINT WORK WITH INSTANCES STAGE INTERNAL OF STAGE
                         InstanceStageModel internalInstanceStage = new InstanceStageModel(internalsStageModels, processRequest.getProcesCode());
+                        internalInstanceStage.setInstanceProcessId(instanceProcess.getIdInstanceProcess());
 
-                        if (internalsStageModels.gettasks().size() > 0) {
+                        
+                        
+                        if (internalsStageModels.gettasks() != null && !internalsStageModels.gettasks().isEmpty()) {
+                            internalInstanceStage.setinstancesTasks(this.taskManager.setTask(internalsStageModels, systemRequest, instanceProcess.getIdInstanceProcess()));
 
-                            internalInstanceStage.setinstancesTasks(this.taskManager.setTask(stageModel, systemRequest, instanceProcess.getIdInstanceProcess()));
-                            internalInstanceStage.setInstanceProcessId(instanceProcess.getIdInstanceProcess());
-
+                            if (internalsStageModels.getStageNumber() == 1) {
+                            	internalInstanceStage.setState( SystemSate.ASSIGNED.toString());
+                            }
+                            
                             //TODO: THIS POINT ADD TO STAGE FATHER
                             instanceStage.getinstanceStages().add(internalInstanceStage);
 
                         }
                     });
+                    
+                    //this point set task of the stage...
+                    if (stageModel.gettasks() != null && !stageModel.gettasks().isEmpty()) {
+                        instanceStage.setinstancesTasks(this.taskManager.setTask(stageModel, systemRequest, instanceProcess.getIdInstanceProcess()));
+                    }
+                   
+                    stageModelList.add(instanceStage);
+                    
                 }
-
-                //this point set task of the stage...
-                if (stageModel.gettasks().size() > 0) {
-                    instanceStage.setinstancesTasks(this.taskManager.setTask(stageModel, systemRequest, instanceProcess.getIdInstanceProcess()));
-                }
-                instanceStage.setInstanceProcessId(instanceProcess.getIdInstanceProcess());
-                stageModelList.add(instanceStage);
-
             });
-            return null;
         }
 
-        return null;
-}
+        return stageModelList;
+    }
+    
+    
+    
+    
 }

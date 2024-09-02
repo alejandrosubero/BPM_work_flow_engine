@@ -54,13 +54,26 @@ public class InstanceProcessModel {
 
 
     public InstanceProcessModel(ProcessModel process, String user, Map<String, List<String> > assigned) {
-        if(null != process ){
-            this.process = process;
+       
+    	if(null != process ){
+            
+        	this.process = process;
+          
             this.state = SystemSate.CREATE.toString();
+            
             this.dateCreate = new Date();
-            if(process.getName() != null){this.name = name;}
-            if(null != user ) {this.createBy = createBy;}
-            if(null != process.getProcesTitle() ){this.title = process.getProcesTitle();}
+            
+            if(process.getName() != null){
+            	this.name = process.getName();
+            	}
+            
+            if(null != user ) {
+            	this.createBy = user;
+            	}
+            
+            if(null != process.getProcesTitle() ){
+            	this.title = process.getProcesTitle();
+            	}
 
             if(null != process.getstages() && process.getstages().size() > 0){
                 process.getstages().stream().forEach(stageModel ->  this.instanceStage.add(new InstanceStageModel(stageModel, process.getProcesCode())));
