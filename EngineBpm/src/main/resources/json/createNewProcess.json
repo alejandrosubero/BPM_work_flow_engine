@@ -13,19 +13,14 @@
   ],
   "stages": [
     {
-      "name": "go_to_party",
-      "title": "Go to party",
+      "name": "MANAGEMENT",
+      "title": "MANAGEMENT",
       "type": "human",
       "roles": [
         {
-          "codeRole": "w23a",
-          "description": "developer",
-          "name": "Developer"
-        },
-        {
-          "codeRole": "li#1",
-          "description": "project_Manager",
-          "name": "Project Manager"
+          "codeRole": "IT_manager_BPM",
+          "description": "IT manager",
+          "name": "manager"
         }
       ],
       "stageNumber": 1,
@@ -36,28 +31,137 @@
           "title": "Task Test 1",
           "roles": [
             {
-              "codeRole": "li#1",
-              "description": "project_Manager",
-              "name": "Project Manager"
+				"codeRole": "IT_manager_BPM",
+				"description": "IT manager",
+				"name": "manager"
             }
           ],
           "rulers": [
             {
-              "action": "go to end",
+              "action": "0",
               "condition": "APRUBE"
             },
-            {
-              "action": "go to STAR",
-              "condition": "REJECTED"
-            }
+			{
+			 "action": "2",
+			 "condition": "DENIED"
+			},
+			{
+			 "action": "999",
+			 "condition": "NOTIFICATION"
+			}
           ],
-          "urlService": ".....xxxx....",
-          "taskUrl": "htttp....iiiiuuu...",
+          "urlService": "/star",
+          "taskUrl": "http://localhost:1111/bpm/engineBpm/start",
           "type": {
             "type": "Human"
           }
         }
       ]
-    }
+    },
+	
+*****	PENSAR MEJOR LA ETAPAS AUTOMATICAS PARA EL FLUJO DE ACTION *****
+	
+	
+	{
+			"name": "NOTIFICATION",
+			"title": "NOTIFICATION_PROCESS",
+			"type": "Auto",
+			"roles": [],
+			"stageNumber": 999,
+			"stages": [],
+			"tasks": [
+				 {
+				  "name": "0",
+				  "title": "0",
+				  "roles": [],
+				      "rulers": [
+				        {
+				          "action": "991",
+				          "condition": "APRUBE"
+				        }
+				      ],
+				      "urlService": "NOTIFICATION_PROCESS_USER",
+				      "taskUrl": "<PAY_LOAD>",
+				      "type": {
+				        "type": "Auto"
+				      }
+				    }
+				  ]
+	 },
+	 {
+				     "name": "ACKNOWLEDGE_MANAGEMEN",
+				     "title": "ACKNOWLEDGE_MANAGEMEN",
+				     "type": "human",
+				     "roles": [
+				       {
+				         "codeRole": "IT_manager_BPM",
+				         "description": "IT manager",
+				         "name": "manager"
+				       },
+					   {
+						"codeRole": "IT_leader",
+						"description": "IT leader Bpm",
+					    "name": "leader"
+					   }
+				     ],
+				     "stageNumber": 2,
+				     "stages": [],
+				     "tasks": [
+				       {
+				         "name": "ACKNOWLEDGE__APPROVED",
+				         "title": "ACKNOWLEDGE__APPROVED",
+				         "roles": [
+				           {
+							"codeRole": "IT_leader",
+							"description": "IT leader Bpm",
+							"name": "leader"
+				           }
+				         ],
+				         "rulers": [
+				           {
+				             "action": "0",
+				             "condition": "APRUBE"
+				           },
+						{
+						 "action": "0",
+						 "condition": "DENIED"
+						}
+				         ],
+				         "urlService": "/star",
+				         "taskUrl": "http://localhost:1111/bpm/engineBpm/start",
+				         "type": {
+				           "type": "Human"
+				         }
+				       }
+				     ]
+				   },
+	{
+		"name": "END",
+		"title": "CLOSE_PROCESS",
+		"type": "Auto",
+		"roles": [],
+		"stageNumber": 0,
+		"stages": [],
+		"tasks": [
+			 {
+			  "name": "0",
+			  "title": "0",
+			  "roles": [],
+			      "rulers": [
+			        {
+			          "action": "END",
+			          "condition": "APRUBE"
+			        }
+			      ],
+			      "urlService": "",
+			      "taskUrl": "",
+			      "type": {
+			        "type": "Auto"
+			      }
+			    }
+			  ]
+			}
+	
+
   ]
 }

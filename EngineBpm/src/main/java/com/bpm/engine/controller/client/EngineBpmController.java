@@ -1,4 +1,4 @@
-package com.bpm.engine.controller;
+package com.bpm.engine.controller.client;
 import com.bpm.engine.componets.ConectBpmToEmployeeService;
 import com.bpm.engine.componets.InstanceProcessManager;
 import com.bpm.engine.componets.ProcessManager;

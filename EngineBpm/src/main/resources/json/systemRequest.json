@@ -1,0 +1,9 @@
+{
+  "codeEmployee": "EMP001",
+  "processCode": "PROC123",
+  "codeTask": "TASK456",
+  "assigned": {
+    "key_1": ["USERCODE1"],
+    "key_2": ["USERCODE2", "USERCODE3"]
+  }
+}

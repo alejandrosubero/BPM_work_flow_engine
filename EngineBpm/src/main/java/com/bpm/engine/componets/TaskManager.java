@@ -37,12 +37,12 @@ public class TaskManager {
 		if (null != stageModel.gettasks() && !stageModel.gettasks().isEmpty()) {
 
 			stageModel.gettasks().forEach(taskModel -> {
-				
+				//TODO: IN THE TASK EXIST ROLE FOR THIS TASK HOW USE?  
 				if (stageModel.getStageNumber() == 1) {
 					//This point select assigned for all tasks on the first stage. 
 					taskList.add(
 							new InstanceTaskModel(
-									setAssignedToTask( taskModel,  systemRequest,  instanceProccesId), 
+									setAssignedToTask( taskModel.getCode(),  systemRequest,  instanceProccesId), 
 									taskModel, instanceProccesId)
 							);
 				} else {
@@ -56,17 +56,17 @@ public class TaskManager {
 
 	
 
-	public List<TaskAssignedModel> setAssignedToTask(TaskModel taskModel, SystemRequest systemRequest, Long instanceProccesId) {
+	public List<TaskAssignedModel> setAssignedToTask(String taskModelCode, SystemRequest systemRequest, Long instanceProccesId) {
 		List<TaskAssignedModel> taskAssignedModelList = new ArrayList<>();
 		try {			
 
-			if (systemRequest.checkAssigned(taskModel.getCode())) {
+			if (systemRequest.checkAssigned(taskModelCode)) {
 				
 				// this part is for users direct assigned router = 0		
-				taskAssignedModelList.addAll(this.getUserDirectAssigned(systemRequest.getAssigned().get(taskModel.getCode()),  taskModel.getCode(), instanceProccesId));
+				taskAssignedModelList.addAll(this.getUserDirectAssigned(systemRequest.getAssigned().get(taskModelCode),  taskModelCode, instanceProccesId));
 			} else {
 					// this part is for user create the instance Process router = 1
-				taskAssignedModelList.addAll(getUseTheUserWasCreateInstanceProcess( systemRequest.getCodeEmployee(), taskModel.getCode(),instanceProccesId));
+				taskAssignedModelList.addAll(getUseTheUserWasCreateInstanceProcess(systemRequest.getCodeEmployee(), taskModelCode,instanceProccesId));
 			}
 			// router = 2  no implement's   getTaskAssignedFromBpmAssigned
 		} catch (Exception e){
