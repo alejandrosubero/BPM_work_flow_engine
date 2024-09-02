@@ -48,10 +48,10 @@ public class EmployeeController {
 	private ResponseEntity<EntityRespone> findEmployeeByUserName (@PathVariable("userName") String userName) {
 		try {
 			AssignedModel assigned = employeeManager.findEmployeeByUserName(userName);
-			Gson gson = new Gson();
-			String value = gson.toJson(assigned);
+//			Gson gson = new Gson();
+//			String value = gson.toJson(assigned);
 			String menssage = assigned != null ? "Ok" : "The list was not Found";
-			return new ResponseEntity<EntityRespone>(mapperEntityRespone.setEntityRespon(value, menssage), HttpStatus.OK);
+			return new ResponseEntity<EntityRespone>(mapperEntityRespone.setEntityRespon(assigned, menssage), HttpStatus.OK);
 		} catch (DataAccessException e) {
 			EntityRespone entityRespone = mapperEntityRespone.setEntityResponT(null, "Fail error", e.getMessage());
 			return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.BAD_REQUEST);

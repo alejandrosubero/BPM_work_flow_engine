@@ -30,7 +30,7 @@ public class EmployeeManager implements IAssigned {
 
     protected static final Log logger = LogFactory.getLog(EmployeeManager.class);
 
-    //todo: encriptar los campos de busqueda en la base
+    
     public AssignedModel findEmployee(String employeeNumber){
         EmpleadoPojo employee = empleadoService.findByNumeroEmpleado(employeeNumber);
         return generateAssigned(employee);

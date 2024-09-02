@@ -14,7 +14,10 @@ Create on Sat Sep 30 10:44:39 EDT 2023
 package com.bpm.engine.entitys;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -55,6 +58,11 @@ public class ControlProcessReferent {
     @Column(name = "dateClose", updatable = true, nullable = true, length = 200)
     private Date dateClose;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
+    @JoinColumn(name = "id_Control_process_referent")
+    private List<TaskAssigned> assignes = new ArrayList<>();
+    
+    
     public ControlProcessReferent() {
     }
 

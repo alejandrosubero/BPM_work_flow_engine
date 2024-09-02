@@ -13,10 +13,23 @@ Create on Sat Sep 30 10:44:39 EDT 2023
 
 package com.bpm.engine.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
+import com.bpm.engine.entitys.TaskAssigned;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ControlProcessReferentModel {
     private Long id;
     private String code;
@@ -28,9 +41,9 @@ public class ControlProcessReferentModel {
     private Boolean active;
     private Date dateCreate;
     private Date dateClose;
+    private List<TaskAssigned> assignes = new ArrayList<>();
 
-    public ControlProcessReferentModel() {
-    }
+  
 
     public ControlProcessReferentModel(String code, String name, String title, String status, String type, Long idReference) {
        if(null != code){
@@ -54,102 +67,7 @@ public class ControlProcessReferentModel {
     }
 
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Long getIdReference() {
-        return idReference;
-    }
-
-    public void setIdReference(Long idReference) {
-        this.idReference = idReference;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    public Date getDateCreate() {
-        return dateCreate;
-    }
-
-    public void setDateCreate(Date dateCreate) {
-        this.dateCreate = dateCreate;
-    }
-
-    public Date getDateClose() {
-        return dateClose;
-    }
-
-    public void setDateClose(Date dateClose) {
-        this.dateClose = dateClose;
-    }
-
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ControlProcessReferentModel controlprocessmodel = (ControlProcessReferentModel) o;
-        return Objects.equals(id, controlprocessmodel.id) ||
-                Objects.equals(code, controlprocessmodel.code) ||
-                Objects.equals(name, controlprocessmodel.name) ||
-                Objects.equals(title, controlprocessmodel.title) ||
-                Objects.equals(status, controlprocessmodel.status) ||
-                Objects.equals(type, controlprocessmodel.type) ||
-                Objects.equals(idReference, controlprocessmodel.idReference) ||
-                Objects.equals(active, controlprocessmodel.active) ||
-                Objects.equals(dateCreate, controlprocessmodel.dateCreate) ||
-                Objects.equals(dateClose, controlprocessmodel.dateClose);
-
-    }
+    
 }
  /*
  Copyright (C) 2008 Google Inc.

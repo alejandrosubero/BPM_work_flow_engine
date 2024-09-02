@@ -1,167 +1,157 @@
 {
-  "name": "we out",
-  "procesTitle": "we out system",
-  "userCreate": "hx39075",
-  "global": false,
-  "visible": true,
-  "roles": [
-    {
-      "codeRole": "w23a",
-      "description": "developer",
-      "name": "Developer"
-    }
-  ],
-  "stages": [
-    {
-      "name": "MANAGEMENT",
-      "title": "MANAGEMENT",
-      "type": "human",
-      "roles": [
-        {
-          "codeRole": "IT_manager_BPM",
-          "description": "IT manager",
-          "name": "manager"
-        }
-      ],
-      "stageNumber": 1,
-      "stages": [],
-      "tasks": [
-        {
-          "name": "Task_test_1",
-          "title": "Task Test 1",
-          "roles": [
-            {
-				"codeRole": "IT_manager_BPM",
-				"description": "IT manager",
-				"name": "manager"
-            }
-          ],
-          "rulers": [
-            {
-              "action": "0",
-              "condition": "APRUBE"
-            },
-			{
-			 "action": "2",
-			 "condition": "DENIED"
-			},
-			{
-			 "action": "999",
-			 "condition": "NOTIFICATION"
-			}
-          ],
-          "urlService": "/star",
-          "taskUrl": "http://localhost:1111/bpm/engineBpm/start",
-          "type": {
-            "type": "Human"
-          }
-        }
-      ]
-    },
-	
-*****	PENSAR MEJOR LA ETAPAS AUTOMATICAS PARA EL FLUJO DE ACTION *****
-	
-	
-	{
+	"name": "we out",
+	"procesTitle": "we out system",
+	"userCreate": "hx39075",
+	"global": false,
+	"visible": true,
+	"roles": [
+		{
+			"codeRole": "w23a",
+			"description": "developer",
+			"name": "Developer"
+		}
+	],
+	"stages": [
+		{
+			"name": "MANAGEMENT",
+			"title": "MANAGEMENT",
+			"type": "human",
+			"roles": [
+				{
+					"codeRole": "IT_manager_BPM",
+					"description": "IT manager",
+					"name": "manager"
+				}
+			],
+			"stageNumber": 1,
+			"stages": [],
+			"tasks": [
+				{
+					"name": "Vacation",
+					"title": "Vacation",
+					"roles": [
+						{
+							"codeRole": "IT_manager_BPM",
+							"description": "IT manager",
+							"name": "manager"
+						}
+					],
+					"rulers": [
+						{
+							"action": "0",
+							"condition": "APRUBE"
+						},
+						{
+							"action": "2",
+							"condition": "DENIED"
+						}
+					],
+					"urlService": "/star",
+					"taskUrl": "http://localhost:1111/bpm/engineBpm/start",
+					"type": {
+						"type": "Human"
+					}
+				}
+			]
+		},
+		{
 			"name": "NOTIFICATION",
 			"title": "NOTIFICATION_PROCESS",
 			"type": "Auto",
 			"roles": [],
-			"stageNumber": 999,
+			"stageNumber": 2,
 			"stages": [],
 			"tasks": [
-				 {
-				  "name": "0",
-				  "title": "0",
-				  "roles": [],
-				      "rulers": [
-				        {
-				          "action": "991",
-				          "condition": "APRUBE"
-				        }
-				      ],
-				      "urlService": "NOTIFICATION_PROCESS_USER",
-				      "taskUrl": "<PAY_LOAD>",
-				      "type": {
-				        "type": "Auto"
-				      }
-				    }
-				  ]
-	 },
-	 {
-				     "name": "ACKNOWLEDGE_MANAGEMEN",
-				     "title": "ACKNOWLEDGE_MANAGEMEN",
-				     "type": "human",
-				     "roles": [
-				       {
-				         "codeRole": "IT_manager_BPM",
-				         "description": "IT manager",
-				         "name": "manager"
-				       },
-					   {
-						"codeRole": "IT_leader",
-						"description": "IT leader Bpm",
-					    "name": "leader"
-					   }
-				     ],
-				     "stageNumber": 2,
-				     "stages": [],
-				     "tasks": [
-				       {
-				         "name": "ACKNOWLEDGE__APPROVED",
-				         "title": "ACKNOWLEDGE__APPROVED",
-				         "roles": [
-				           {
+				{
+					"name": "NOTIFICATION_SYSTEM",
+					"title": "NOTIFICATION_SYSTEM",
+					"type": {
+						"type": "Auto"
+					},
+					"roles": [],
+					"rulers": [
+						{
+							"action": "3",
+							"condition": "APRUBE"
+						}
+					],
+					"urlService": "NOTIFICATION_PROCESS_USER",
+					"taskUrl": "<PAY_LOAD>"
+				}
+			]
+		},
+		{
+			"name": "ACKNOWLEDGE_MANAGEMEN",
+			"title": "ACKNOWLEDGE_MANAGEMEN",
+			"type": "human",
+			"roles": [
+				{
+					"codeRole": "IT_manager_BPM",
+					"description": "IT manager",
+					"name": "manager"
+				},
+				{
+					"codeRole": "IT_leader",
+					"description": "IT leader Bpm",
+					"name": "leader"
+				}
+			],
+			"stageNumber": 3,
+			"stages": [],
+			"tasks": [
+				{
+					"name": "ACKNOWLEDGE__APPROVED",
+					"title": "ACKNOWLEDGE__APPROVED",
+					"roles": [
+						{
 							"codeRole": "IT_leader",
 							"description": "IT leader Bpm",
 							"name": "leader"
-				           }
-				         ],
-				         "rulers": [
-				           {
-				             "action": "0",
-				             "condition": "APRUBE"
-				           },
-						{
-						 "action": "0",
-						 "condition": "DENIED"
 						}
-				         ],
-				         "urlService": "/star",
-				         "taskUrl": "http://localhost:1111/bpm/engineBpm/start",
-				         "type": {
-				           "type": "Human"
-				         }
-				       }
-				     ]
-				   },
-	{
-		"name": "END",
-		"title": "CLOSE_PROCESS",
-		"type": "Auto",
-		"roles": [],
-		"stageNumber": 0,
-		"stages": [],
-		"tasks": [
-			 {
-			  "name": "0",
-			  "title": "0",
-			  "roles": [],
-			      "rulers": [
-			        {
-			          "action": "END",
-			          "condition": "APRUBE"
-			        }
-			      ],
-			      "urlService": "",
-			      "taskUrl": "",
-			      "type": {
-			        "type": "Auto"
-			      }
-			    }
-			  ]
-			}
-	
-
-  ]
+					],
+					"rulers": [
+						{
+							"action": "0",
+							"condition": "APRUBE"
+						},
+						{
+							"action": "0",
+							"condition": "DENIED"
+						}
+					],
+					"urlService": "/star",
+					"taskUrl": "http://localhost:1111/bpm/engineBpm/start",
+					"type": {
+						"type": "Human"
+					}
+				}
+			]
+		},
+		{
+			"name": "END",
+			"title": "CLOSE_PROCESS",
+			"type": "Auto",
+			"roles": [],
+			"stageNumber": 0,
+			"stages": [],
+			"tasks": [
+				{
+					"name": "CLOSE_PROCESS",
+					"title": "CLOSE_PROCESS",
+					"roles": [],
+					"rulers": [
+						{
+						   "action": "0.3",
+						   "condition": "APRUBE"
+											}
+					],
+					"urlService": "",
+					"taskUrl": "",
+					"type": {
+						"type": "Auto"
+					}
+				}
+			]
+		}
+	]
 }

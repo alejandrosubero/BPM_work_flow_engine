@@ -33,9 +33,14 @@ public class EngineBpmController {
 	@PostMapping("/create/instance/process")
 	private ResponseEntity<EntityRespone> createInstanceProcess(@RequestBody SystemRequest systemRequest) {
 		try {
-			EntityRespone entityRespone = mapperEntityRespone.setEntityTobj(
-					instanceProcessManager.createInstanceProcess(systemRequest));
-			return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.OK);
+			
+			if(systemRequest != null && systemRequest.getCodeTask() != null) {
+				EntityRespone entityRespone = mapperEntityRespone.setEntityTobj(instanceProcessManager.createInstanceProcess(systemRequest));
+				return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.OK);
+			}
+			
+			return new ResponseEntity<EntityRespone>( mapperEntityRespone.setEntityResponT("Error", "","Call which a null Object" ), HttpStatus.BAD_REQUEST);
+			
 		} catch (DataAccessException e) {
 			EntityRespone entityRespone = mapperEntityRespone.setEntityResponT(null, "Ocurrio un error", e.getMessage());
 			return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.BAD_REQUEST);
