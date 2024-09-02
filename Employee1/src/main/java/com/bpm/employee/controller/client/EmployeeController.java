@@ -1,12 +1,18 @@
-package com.bpm.employee.controller;
+package com.bpm.employee.controller.client;
 import com.bpm.employee.componet.EmployeeManager;
 import com.bpm.employee.mapper.EmpleadoMapper;
 import com.bpm.employee.mapper.MapperEntityRespone;
 import com.bpm.employee.model.AssignedModel;
+import com.bpm.employee.pojo.EmpleadoPojo;
 import com.bpm.employee.pojo.EntityRespone;
+import com.bpm.employee.pojo.HierarchicalTreePojo;
 import com.bpm.employee.validation.EmpleadoValidation;
 import com.google.gson.Gson;
 import com.bpm.employee.service.EmpleadoService;
+import com.bpm.employee.service.HierarchicalTreeService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -33,6 +39,8 @@ public class EmployeeController {
 
 	@Autowired
 	private EmployeeManager employeeManager;
+	
+
 
 
 	//http://localhost:1112/wfe/employee/user/name/{userName}
@@ -80,6 +88,28 @@ public class EmployeeController {
 		}
 	}
 
+	
+	   //http://localhost:1112/wfe/employee/connect/save/or/update/list
+    @PostMapping("/save/or/update/list")
+    private ResponseEntity<EntityRespone> saveOrUpdateEmpleado(@RequestBody List<EmpleadoPojo> empleados) {
+
+        EntityRespone entityRespone = null;
+        try {
+            entityRespone = mapperEntityRespone.setEntityTobj(
+                    empleadoService.saveListEmployees(
+                            empleadoMapper.listPojoToListEntity(
+                                    empleadoValidationService.validaListEmpleados(empleados)
+                            )));
+            return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            entityRespone = mapperEntityRespone.setEntityResponT(null, "Faill in the system (Error tray to find the employee)", e.getMessage());
+            return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.BAD_REQUEST);
+        }
+
+    }
+	
+       
+    
 	@GetMapping("/start")
 	public String startTest() {
 		return " <h1>!!!!!!!!!!!!!!!!!Hello Mundo!!!!!!!!!!!!</h1>"+ 
