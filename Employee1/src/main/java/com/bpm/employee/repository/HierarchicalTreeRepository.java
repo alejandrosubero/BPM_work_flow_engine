@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.bpm.employee.entitys.HierarchicalTree;
+
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 public interface HierarchicalTreeRepository extends CrudRepository<HierarchicalTree, Long> {
@@ -46,8 +48,10 @@ public interface HierarchicalTreeRepository extends CrudRepository<HierarchicalT
     public List<HierarchicalTree> findByAreaDivisionAndSubAreaDivisionAndPositionNumber(String areaOrDivision, String subAreaDivision, Integer positionNumber);
 
     public List<HierarchicalTree> findByHierarchyOfAreas(Integer hierarchyOfAreas);
-
-
+    
+	@Query("SELECT MAX(h.positionNumber ) FROM HierarchicalTree h WHERE h.areaDivision = ?1")
+	public List<Long> findMaxPositionNumberAreaDivisionAndPositioCode(String areaDivision);
+	
 }
  /*
  Copyright (C) 2008 Google Inc.

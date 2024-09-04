@@ -42,24 +42,20 @@ public class InstanceStageManager {
 //            processRequest.getstages().stream().forEach(stageModel -> {
 
                 //this point is create the instance stage father
-                InstanceStageModel instanceStage = new InstanceStageModel(stageModel, processRequest.getProcesCode());
-                instanceStage.setInstanceProcessId(instanceProcess.getIdInstanceProcess());
+                InstanceStageModel instanceStage = new InstanceStageModel(stageModel, processRequest.getProcesCode(), instanceProcess.getIdInstanceProcess());
 
-                if (stageModel.getStageNumber() == 1) {
-                	instanceStage.setState( SystemSate.ASSIGNED.toString());
-                }
-                
+               
                 //this point evaluate the stage internal...
                 if (!stageModel.stagesIsNoEmpty()) {
 
-                    stageModel.getstages().forEach(internalsStageModels -> {
+                	for (StageModel  internalsStageModels: stageModel.getstages()) {
+                		
+                	
+//                    stageModel.getstages().forEach(internalsStageModels -> {
 
                         //TODO: THIS POINT WORK WITH INSTANCES STAGE INTERNAL OF STAGE
-                        InstanceStageModel internalInstanceStage = new InstanceStageModel(internalsStageModels, processRequest.getProcesCode());
-                        internalInstanceStage.setInstanceProcessId(instanceProcess.getIdInstanceProcess());
-
-                        
-                        
+                        InstanceStageModel internalInstanceStage = new InstanceStageModel(internalsStageModels, processRequest.getProcesCode(), instanceProcess.getIdInstanceProcess());
+             
                         if (internalsStageModels.gettasks() != null && !internalsStageModels.gettasks().isEmpty()) {
                             internalInstanceStage.setinstancesTasks(this.taskManager.setTask(internalsStageModels, systemRequest, instanceProcess.getIdInstanceProcess()));
 
@@ -71,11 +67,17 @@ public class InstanceStageManager {
                             instanceStage.getinstanceStages().add(internalInstanceStage);
 
                         }
-                    });
+                    }
+//                    );
                     
                     //this point set task of the stage...
                     if (stageModel.gettasks() != null && !stageModel.gettasks().isEmpty()) {
                         instanceStage.setinstancesTasks(this.taskManager.setTask(stageModel, systemRequest, instanceProcess.getIdInstanceProcess()));
+                    }
+                    
+                    
+                    if (stageModel.getStageNumber() == 1) {
+                    	instanceStage.setState( SystemSate.ASSIGNED.toString());
                     }
                    
                     stageModelList.add(instanceStage);
@@ -92,3 +94,12 @@ public class InstanceStageManager {
     
     
 }
+
+
+
+
+
+
+
+
+

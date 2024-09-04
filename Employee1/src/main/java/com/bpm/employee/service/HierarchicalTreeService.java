@@ -56,6 +56,8 @@ public interface HierarchicalTreeService {
     public List<HierarchicalTreePojo> findByAreaDivisionAndSubAreaDivisionAndPositionNumber(String areaOrDivision, String subAreaDivision, Integer positionNumber);
 
     public List<HierarchicalTreePojo> findByHierarchyOfAreas(Integer hierarchyOfAreas);
+    
+    public List<Long> findMaxPositionNumberAreaDivisionAndPositioCode(String areaDivision);
 
 }
  /*

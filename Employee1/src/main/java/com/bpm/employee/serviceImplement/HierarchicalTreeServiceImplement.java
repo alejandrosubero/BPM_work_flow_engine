@@ -287,6 +287,11 @@ public class HierarchicalTreeServiceImplement implements HierarchicalTreeService
         return listaHierarchicalTree;
     }
 
+	@Override
+	public List<Long> findMaxPositionNumberAreaDivisionAndPositioCode(String areaDivision) {
+		return hierarchicaltreerepository.findMaxPositionNumberAreaDivisionAndPositioCode(areaDivision);
+	}
+
 }
 
  /*

@@ -78,6 +78,7 @@ public class EmployeeManager implements IAssigned {
         String areaEmployee = null;
         String subAreaEmployee = null;
         String positionNameEmployee = null;
+        HierarchicalTreePojo approvedHierarchicalPojo = null;
 
         if(employee != null && employee.getId() != null){
             areaEmployee = employee.getPosition().getAreaOrDivision();
@@ -85,27 +86,49 @@ public class EmployeeManager implements IAssigned {
             positionNameEmployee = employee.getPosition().getSubAreaOrDivision();
         }
 
-        if (positionCode != null) {
-            HierarchicalTreePojo approvedHierarchical = hierarchicalTreeService.findByAreaDivisionAndSubAreaDivisionAndPositionCode(areaEmployee, subAreaEmployee, positionCode);
-        } else if (employee != null && employee.getId() != null){
+//        if (positionCode != null) {
+//        	approvedHierarchicalPojo = hierarchicalTreeService.findByAreaDivisionAndSubAreaDivisionAndPositionCode(areaEmployee, subAreaEmployee, positionCode);
+//            
+//        } else 
+        	
+        	if (employee != null && employee.getId() != null){
+        	
             HierarchicalTreePojo employeeHierarchicalPosition = hierarchicalTreeService.findByPositioCode(employee.getPosition().getCode());
             Integer positionEmployee = employeeHierarchicalPosition.getPositionNumber();
+            
             List<HierarchicalTreePojo> approvedHierarchical = this.approvedHierarchical(areaEmployee, subAreaEmployee, positionEmployee);
 
             if (approvedHierarchical != null && approvedHierarchical.size() > 0) {
+            	
                 AssignedEmployeeApprove = this.getEmployeeApprove(approvedHierarchical);
-            } else {
+            }
+            
+           
+            if(AssignedEmployeeApprove == null){
+            	
                 List<HierarchicalTreePojo> approvedHierarchicalUp = this.approvedHierarchical(areaEmployee, "NONE", positionEmployee);
+                
                 if (approvedHierarchicalUp != null && approvedHierarchicalUp.size() > 0) {
+                	
                     AssignedEmployeeApprove = this.getEmployeeApprove(approvedHierarchicalUp);
-                }else{
+                    
+                } 
+                
+                if(AssignedEmployeeApprove == null){
+                	
                     AssignedEmployeeApprove = this.getApprovedHierarchyOfAreaSuper( employeeHierarchicalPosition.getHierarchyOfAreas(), positionEmployee);
+                    
                 }
             }
         }
         return AssignedEmployeeApprove;
     }
 
+    
+    
+    
+    
+    
 
     private AssignedModel getApprovedHierarchyOfAreaSuper( Integer hierarchyOfAreas, Integer positionEmployee) {
         AssignedModel assignedEmployeeApprove = null;
@@ -140,26 +163,42 @@ public class EmployeeManager implements IAssigned {
     private List<HierarchicalTreePojo> approvedHierarchical(String areaEmployee, String subAreaEmployee, Integer positionEmployee) {
         List<HierarchicalTreePojo> approvedHierarchical = null;
         try {
-            Integer positionAdd = positionEmployee + 1;
-            approvedHierarchical =
-                    hierarchicalTreeService.findByAreaDivisionAndSubAreaDivisionAndPositionNumber(
-                            areaEmployee,
-                            subAreaEmployee,
-                            positionAdd
-                    );
-
-            if (approvedHierarchical != null && approvedHierarchical.size() > 0) {
-                return approvedHierarchical;
-            } else {
-                this.approvedHierarchical(areaEmployee, subAreaEmployee, positionAdd);
-            }
-
+           
+            approvedHierarchical = approvedHierarchicalUp( areaEmployee,  subAreaEmployee,  positionEmployee);
+            return approvedHierarchical;
+       
         } catch (Exception e) {
             logger.error(e);
             e.printStackTrace();
             return null;
         }
-        return new ArrayList<>();
+    }
+    
+    
+    private  List<HierarchicalTreePojo>  approvedHierarchicalUp(String areaEmployee, String subAreaEmployee, Integer positionEmployee){
+    	
+    	Integer countItrances = 0;
+    	
+    	Integer iteranceMax = Integer.valueOf(hierarchicalTreeService.findMaxPositionNumberAreaDivisionAndPositioCode(areaEmployee).get(0).toString());
+    	
+    	
+    	 List<HierarchicalTreePojo> approvedHierarchical = null;
+    	 Integer positionAdd = positionEmployee + 1;
+    	 
+        
+    	 approvedHierarchical =
+                 hierarchicalTreeService.findByAreaDivisionAndSubAreaDivisionAndPositionNumber(
+                         areaEmployee,
+                         subAreaEmployee,
+                         positionAdd
+                 );
+    	
+    	 if(approvedHierarchical == null && positionAdd <= iteranceMax) {
+    		 countItrances ++;
+    		 approvedHierarchicalUp( areaEmployee,  subAreaEmployee,  positionAdd);
+    	 }
+    	
+    	 return approvedHierarchical;
     }
 
 
@@ -179,14 +218,18 @@ public class EmployeeManager implements IAssigned {
             empleadosNumbers.stream().forEach(numberOfEmployee -> employees.add(empleadoService.findByNumeroEmpleado(numberOfEmployee)));
         }
 
-        if (employees.size() > 0) {
+        if (!employees.isEmpty()) {
+        	
+//        	for( EmpleadoPojo empleadoPojo : employees) {
             employees.stream().forEach(empleadoPojo -> {
-                if (empleadoPojo.isActivo() && !empleadoPojo.isVacation() && !empleadoPojo.isMedicalRest() && empleadoPojo.isRelief()) {
+        		
+                if (empleadoPojo.isActivo() && !empleadoPojo.isVacation() && !empleadoPojo.isMedicalRest() && !empleadoPojo.isRelief()) {
                     employeeApprove.add(empleadoPojo);
                 }
-            });
+            }
+        	);
 
-            if (employeeApprove.size() == 0) {
+            if (employeeApprove.isEmpty()) {
                 employees.stream().forEach(empleadoPojo -> {
                     if (empleadoPojo.isRelief()) {
                         EmployeeReliefPojo relief = employeeReliefService.findByEmployeeRelief(empleadoPojo.getNumeroEmpleado());

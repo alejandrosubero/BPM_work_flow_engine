@@ -13,14 +13,11 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 
 package com.bpm.engine.model;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
-import com.bpm.engine.model.InstanceStageModel;
-import com.bpm.engine.model.AssignedModel;
-import com.bpm.engine.model.InstanceProcessModel;
-import com.bpm.engine.model.InstanceTaskModel;
 import com.bpm.engine.utility.SystemSate;
 
 public class InstanceStageModel {
@@ -93,6 +90,39 @@ public class InstanceStageModel {
             this.state = SystemSate.ASSIGNED.toString();
         }else {
             this.state = SystemSate.CREATE.toString();
+        }
+        
+    }
+    
+    
+    public InstanceStageModel(StageModel stageModel, String procesCode,Long instanceProcessId) {
+
+        this.dateStart = new Date(); // WHERE I RECIVE THIS VALUE
+        
+        if(null != procesCode){
+            this.procesCode = procesCode;
+        }
+        
+        if(null != stageModel.getName()){
+            this.name = stageModel.getName();
+        }
+        
+        if(null != stageModel.getTitle()){
+            this.title = stageModel.getTitle();
+        }
+        
+        if(null != stageModel.getStageNumber()){
+            this.stageNumber = stageModel.getStageNumber();
+        }
+
+        if(this.state != null){
+            this.state = SystemSate.ASSIGNED.toString();
+        }else {
+            this.state = SystemSate.CREATE.toString();
+        }
+        
+        if(instanceProcessId != null) {
+        	this.instanceProcessId = instanceProcessId;
         }
         
     }

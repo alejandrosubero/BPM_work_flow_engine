@@ -1,17 +1,14 @@
 package com.bpm.engine.componets;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.bpm.engine.entitys.TaskAssigned;
 import com.bpm.engine.model.ControlProcessReferentModel;
 import com.bpm.engine.model.InstanceProcessModel;
 import com.bpm.engine.model.InstanceTaskModel;
-import com.bpm.engine.model.TaskAssignedModel;
 import com.bpm.engine.service.ControlProcessReferentService;
 import com.bpm.engine.utility.Constants;
 import com.bpm.engine.utility.SystemSate;

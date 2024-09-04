@@ -18,8 +18,12 @@ import java.util.List;import java.util.Date;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import com.bpm.employee.entitys.Cargo;
 import com.bpm.employee.entitys.Empleado;
+
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -70,7 +74,17 @@ public interface EmpleadoRepository extends CrudRepository<Empleado, Long> {
 		public List<String> findNumeroEmpleadoByUserName(String userName);
 
 
-
+	    @Modifying
+	    @Transactional
+	    @Query(value = "SELECT  EMPLOYEE.ID  FROM EMPLOYEE inner join CARGO on EMPLOYEE.ID_CARGO = CARGO.ID_CARGO and CARGO.AREA_DIVISION = :areaDivision and CARGO.CODE = :cargoCode", nativeQuery = true)
+	    public List<Long> findIDEmployeeByCargoandDivisionSQL(String areaDivision, String cargoCode);
+	    
+	    
+	    
+		@Query("SELECT e.id FROM Empleado e INNER JOIN Cargo c ON e.position = c.idCargo AND c.areaDivision = ?1 AND c.code =?2")
+		public List<Long> findIdEmpleadoByAreaDivisionAndPositioCode(String areaDivision, String positioCode);
+	    
+	    
 
 	//	public List<Work>finByCreateDayBetween(Date startDate, Date endDay);
 //	@Query("SELECT p FROM Work p WHERE p.createDay BETWEEN ?1 AND ?2 AND p.active = true")

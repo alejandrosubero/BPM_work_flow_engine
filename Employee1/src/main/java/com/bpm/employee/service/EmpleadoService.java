@@ -18,6 +18,11 @@ import java.util.Date;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+
 import com.bpm.employee.entitys.*;
 import com.bpm.employee.pojo.EmpleadoPojo;
 import com.bpm.employee.entitys.*;
@@ -117,6 +122,9 @@ public interface EmpleadoService {
     public List<String> findNumeroEmpleadoByAreaDivisionAndSubAreaDivisionAndPositioCode(String areaDivision, String subAreaDivision, String positioCode);
     public List<String> findNumeroEmpleadoByUserName(String userName);
     public EmpleadoPojo findEmployeeByUserName(String userName);
+    
+  
+    
 }
  /*
  Copyright (C) 2008 Google Inc.
