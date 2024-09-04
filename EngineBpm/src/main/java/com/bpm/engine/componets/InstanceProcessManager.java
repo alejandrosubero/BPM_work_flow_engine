@@ -11,6 +11,7 @@ import com.bpm.engine.dto.SystemRequest;
 import com.bpm.engine.model.ControlProcessReferentModel;
 import com.bpm.engine.model.InstanceProcessModel;
 import com.bpm.engine.model.InstanceStageModel;
+import com.bpm.engine.model.InstanceTaskModel;
 import com.bpm.engine.model.ProcessModel;
 import com.bpm.engine.service.ControlProcessReferentService;
 import com.bpm.engine.service.InstanceProcessService;
@@ -62,13 +63,13 @@ public class InstanceProcessManager {
             
             instanceProcess.setinstanceStage(this.instanceStageManager.generate(instanceProcess, systemRequest));
             
-       
-            ControlProcessReferentModel referentModel =
-                    this.controlProcessReferentService.saveOrUpdateInternalControlProcess(
-                            new ControlProcessReferentModel(
-                            		instanceProcess.getprocess().getProcesCode(), instanceProcess.getName(),instanceProcess.getTitle(),
-                                    instanceProcess.getState(), Constants.TYPE_INSTANCE_PROCESS, instanceProcess.getIdInstanceProcess())
-                            );
+            ControlProcessReferentModel referentModel = ControlProcessReferentManager.createFromInstanceProcess(instanceProcess);
+            
+//                    this.controlProcessReferentService.saveOrUpdateInternalControlProcess(
+//                            new ControlProcessReferentModel(
+//                            		instanceProcess.getprocess().getProcesCode(), instanceProcess.getName(),instanceProcess.getTitle(),
+//                                    instanceProcess.getState(), Constants.TYPE_INSTANCE_PROCESS, instanceProcess.getIdInstanceProcess())
+//                            );
 
             instanceProcess.setIdControlProcessReferent(referentModel.getIdReference());
            
@@ -80,18 +81,8 @@ public class InstanceProcessManager {
 //TODO: FAIL THE CRETE ControlProcessReferentService FOR INTANCE_TASK.
             //This part create a ControlProcessReferentService for task into the principal Stage
             
-            instancestageModel.forEach(instanceStageModel -> {
-                instanceStageModel.getinstancesTasks().forEach(instanceTaskModel -> {
-                    this.controlProcessReferentService.saveOrUpdateInternalControlProcess(
-                            new ControlProcessReferentModel(
-                                    instanceTaskModel.getCodeTask(),
-                                    instanceTaskModel.getName(),
-                                    instanceTaskModel.getTask().getTitle(),
-                                    Constants.TYPE_INSTANCE_TASK,
-                                    instanceTaskModel.gettask().getType().getType(),
-                                    instanceTaskModel.getIdInstanceTask()));
-                });
-            });
+            instancestageModel.forEach(instanceStageModel -> ControlProcessReferentManager.createFromTask(instanceStageModel.getinstancesTasks()));
+            
         }
         
         if(instanceProcess.getIdInstanceProcess() != null){

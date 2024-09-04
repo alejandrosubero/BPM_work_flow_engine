@@ -30,6 +30,9 @@ public class ConectBpmToEmployeeService implements IBaseModel {
     @Value("${employeeServiceAssigned}")
     private String employeeServiceAssigned;
 
+    @Value("${employeeServiceAssignedNo}")
+    private String employeeServiceAssignedNo;
+   
     @Value("${employeeServiceFindUserName}")
     private String employeeServiceFindUserName;
 
@@ -52,6 +55,15 @@ public class ConectBpmToEmployeeService implements IBaseModel {
         );
     }
 
+  public AssignedModel getAssigned(String employeeNumber) {
+    	
+        return this.decodeHttpEntity(templateService.sendGetRequest(
+                new HashMap<String, String>() {{
+                            put("employeeNumber", employeeNumber);
+                        }},
+                        stringEnsamble(Arrays.asList(employeeServiceUrl, employeeServiceAssignedNo)))
+        );
+    }
 
     public AssignedModel getAssignedUserName(String userName) {
         return this.decodeHttpEntity(templateService.sendGetRequest(

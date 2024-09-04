@@ -72,7 +72,21 @@ public class EmployeeController {
 		}
 	}
 
-
+	//http://localhost:1112/wfe/employee/approve/{employeeNumber}
+	@GetMapping("/approve/{employeeNumber}")
+	private ResponseEntity<EntityRespone> findApprover(@PathVariable("employeeNumber") String employeeNumber) {
+		try {
+			AssignedModel assigned = employeeManager.findApprover(employeeNumber);
+			String menssage = assigned != null ? "Ok" : "The Approver was not Found";
+			EntityRespone entityRespone = mapperEntityRespone.setEntityRespon(assigned, menssage);
+			return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.OK);
+		} catch (DataAccessException e) {
+			EntityRespone entityRespone = mapperEntityRespone.setEntityResponT(null, "Ocurrio un error", e.getMessage());
+			return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	
 	//http://localhost:1112/wfe/employee/code/number/{employeeNumber}
 	@GetMapping("/code/number/{employeeNumber}")
 	private ResponseEntity<EntityRespone> findByEmployeeNumber(@PathVariable("employeeNumber") String numeroempleado) {

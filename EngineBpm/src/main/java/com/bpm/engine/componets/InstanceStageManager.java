@@ -4,6 +4,7 @@ import com.bpm.engine.dto.SystemRequest;
 import com.bpm.engine.model.InstanceProcessModel;
 import com.bpm.engine.model.InstanceStageModel;
 import com.bpm.engine.model.ProcessModel;
+import com.bpm.engine.model.StageModel;
 import com.bpm.engine.service.InstanceStageService;
 import com.bpm.engine.utility.SystemSate;
 
@@ -34,8 +35,11 @@ public class InstanceStageManager {
 
         if (instanceProcess.getIdInstanceProcess() != null && processRequest.codeExitStagesIsNoEmpty()) {
 
-
-            processRequest.getstages().stream().forEach(stageModel -> {
+			for (StageModel stageModel :  processRequest.getstages() ) {
+				
+//			}
+			
+//            processRequest.getstages().stream().forEach(stageModel -> {
 
                 //this point is create the instance stage father
                 InstanceStageModel instanceStage = new InstanceStageModel(stageModel, processRequest.getProcesCode());
@@ -46,7 +50,7 @@ public class InstanceStageManager {
                 }
                 
                 //this point evaluate the stage internal...
-                if (stageModel.stagesIsNoEmpty()) {
+                if (!stageModel.stagesIsNoEmpty()) {
 
                     stageModel.getstages().forEach(internalsStageModels -> {
 
@@ -77,7 +81,8 @@ public class InstanceStageManager {
                     stageModelList.add(instanceStage);
                     
                 }
-            });
+            }
+//            );
         }
 
         return stageModelList;

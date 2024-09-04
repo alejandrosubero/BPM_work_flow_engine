@@ -41,17 +41,43 @@ public class EmployeeManager implements IAssigned {
         return generateAssigned(employee);
     }
 
+    
+    public AssignedModel findApprover(String employeeNumber) {
+    	
+          EmpleadoPojo employee = null;
+          String positionCode = null;
+          
+          if (employeeNumber != null) {
+          	employee = empleadoService.findByNumeroEmpleado(employeeNumber);        	
+          }
+
+          if(employee != null && employee.getId() != null){
+        	  positionCode = employee.getPosition().getCode();
+          }
+    	return approver( employeeNumber,  positionCode,  employee);
+    }
+    
+    
     public AssignedModel findApprover(String employeeNumber, String positionCode) {
+    	
+          EmpleadoPojo employee = null;
+
+          if (employeeNumber != null) {
+          	employee = empleadoService.findByNumeroEmpleado(employeeNumber);        	
+          }
+
+          return approver( employeeNumber,  positionCode,  employee);
+    }
+    
+    
+    
+    
+    public AssignedModel approver(String employeeNumber, String positionCode, EmpleadoPojo employee) {
 
         AssignedModel AssignedEmployeeApprove = null;
-        EmpleadoPojo employee = null;
         String areaEmployee = null;
         String subAreaEmployee = null;
         String positionNameEmployee = null;
-
-        if (employeeNumber != null) {
-        	employee = empleadoService.findByNumeroEmpleado(employeeNumber);        	
-        }
 
         if(employee != null && employee.getId() != null){
             areaEmployee = employee.getPosition().getAreaOrDivision();

@@ -13,15 +13,9 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 
 package com.bpm.engine.model;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-
-import com.bpm.engine.entitys.ApprovedProcess;
-import com.bpm.engine.model.RoleModel;
 
 public class AssignedModel {
 

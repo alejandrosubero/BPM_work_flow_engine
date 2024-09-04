@@ -142,9 +142,9 @@ public class ProcessController {
 
     @GetMapping("/Getprocescode/{procescode}")
     private ResponseEntity<EntityRespone> findByProcesCode(@PathVariable("procescode") String procescode) {
-        String busca = (String) processValidationService.validation(procescode);
+//        String busca = (String) processValidationService.validation(procescode);
         try {
-            EntityRespone entityRespone = mapperEntityRespone.setEntityTobj(processService.findByProcesCode(busca));
+            EntityRespone entityRespone = mapperEntityRespone.setEntityTobj(processService.findByProcesCode(procescode));
             return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.OK);
         } catch (DataAccessException e) {
             EntityRespone entityRespone = mapperEntityRespone.setEntityResponT(null, "Ocurrio un error", e.getMessage());

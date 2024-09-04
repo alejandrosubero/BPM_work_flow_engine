@@ -1,41 +1,76 @@
 package com.bpm.engine.componets;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.bpm.engine.model.ControlProcessReferentModel;
-import com.bpm.engine.model.InstanceTaskModel;
-import com.bpm.engine.service.ControlProcessReferentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import com.bpm.engine.entitys.TaskAssigned;
+import com.bpm.engine.model.ControlProcessReferentModel;
+import com.bpm.engine.model.InstanceProcessModel;
+import com.bpm.engine.model.InstanceTaskModel;
+import com.bpm.engine.model.TaskAssignedModel;
+import com.bpm.engine.service.ControlProcessReferentService;
+import com.bpm.engine.utility.Constants;
+import com.bpm.engine.utility.SystemSate;
+
+@Component
 public class ControlProcessReferentManager {
 	
-	
-	
-	 private ControlProcessReferentService controlProcessReferentService;
+	 @Autowired
+	 private static ControlProcessReferentService controlProcessReferentService;
 	 
+	  
 	 
-	 
-	 
-	 
-	 public void createControlProcessReferentFromTask(List<InstanceTaskModel> listInstanceTaskModel) {
+	public static void createFromTask(List<InstanceTaskModel> listInstanceTaskModel) {
 		 
 		 for(InstanceTaskModel taskModel : listInstanceTaskModel) {
-			 //String code, String name, String title, String status, String type, Long idReference
-			 ControlProcessReferentModel instance = 
-					 
-					 ControlProcessReferentModel.builder()
-					 .name(null)
-					 .code(null)
-					 .title(null)
-					 .status(null)
-					 .type(null)
-					 .idReference(null)
+		
+			 ControlProcessReferentModel instance = ControlProcessReferentModel.builder()
+					 .name(taskModel.getName())
+					 .code(taskModel.getCodeTask())
+					 .title(taskModel.gettask().getTitle())
+					 .status(SystemSate.ACTIVE.toString())
+					 .type(Constants.TYPE_INSTANCE_TASK)
+					 .idReference(taskModel.getIdInstanceTask())
 					 .build();
+			 
+			 if (!taskModel.getassignes().isEmpty()) {
+				instance.setAssignes(taskModel.getassignes());
+			 }
+			 controlProcessReferentService.saveOrUpdateInternalControlProcess(instance);
 		 }
 		 
 	 }
 	 
-	 
-	 
+	public static ControlProcessReferentModel createFromInstanceProcess(InstanceProcessModel  instanceProcess) {
+		
+		 ControlProcessReferentModel instance = ControlProcessReferentModel.builder()
+				 .name(instanceProcess.getName())
+				 .code(instanceProcess.getprocess().getProcesCode())
+				 .title(instanceProcess.getTitle())
+				 .status(SystemSate.ACTIVE.toString())
+				 .type(Constants.TYPE_INSTANCE_PROCESS)
+				 .idReference(instanceProcess.getIdInstanceProcess())
+				 .build();
+		 
+		 return controlProcessReferentService.saveOrUpdateInternalControlProcess(instance);
 
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

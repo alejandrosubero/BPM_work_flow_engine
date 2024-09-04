@@ -1,6 +1,6 @@
 package com.bpm.engine.model;
 
-import javax.persistence.Column;
+
 import java.util.Objects;
 
 public class TaskAssignedModel {

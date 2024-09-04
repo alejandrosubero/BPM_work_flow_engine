@@ -41,7 +41,7 @@ public class ControlProcessReferentModel {
     private Boolean active;
     private Date dateCreate;
     private Date dateClose;
-    private List<TaskAssigned> assignes = new ArrayList<>();
+    private List<TaskAssignedModel> assignes = new ArrayList<>();
 
   
 

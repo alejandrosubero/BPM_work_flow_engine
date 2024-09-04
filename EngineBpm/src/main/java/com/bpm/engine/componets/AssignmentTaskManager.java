@@ -78,9 +78,9 @@ public class AssignmentTaskManager {
 			AssignedModel employeeCreator = this.assignedService.findByCodeEmployeeAndActive(codeEmployee, true);
 			
 			if (employeeCreator != null && employeeCreator.getemployeeRole().getCodeRole() != null) {
-				assigned = this.conectBpmToEmployeeService.getAssigned(codeEmployee, assigned.getemployeeRole().getCodeRole());
+				assigned = this.conectBpmToEmployeeService.getAssigned(codeEmployee, employeeCreator.getemployeeRole().getCodeRole());
 			} else {
-				assigned = conectBpmToEmployeeService.getAssigned(codeEmployee, null);
+				assigned = conectBpmToEmployeeService.getAssigned(codeEmployee);
 			}
 		}
 		
@@ -88,24 +88,25 @@ public class AssignmentTaskManager {
 			assigned = conectBpmToEmployeeService.getEmployeeAssignedFromEmployeeService(codeEmployee);
 		}
 		
-//		//IS NESESARY SAVE ALL 
-//		if(assigned != null) {
-//			saveAndCreteBpmAssigned(taskCode,assigned ); 
-//		}
-//		//
+		//IS NESESARY SAVE ALL 
+		if(assigned != null) {
+			saveAndCreteBpmAssigned(taskCode,assigned ); 
+		}
+		
 		
 		assignesFromRouter.add(this.getTaskAsigned(assigned, taskCode, instanceProccesId));
 		return assignesFromRouter;
 	}
 	
 	
-	
-	
+
 	public void saveAndCreteBpmAssigned(String taskCode, AssignedModel assigned ) {
 		if(assigned != null) {
-			bpmAssignedService.saveOrUpdateBpmAssigned(new BpmAssignedModel(this.assignedService.save(assigned).getId(), taskCode));
+			bpmAssignedService.saveOrUpdateBpmAssigned(
+					new BpmAssignedModel(
+							this.assignedService.save(assigned).getId(), taskCode)
+					);
 		}
-		
 	}
 	
 	
