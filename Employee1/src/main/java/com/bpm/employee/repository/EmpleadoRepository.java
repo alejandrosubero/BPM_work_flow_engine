@@ -84,7 +84,12 @@ public interface EmpleadoRepository extends CrudRepository<Empleado, Long> {
 		@Query("SELECT e.id FROM Empleado e INNER JOIN Cargo c ON e.position = c.idCargo AND c.areaDivision = ?1 AND c.code =?2")
 		public List<Long> findIdEmpleadoByAreaDivisionAndPositioCode(String areaDivision, String positioCode);
 	    
-	    
+
+		@Query("SELECT e.numeroEmpleado FROM Empleado e INNER JOIN Cargo c ON e.position = c.idCargo AND c.areaDivision = ?1 AND c.subAreaDivision =?2 AND c.code =?3 AND e.activo =?4")
+		public List<String> findNumeroEmpleadoByAreaDivisionAndSubAreaDivisionAndPositioCodeAndActivo(String areaDivision, String subAreaDivision, String positioCode, Boolean activo);
+
+		
+		
 
 	//	public List<Work>finByCreateDayBetween(Date startDate, Date endDay);
 //	@Query("SELECT p FROM Work p WHERE p.createDay BETWEEN ?1 AND ?2 AND p.active = true")

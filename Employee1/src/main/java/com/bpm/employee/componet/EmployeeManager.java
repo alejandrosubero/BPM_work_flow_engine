@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class EmployeeManager implements IAssigned {
@@ -83,7 +84,7 @@ public class EmployeeManager implements IAssigned {
         if(employee != null && employee.getId() != null){
             areaEmployee = employee.getPosition().getAreaOrDivision();
             subAreaEmployee = employee.getPosition().getSubAreaOrDivision();
-            positionNameEmployee = employee.getPosition().getSubAreaOrDivision();
+            positionNameEmployee = employee.getPosition().getName();
         }
 
 //        if (positionCode != null) {
@@ -94,9 +95,9 @@ public class EmployeeManager implements IAssigned {
         	if (employee != null && employee.getId() != null){
         	
             HierarchicalTreePojo employeeHierarchicalPosition = hierarchicalTreeService.findByPositioCode(employee.getPosition().getCode());
-            Integer positionEmployee = employeeHierarchicalPosition.getPositionNumber();
+            Integer positionEmployeeNumber = employeeHierarchicalPosition.getPositionNumber();
             
-            List<HierarchicalTreePojo> approvedHierarchical = this.approvedHierarchical(areaEmployee, subAreaEmployee, positionEmployee);
+            List<HierarchicalTreePojo> approvedHierarchical = this.approvedHierarchical(areaEmployee, subAreaEmployee, positionEmployeeNumber);
 
             if (approvedHierarchical != null && approvedHierarchical.size() > 0) {
             	
@@ -106,7 +107,7 @@ public class EmployeeManager implements IAssigned {
            
             if(AssignedEmployeeApprove == null){
             	
-                List<HierarchicalTreePojo> approvedHierarchicalUp = this.approvedHierarchical(areaEmployee, "NONE", positionEmployee);
+                List<HierarchicalTreePojo> approvedHierarchicalUp = this.approvedHierarchical(areaEmployee, "NONE", positionEmployeeNumber);
                 
                 if (approvedHierarchicalUp != null && approvedHierarchicalUp.size() > 0) {
                 	
@@ -114,11 +115,14 @@ public class EmployeeManager implements IAssigned {
                     
                 } 
                 
-                if(AssignedEmployeeApprove == null){
-                	
-                    AssignedEmployeeApprove = this.getApprovedHierarchyOfAreaSuper( employeeHierarchicalPosition.getHierarchyOfAreas(), positionEmployee);
-                    
-                }
+                
+                //TODO: THE LOGIC IN FAIL HE SEARCH GO UP BUT IN THIS SYSTEM GO DOWN......
+                
+//                if(AssignedEmployeeApprove == null){
+//                	
+//                    AssignedEmployeeApprove = this.getApprovedHierarchyOfAreaSuper( employeeHierarchicalPosition.getHierarchyOfAreas(), positionEmployeeNumber);
+//                    
+//                }
             }
         }
         return AssignedEmployeeApprove;
@@ -160,47 +164,114 @@ public class EmployeeManager implements IAssigned {
 
 
 
-    private List<HierarchicalTreePojo> approvedHierarchical(String areaEmployee, String subAreaEmployee, Integer positionEmployee) {
-        List<HierarchicalTreePojo> approvedHierarchical = null;
-        try {
-           
-            approvedHierarchical = approvedHierarchicalUp( areaEmployee,  subAreaEmployee,  positionEmployee);
-            return approvedHierarchical;
-       
-        } catch (Exception e) {
-            logger.error(e);
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    private List<HierarchicalTreePojo> approvedHierarchical(String areaEmployee, String subAreaEmployee, Integer positionEmployeeNumber) {
+//       
+//        try {
+//
+//            return approvedHierarchicalUp( areaEmployee,  subAreaEmployee,  positionEmployeeNumber);
+//       
+//        } catch (Exception e) {
+//            logger.error(e);
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
     
     
-    private  List<HierarchicalTreePojo>  approvedHierarchicalUp(String areaEmployee, String subAreaEmployee, Integer positionEmployee){
-    	
-    	Integer countItrances = 0;
-    	
-    	Integer iteranceMax = Integer.valueOf(hierarchicalTreeService.findMaxPositionNumberAreaDivisionAndPositioCode(areaEmployee).get(0).toString());
-    	
-    	
-    	 List<HierarchicalTreePojo> approvedHierarchical = null;
-    	 Integer positionAdd = positionEmployee + 1;
-    	 
-        
-    	 approvedHierarchical =
-                 hierarchicalTreeService.findByAreaDivisionAndSubAreaDivisionAndPositionNumber(
-                         areaEmployee,
-                         subAreaEmployee,
-                         positionAdd
-                 );
-    	
-    	 if(approvedHierarchical == null && positionAdd <= iteranceMax) {
-    		 countItrances ++;
-    		 approvedHierarchicalUp( areaEmployee,  subAreaEmployee,  positionAdd);
-    	 }
-    	
-    	 return approvedHierarchical;
-    }
+//    private  List<HierarchicalTreePojo>  approvedHierarchical(String areaEmployee, String subAreaEmployee, Integer positionEmployeeNumber){
+//    	
+//    	List<HierarchicalTreePojo> approvedHierarchical = new ArrayList<>();
+//    	Integer countItrances = 0;
+//    	Integer positionAdd = positionEmployeeNumber + 1;
+//    	
+//    	Integer iteranceMax = Integer.valueOf(hierarchicalTreeService.findMaxPositionNumberAreaDivisionAndPositioCode(areaEmployee).get(0).toString());
+//    	
+//    	         
+//    	 approvedHierarchical.addAll(
+//                 hierarchicalTreeService.findByAreaDivisionAndSubAreaDivisionAndPositionNumber(
+//                         areaEmployee,
+//                         subAreaEmployee,
+//                         positionAdd
+//                 ));
+//    	 
+//    	 Boolean verificEmployee = verificEmployee(approvedHierarchical);
+//    	 
+//    	 if(verificEmployee) {
+//    		 return approvedHierarchical;
+//    	 }
+//    	 
+//    	
+//    	 if(positionAdd <= iteranceMax && !verificEmployee) {
+//    		 countItrances ++;
+//    		 approvedHierarchical( areaEmployee,  subAreaEmployee,  positionAdd);
+//    	 }
+//    	
+//    	 return approvedHierarchical;
+//    }
 
+    
+    
+    private Boolean verificEmployee (List<HierarchicalTreePojo> approvedHierarchical) {
+    	
+    	 List<String> empleadosNumbers = new ArrayList<>();
+    	 
+        approvedHierarchical.stream().forEach(hierarchicalTreePojo -> {
+            if (hierarchicalTreePojo.isActivo()) {
+                empleadosNumbers.addAll(empleadoService.findNumeroEmpleadoByAreaDivisionAndSubAreaDivisionAndPositioCode(hierarchicalTreePojo.getAreaOrDivision(), hierarchicalTreePojo.getSubAreaOrDivision(), hierarchicalTreePojo.getPositioCode()));
+            }
+        });
+        
+        if(!empleadosNumbers.isEmpty()) {
+        	return true;
+        }
+        return false;
+    }
+    
+   
+    
+    private List<HierarchicalTreePojo> approvedHierarchical(String areaEmployee, String subAreaEmployee, Integer positionEmployeeNumber) {
+       
+    	List<HierarchicalTreePojo> approvedHierarchical = new ArrayList<>();
+      
+        Integer positionAdd = positionEmployeeNumber + 1;
+
+        Integer iteranceMax = Integer.valueOf(hierarchicalTreeService.findMaxPositionNumberAreaDivisionAndPositioCode(areaEmployee).get(0).toString());
+
+        approvedHierarchical.addAll(
+                hierarchicalTreeService.findByAreaDivisionAndSubAreaDivisionAndPositionNumber(
+                        areaEmployee,
+                        subAreaEmployee,
+                        positionAdd
+                ));
+
+        Boolean verificEmployee = verificEmployee(approvedHierarchical);
+
+        if (verificEmployee) {
+            return approvedHierarchical;
+        }
+
+        // Check position and call recursively only if needed
+        if (positionAdd <= iteranceMax) {
+            approvedHierarchical = new ArrayList<>();
+            
+            // Get the result from the recursive call
+            List<HierarchicalTreePojo> subList = approvedHierarchical(areaEmployee, subAreaEmployee, positionAdd);
+            
+            // Append the sub-list retrieved from recursion
+            approvedHierarchical.addAll(subList);
+            
+            // Filter the list to keep only elements where verificEmployee is true
+            
+            approvedHierarchical = approvedHierarchical.stream()
+                    .filter(e -> verificEmployee(List.of(e)))
+                    .collect(Collectors.toList());
+        }
+
+        return approvedHierarchical;
+    }
+    
+    
+    
 
     private AssignedModel getEmployeeApprove(List<HierarchicalTreePojo> approvedHierarchical) {
 

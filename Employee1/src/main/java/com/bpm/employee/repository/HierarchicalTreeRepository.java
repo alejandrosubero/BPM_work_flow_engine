@@ -46,6 +46,8 @@ public interface HierarchicalTreeRepository extends CrudRepository<HierarchicalT
     public Optional<HierarchicalTree> findByPositioCode(String positioCode);
 
     public List<HierarchicalTree> findByAreaDivisionAndSubAreaDivisionAndPositionNumber(String areaOrDivision, String subAreaDivision, Integer positionNumber);
+    
+    public List<HierarchicalTree> findByAreaDivisionAndPositionNumber(String areaOrDivision,  Integer positionNumber);
 
     public List<HierarchicalTree> findByHierarchyOfAreas(Integer hierarchyOfAreas);
     

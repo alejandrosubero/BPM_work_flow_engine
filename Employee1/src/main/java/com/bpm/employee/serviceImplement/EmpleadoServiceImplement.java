@@ -662,10 +662,11 @@ public class EmpleadoServiceImplement implements EmpleadoService, RadomCode {
     public List<String> findNumeroEmpleadoByAreaDivisionAndSubAreaDivisionAndPositioCode(String areaDivision, String subAreaDivision, String positioCode) {
         try {
             List<String> listEmpledoNumber = empleadorepository
-                    .findNumeroEmpleadoByAreaDivisionAndSubAreaDivisionAndPositioCode(
+                    .findNumeroEmpleadoByAreaDivisionAndSubAreaDivisionAndPositioCodeAndActivo(
                             areaDivision,
                             subAreaDivision,
-                            positioCode
+                            positioCode,
+                            true
                     );
             return listEmpledoNumber;
 

@@ -231,13 +231,14 @@ public class HierarchicalTreeServiceImplement implements HierarchicalTreeService
     @Override
     public List<HierarchicalTreePojo> findByAreaDivisionAndSubAreaDivisionAndPositionNumber(String areaOrDivision, String subAreaDivision, Integer positionNumber) {
         List<HierarchicalTreePojo>  response = null;
-        if(areaOrDivision != null && subAreaDivision!= null && positionNumber != null){
+        
+        if(areaOrDivision != null && subAreaDivision!= null && !subAreaDivision.equals("NONE") && positionNumber != null){
             response = hierarchicaltreeMapper.entityListToPojoList(
-                    this.hierarchicaltreerepository.findByAreaDivisionAndSubAreaDivisionAndPositionNumber(
-                            areaOrDivision,
-                            subAreaDivision,
-                            positionNumber)
-            ) ;
+                    this.hierarchicaltreerepository.findByAreaDivisionAndSubAreaDivisionAndPositionNumber(areaOrDivision, subAreaDivision, positionNumber));
+        } else {
+        	  response = hierarchicaltreeMapper.entityListToPojoList(
+        	this.hierarchicaltreerepository.findByAreaDivisionAndPositionNumber(areaOrDivision, positionNumber)
+        	);
         }
         return response;
     }
