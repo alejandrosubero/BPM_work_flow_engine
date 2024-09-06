@@ -80,19 +80,12 @@ public class EmployeeManager implements IAssigned {
         AssignedModel AssignedEmployeeApprove = null;
         String areaEmployee = null;
         String subAreaEmployee = null;
-        String positionNameEmployee = null;
-        HierarchicalTreePojo approvedHierarchicalPojo = null;
+
 
         if(employee != null && employee.getId() != null){
             areaEmployee = employee.getPosition().getAreaOrDivision();
             subAreaEmployee = employee.getPosition().getSubAreaOrDivision();
-            positionNameEmployee = employee.getPosition().getName();
         }
-
-//        if (positionCode != null) {
-//        	approvedHierarchicalPojo = hierarchicalTreeService.findByAreaDivisionAndSubAreaDivisionAndPositionCode(areaEmployee, subAreaEmployee, positionCode);
-//            
-//        } else 
         	
         	if (employee != null && employee.getId() != null){
         	
