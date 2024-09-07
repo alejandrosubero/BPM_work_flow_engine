@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bpm.engine.entitys.BpmAssigned;
 import com.bpm.engine.mapper.BpmAssignedMapper;
 import com.bpm.engine.model.BpmAssignedModel;
 import com.bpm.engine.repository.BpmAssignedRepository;
@@ -87,7 +88,13 @@ public class BpmAssignedServiceImplement implements BpmAssignedService {
     
 	@Override
 	public List<BpmAssignedModel> findByTaskCodeAndInstanciaProccesIdNull(String taskCode, Boolean active) {
-		 return mapper.entityListToPojoList(repository.findByTaskCodeAndActiveAndInstanciaProccesIdNull(taskCode, active));
+		
+		List<BpmAssigned> find = repository.findByTaskCodeAndActiveAndInstanciaProccesIdNull(taskCode, active);
+		
+		if(find == null || find.isEmpty()) {
+			return null;
+		}
+		 return mapper.entityListToPojoList(find);
 	}
 	
 	@Override

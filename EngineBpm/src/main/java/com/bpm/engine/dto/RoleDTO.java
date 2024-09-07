@@ -1,14 +1,25 @@
 package com.bpm.engine.dto;
 
 import com.bpm.engine.model.RoleModel;
+import com.google.gson.annotations.SerializedName;
 
 public class RoleDTO {
 
+
+    @SerializedName("idRole")
     private Long idRole;
-    private String codeRole;
-    private String name;
+
+    @SerializedName("description")
     private String description;
 
+    @SerializedName("name")
+    private String name;
+
+    @SerializedName("codeRole")
+    private String codeRole;
+    
+    
+    
     public RoleDTO() {
     }
 

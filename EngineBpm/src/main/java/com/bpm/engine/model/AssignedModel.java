@@ -47,8 +47,29 @@ public class AssignedModel {
         if(null !=approvedProcess){
             this.approvedProcess = approvedProcess;
         }
+        this.active = true;
     }
 
+    
+    public AssignedModel(String name, String codeEmployee, RoleModel employeeRole, String mail) {
+
+        if(null != name){
+            this.name = name;
+        }
+        if(null !=codeEmployee){
+            this.codeEmployee = codeEmployee;
+        }
+        if(null !=employeeRole){
+            this.employeeRole = employeeRole;
+        }
+        if(null !=mail){
+            this.mail = mail;
+        }
+       this.active = true;
+    }
+    
+    
+    
 
     public Long getId() {
         return id;

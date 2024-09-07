@@ -33,27 +33,31 @@ public class AssignmentTaskManager {
 
 	public List<TaskAssignedModel> getTaskAssigned(String taskCode, String codeEmployee, Long instanceProccesId,Integer router) {
 		List<TaskAssignedModel> assignes = new ArrayList<>();
-		try {
+		
+		if( taskCode != null &&  codeEmployee!= null &&  instanceProccesId != null && router != null) {
+
+			try {
 			
-			List<TaskAssignedModel> bpmAssigned = this.getTaskAssignedFromBpmAssigned(taskCode);
-
-			if (bpmAssigned != null && bpmAssigned.size() > 0) {
-				assignes.addAll(bpmAssigned);
-			} 
-
-			if ((bpmAssigned == null || bpmAssigned.isEmpty()) && router == 0 || router == 1) {
-				assignes.addAll(getAssigned(taskCode, codeEmployee, instanceProccesId, router));
-			}
-
-			if ((bpmAssigned == null || bpmAssigned.isEmpty()) && router == 2) {
-				assignes.addAll(this.getTaskAssignedFromBpmAssigned(taskCode));
-			}
-				
+				List<TaskAssignedModel> bpmAssigned = this.getTaskAssignedFromBpmAssigned(taskCode);
+	
+				if (bpmAssigned != null && bpmAssigned.size() > 0) {
+					assignes.addAll(bpmAssigned);
+				} 
+	
+				if ((bpmAssigned == null || bpmAssigned.isEmpty()) && router == 0 || router == 1) {
+					assignes.addAll(getAssigned(taskCode, codeEmployee, instanceProccesId, router));
+				}
+	
+				if ((bpmAssigned == null || bpmAssigned.isEmpty()) && router == 2) {
+					assignes.addAll(this.getTaskAssignedFromBpmAssigned(taskCode));
+				}
+		
 					
 		} catch (Exception e) {
 			e.printStackTrace();
 			return assignes;
 		}
+	}		
 		return assignes;
 	}
 
@@ -101,11 +105,19 @@ public class AssignmentTaskManager {
 	
 
 	public void saveAndCreteBpmAssigned(String taskCode, AssignedModel assigned ) {
-		if(assigned != null) {
-			bpmAssignedService.saveOrUpdateBpmAssigned(
-					new BpmAssignedModel(
-							this.assignedService.save(assigned).getId(), taskCode)
-					);
+		
+		try {
+		
+			if(assigned != null) {
+				AssignedModel assignedSave = this.assignedService.save(assigned);
+				if(assignedSave.getId() != null) {
+					bpmAssignedService.saveOrUpdateBpmAssigned(new BpmAssignedModel(assignedSave.getId(), taskCode));
+				}
+			}
+	
+		}catch (Exception e) {
+			e.printStackTrace();
+			//TODO: registrar en el sistema de notificacion error.
 		}
 	}
 	

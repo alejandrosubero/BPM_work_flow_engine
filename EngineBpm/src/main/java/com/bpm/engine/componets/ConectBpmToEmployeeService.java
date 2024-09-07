@@ -2,6 +2,9 @@ package com.bpm.engine.componets;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +16,9 @@ import com.bpm.engine.dto.AssignedDTO;
 import com.bpm.engine.dto.EntityRespone;
 import com.bpm.engine.interfaces.IBaseModel;
 import com.bpm.engine.model.AssignedModel;
+import com.bpm.engine.serviceImplement.ResponseAssignedDTOService;
 import com.bpm.engine.serviceImplement.RestTemplateService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 /*
@@ -43,6 +48,15 @@ public class ConectBpmToEmployeeService implements IBaseModel {
 
     @Autowired
     private RestTemplateService templateService;
+    
+    
+    @Autowired
+    private ResponseAssignedDTOService service;
+    
+      
+    
+    
+    
 
     public AssignedModel getAssigned(String employeeNumber, String positionCode) {
     	
@@ -54,6 +68,7 @@ public class ConectBpmToEmployeeService implements IBaseModel {
                         stringEnsamble(Arrays.asList(employeeServiceUrl, employeeServiceAssigned)))
         );
     }
+
 
   public AssignedModel getAssigned(String employeeNumber) {
     	
@@ -79,13 +94,23 @@ public class ConectBpmToEmployeeService implements IBaseModel {
     }
 
     private AssignedModel decodeHttpEntity(HttpEntity<String> request) {
-        String resp = "";
-        Gson gson = new Gson();
-        EntityRespone response = gson.fromJson(request.getBody(), EntityRespone.class);
-        if (response != null && response.getEntidades() != null && response.getEntidades().size() > 0) {
-            resp = (String) response.getEntidades().get(0);
-        }
-        return new ModelMapper().map(gson.fromJson(resp, AssignedDTO.class), AssignedModel.class);
+    return this.service.entitiesFromJson(request.getBody()).get(0);
     }
-
+    
+    
+    
+    public EntityRespone convertJsonToAssignedDTO2(String json)  {
+      try {
+        return new ObjectMapper().readValue(json, EntityRespone.class);
+     
+      }catch (Exception e) {
+		e.printStackTrace();
+	}
+      return null;
+    }
+    
+    public AssignedDTO convertJsonToAssignedDTO(String json) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(json, AssignedDTO.class);
+    }
 }

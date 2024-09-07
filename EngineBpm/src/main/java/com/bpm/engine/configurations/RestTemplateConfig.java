@@ -12,4 +12,4 @@ public class RestTemplateConfig {
         return new RestTemplate();
     }
 }
-// podre hacerlo mas bien un componente para no hacer un autowire de las clases para inyectar esta configuracion
+

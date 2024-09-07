@@ -13,11 +13,6 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 
 package com.bpm.engine.model;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Date;
-import java.util.ArrayList;
 import java.util.Objects;
 
 
@@ -34,13 +29,33 @@ public class RoleModel {
     public RoleModel() {
     }
 
+    
+    
+    
     public RoleModel(String description, String name, String codeRole) {
         this.description = description;
         this.name = name;
         this.codeRole = codeRole;
     }
+    
+    
+    
 
-    public Long getIdRole() {
+    public RoleModel(Long idRole, String description, String name, String codeRole) {
+	    
+    	if(idRole != null) {
+		this.idRole = idRole;
+    	}
+		this.description = description;
+		this.name = name;
+		this.codeRole = codeRole;
+	}
+
+    
+   
+    
+    
+	public Long getIdRole() {
         return idRole;
     }
 

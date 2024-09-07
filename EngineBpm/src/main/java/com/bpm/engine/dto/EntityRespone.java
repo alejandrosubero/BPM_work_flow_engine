@@ -26,6 +26,8 @@ public class EntityRespone implements Serializable {
     private String mensaje;
     private List<Object> entidades;
 
+  
+    
 
     public String getError() {
         return error;
