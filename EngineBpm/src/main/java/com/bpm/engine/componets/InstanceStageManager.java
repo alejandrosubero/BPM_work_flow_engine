@@ -54,17 +54,17 @@ public class InstanceStageManager {
 //                    stageModel.getstages().forEach(internalsStageModels -> {
 
                         //TODO: THIS POINT WORK WITH INSTANCES STAGE INTERNAL OF STAGE
-                        InstanceStageModel internalInstanceStage = new InstanceStageModel(internalsStageModels, processRequest.getProcesCode(), instanceProcess.getIdInstanceProcess());
+                        InstanceStageModel instanceInternalStage = new InstanceStageModel(internalsStageModels, processRequest.getProcesCode(), instanceProcess.getIdInstanceProcess());
              
                         if (internalsStageModels.gettasks() != null && !internalsStageModels.gettasks().isEmpty()) {
-                            internalInstanceStage.setinstancesTasks(this.taskManager.setTask(internalsStageModels, systemRequest, instanceProcess.getIdInstanceProcess()));
+                        	instanceInternalStage.setinstancesTasks(this.taskManager.setTask(internalsStageModels, systemRequest, instanceProcess.getIdInstanceProcess()));
 
                             if (internalsStageModels.getStageNumber() == 1) {
-                            	internalInstanceStage.setState( SystemSate.ASSIGNED.toString());
+                            	instanceInternalStage.setState( SystemSate.ASSIGNED.toString());
                             }
                             
                             //TODO: THIS POINT ADD TO STAGE FATHER
-                            instanceStage.getinstanceStages().add(internalInstanceStage);
+                            instanceStage.getinstanceStages().add(instanceInternalStage);
 
                         }
                     }

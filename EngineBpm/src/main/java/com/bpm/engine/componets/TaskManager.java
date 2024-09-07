@@ -37,7 +37,8 @@ public class TaskManager {
 		if (null != stageModel.gettasks() && !stageModel.gettasks().isEmpty()) {
 
 			stageModel.gettasks().forEach(taskModel -> {
-				//TODO: IN THE TASK EXIST ROLE FOR THIS TASK HOW USE?  
+				//TODO: IN THE TASK (systemRequest) EXIST ROLE FOR THIS TASK HOW USE?  
+				
 				if (stageModel.getStageNumber() == 1) {
 					//This point select assigned for all tasks on the first stage. 
 					taskList.add(
