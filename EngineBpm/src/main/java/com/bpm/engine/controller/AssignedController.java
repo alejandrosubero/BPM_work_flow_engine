@@ -34,6 +34,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import com.bpm.engine.model.AssignedModel;
+import com.bpm.engine.model.BpmAssignedModel;
 import com.bpm.engine.model.AssignedModel;
 import com.bpm.engine.entitys.Role;
 import com.bpm.engine.validation.RoleValidation;
@@ -47,29 +48,35 @@ import com.bpm.engine.model.RoleModel;
 @RequestMapping("/assigned")
 public class AssignedController {
 
-    @Autowired
+   
     private AssignedService assignedService;
-
-    @Autowired
-   private AssignedValidation assignedValidationService;
-
-    @Autowired
+    private AssignedValidation assignedValidationService;
     private AssignedMapper assignedMapper;
-
-    @Autowired
     private MapperEntityRespone mapperEntityRespone;
-
-    @Autowired
     private RoleValidation roleValidationService;
-
-    @Autowired
     private RoleMapper roleMapper;
-
-    @Autowired
     private BpmAssignedManager bpmAssignedManager;
+	private BpmAssignedService bpmAssignedService;
+	
+	
+	
+	@Autowired
+    public AssignedController(AssignedService assignedService, AssignedValidation assignedValidationService,
+			AssignedMapper assignedMapper, MapperEntityRespone mapperEntityRespone,
+			RoleValidation roleValidationService, RoleMapper roleMapper, BpmAssignedManager bpmAssignedManager,
+			BpmAssignedService bpmAssignedService) {
+		super();
+		this.assignedService = assignedService;
+		this.assignedValidationService = assignedValidationService;
+		this.assignedMapper = assignedMapper;
+		this.mapperEntityRespone = mapperEntityRespone;
+		this.roleValidationService = roleValidationService;
+		this.roleMapper = roleMapper;
+		this.bpmAssignedManager = bpmAssignedManager;
+		this.bpmAssignedService = bpmAssignedService;
+	}
 
-
-    /***
+	/***
      *
      * @param assignedBPM
      * @return value boolean before the save a new assigned approver
@@ -120,6 +127,27 @@ public class AssignedController {
         EntityRespone entityRespone = mapperEntityRespone.setEntityT(assignedService.findByRelacionRole(roleMapper.pojoToEntity(roleValidationService.valida(role))));
         return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.OK);
     }
+    
+    
+//	 http://localhost:1111/bpm/assigned/bpm/
+@PostMapping("/bpm")
+private ResponseEntity<EntityRespone> bpmAssignedTest(@RequestBody BpmAssignedModel bpmAssignedModel) {
+	try {
+		
+		if(bpmAssignedModel != null) {
+			EntityRespone entityRespone = mapperEntityRespone.setEntityTobj(
+					bpmAssignedService.saveOrUpdateBpmAssigned(bpmAssignedModel)
+					);
+			return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<EntityRespone>( mapperEntityRespone.setEntityResponT("Error", "","Call which a null Object" ), HttpStatus.BAD_REQUEST);
+		
+	} catch (DataAccessException e) {
+		EntityRespone entityRespone = mapperEntityRespone.setEntityResponT(null, "Ocurrio un error", e.getMessage());
+		return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.BAD_REQUEST);
+	}
+}
 
 }
  /*

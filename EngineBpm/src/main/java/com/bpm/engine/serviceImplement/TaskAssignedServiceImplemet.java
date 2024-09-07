@@ -15,10 +15,10 @@ import java.util.Optional;
 public class TaskAssignedServiceImplemet implements TaskAssignedService {
 
     @Autowired
-    TaskAssignedRepository repository;
+    private TaskAssignedRepository repository;
 
     @Autowired
-    TaskAssignedMapper mapper;
+    private TaskAssignedMapper mapper;
 
     @Override
     public List<TaskAssignedModel> findByIdBpmAssigned(Long idBpmAssigned) {

@@ -8,13 +8,23 @@ import com.bpm.engine.service.RulerService;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class RulerServiceImplemet implements RulerService {
 
     private RulerRepository repository;
     private RulerMapper mapper;
 
 
-    @Override
+    
+    @Autowired
+    public RulerServiceImplemet(RulerRepository repository, RulerMapper mapper) {
+		super();
+		this.repository = repository;
+		this.mapper = mapper;
+	}
+
+	@Override
     public RulerModel findByIdRuler(Long id) {
         return  mapper.entityToPojo(repository.findById(id).get());
     }

@@ -5,7 +5,10 @@ import com.bpm.engine.componets.ProcessManager;
 import com.bpm.engine.dto.EntityRespone;
 import com.bpm.engine.dto.SystemRequest;
 import com.bpm.engine.mapper.MapperEntityRespone;
+import com.bpm.engine.model.BpmAssignedModel;
 import com.bpm.engine.model.ProcessModel;
+import com.bpm.engine.service.BpmAssignedService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -28,6 +31,10 @@ public class EngineBpmController {
 
 	@Autowired
 	private InstanceProcessManager instanceProcessManager;
+
+	
+	
+	
 
 //		 http://localhost:1111/bpm/engineBpm/create/instance/process
 	@PostMapping("/create/instance/process")
@@ -74,7 +81,6 @@ public class EngineBpmController {
 		}
 	}
 
-	
 
 	@GetMapping("/start")
 	public String startTest() {

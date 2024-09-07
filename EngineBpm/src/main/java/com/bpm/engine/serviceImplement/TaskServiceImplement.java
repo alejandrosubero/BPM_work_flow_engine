@@ -38,6 +38,7 @@ import com.bpm.engine.entitys.TaskType;
 public class TaskServiceImplement implements TaskService {
 
     protected static final Log logger = LogFactory.getLog(TaskServiceImplement.class);
+    
     @Autowired
     private TaskRepository taskrepository;
 

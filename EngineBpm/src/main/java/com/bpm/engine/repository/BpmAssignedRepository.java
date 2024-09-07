@@ -8,10 +8,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface BpmAssignedRepository extends CrudRepository<BpmAssigned, Long> {
+public interface BpmAssignedRepository extends CrudRepository<BpmAssigned, Long>{
 
-    @SuppressWarnings("unchecked")
-	public BpmAssigned save(BpmAssigned bpmAssigned);
+
+//	public BpmAssigned save(BpmAssigned bpmAssigned);
     
     public List<BpmAssigned> findByIdAssigned(Long idAssigned);
 

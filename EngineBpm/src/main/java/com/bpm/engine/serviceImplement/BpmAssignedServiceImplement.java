@@ -18,6 +18,7 @@ public class BpmAssignedServiceImplement implements BpmAssignedService {
     @Autowired
     private BpmAssignedRepository repository;
 
+    @Autowired
     private BpmAssignedMapper mapper;
 
 
@@ -56,8 +57,12 @@ public class BpmAssignedServiceImplement implements BpmAssignedService {
             return true;
         }
         
-        if (repository.save(mapper.pojoToEntity(assigned)) != null) {
-            return true;
+        if ( assigned.getIdBpmAssigned() == null) {
+        	BpmAssigned bpmAssigned = repository.save(mapper.pojoToEntity(assigned));
+        	
+        	if(bpmAssigned.getIdBpmAssigned() != null) {
+        		return true;
+        	}
         }
         
         return false;
