@@ -40,7 +40,7 @@ public class BpmAssigned {
     @Column(name = "active", updatable = true, nullable = true, length = 100)
     private Boolean active;
     
-
+    
  
 
  
