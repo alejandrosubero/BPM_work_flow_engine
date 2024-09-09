@@ -85,10 +85,7 @@ public class InstanceProcessManager {
             				 if(instanceReferent!=null && instanceReferent.getId() != null) {
             					 instanceTask.setIdControlProcessReferent(instanceReferent.getId());
             				 }
-//            				 instance.setAssignes(getAssigned(taskModel.getCodeTask(),systemRequest,instanceProccesId, taskModel));
-//            				 instanceTask.setIdControlProcessReferent(
-//            						 .getId()
-//            						 );
+
             			 });
             			
             		 }

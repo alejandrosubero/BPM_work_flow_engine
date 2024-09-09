@@ -67,6 +67,19 @@ public class ControlProcessReferentModel {
     }
 
 
+    public void clean() {
+    	this.id = null;
+		this.code = null;
+		this.name = null;
+		this.title = null;
+		this.status = null;
+		this.type = null;
+		this.idReference = null;
+		this.active = null;
+		this.dateCreate = null;
+		this.dateClose = null;
+		this.assignes = null;
+    }
     
 }
  /*
