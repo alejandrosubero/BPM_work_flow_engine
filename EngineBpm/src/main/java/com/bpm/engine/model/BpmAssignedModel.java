@@ -33,6 +33,8 @@ public class BpmAssignedModel {
         this.taskCode = taskCode;
         this.active = true;
     }
+    
+  
 
     public void setBpmAssignedModel(BpmAssignedModel assignedBpm) {
     	

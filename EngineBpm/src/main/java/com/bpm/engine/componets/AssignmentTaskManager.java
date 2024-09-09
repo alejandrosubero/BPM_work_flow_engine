@@ -60,6 +60,12 @@ public class AssignmentTaskManager {
 	}
 	
 	
+	
+	public BpmAssignedModel getOneUserDirectAssigned(String codeEmployee, Long instanceProccesId){
+		
+		return this.getOneAssigned( null,  codeEmployee,  instanceProccesId,0);
+	}
+	
 	/***
 	 * 
 	 * @param systemRequestAssigned
@@ -197,19 +203,32 @@ public class AssignmentTaskManager {
 	
 	public BpmAssignedModel getTaskAsigned(AssignedModel assigned, String taskCode, Long instanceProccesId) {
 		
+		BpmAssignedModel bpmAssignedModel = null;
+		
 		AssignedModel assignedInSisten = assignedService.findByCodeEmployeeAndActive(assigned.getCodeEmployee(), true);
 		
 		if (assignedInSisten == null) {
 			assigned.setActive(true);
 			assignedInSisten = assignedService.save(assigned);
 		}		
-//				bpmAssignedService.instanceBpmAssigned(assignedInSisten.getId(), taskCode,instanceProccesId);
 		return new BpmAssignedModel(assignedInSisten.getId(), taskCode,instanceProccesId);
 	}
 	
 	
 	
-	
+	public BpmAssignedModel getOneAssigned(String taskCode, String codeEmployee, Long instanceProccesId,Integer router) {
+		
+		BpmAssignedModel assignesFromRouter = null;
+		AssignedModel assigned = null;
+			
+		if (router == 0) {
+			assigned = conectBpmToEmployeeService.getEmployeeAssignedFromEmployeeService(codeEmployee);
+			if(assigned != null) {
+				assignesFromRouter = this.getTaskAsigned(assigned, taskCode, instanceProccesId);  
+			}
+		}
+		return assignesFromRouter;
+	}
 	
 	
 	
