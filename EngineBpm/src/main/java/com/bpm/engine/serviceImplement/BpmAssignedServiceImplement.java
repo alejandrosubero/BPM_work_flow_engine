@@ -3,6 +3,10 @@ package com.bpm.engine.serviceImplement;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,10 @@ import com.bpm.engine.service.BpmAssignedService;
 @Service
 public class BpmAssignedServiceImplement implements BpmAssignedService {
 
+	
+	@PersistenceContext
+    private EntityManager entityManager;
+	
     @Autowired
     private BpmAssignedRepository repository;
 
@@ -85,11 +93,20 @@ public class BpmAssignedServiceImplement implements BpmAssignedService {
 
 
     @Override
+   
     public BpmAssignedModel instanceBpmAssigned(Long idAssigned, String taskCode, Long instanciaProccesId){
-        return mapper.entityToPojo(repository.save(mapper.pojoToEntity(new BpmAssignedModel(idAssigned, taskCode, instanciaProccesId))));
+    	
+    	BpmAssignedModel model = new BpmAssignedModel(idAssigned, taskCode, instanciaProccesId);
+    	BpmAssigned entity = mapper.pojoToEntity(model);
+    	BpmAssigned entitySave = repository.save(entity);
+//    	BpmAssigned entitySave = entityManager.merge(entity);
+        return mapper.entityToPojo(entitySave);
     }
 
-    
+//    @Transactional
+//    public void saveBpmAssigned(BpmAssigned bpmAssigned) {
+//        bpmAssigned = entityManager.merge(bpmAssigned);
+//    }
     
 	@Override
 	public List<BpmAssignedModel> findByTaskCodeAndInstanciaProccesIdNull(String taskCode, Boolean active) {

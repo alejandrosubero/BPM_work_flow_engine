@@ -1,8 +1,10 @@
 package com.bpm.engine.componets;
 
+import com.bpm.engine.componets.interfaces.TaskManagerI;
 import com.bpm.engine.dto.SystemRequest;
 import com.bpm.engine.model.InstanceProcessModel;
 import com.bpm.engine.model.InstanceStageModel;
+import com.bpm.engine.model.InstanceTaskModel;
 import com.bpm.engine.model.ProcessModel;
 import com.bpm.engine.model.StageModel;
 import com.bpm.engine.service.InstanceStageService;
@@ -16,16 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class InstanceStageManager {
+public class InstanceStageManager implements TaskManagerI {
 
-    private TaskManager taskManager;
-
-    @Autowired
-    public InstanceStageManager(TaskManager taskManager) {
-        this.taskManager = taskManager;
-    }
-
-
+  
     public  List<InstanceStageModel> generate(InstanceProcessModel instanceProcess, SystemRequest systemRequest) {
 
 
@@ -57,7 +52,7 @@ public class InstanceStageManager {
                         InstanceStageModel instanceInternalStage = new InstanceStageModel(internalsStageModels, processRequest.getProcesCode(), instanceProcess.getIdInstanceProcess());
              
                         if (internalsStageModels.gettasks() != null && !internalsStageModels.gettasks().isEmpty()) {
-                        	instanceInternalStage.setinstancesTasks(this.taskManager.setTask(internalsStageModels, systemRequest, instanceProcess.getIdInstanceProcess()));
+                        	instanceInternalStage.setinstancesTasks(this.setTask(internalsStageModels, systemRequest, instanceProcess.getIdInstanceProcess()));
 
                             if (internalsStageModels.getStageNumber() == 1) {
                             	instanceInternalStage.setState( SystemSate.ASSIGNED.toString());
@@ -72,7 +67,7 @@ public class InstanceStageManager {
                     
                     //this point set task of the stage...
                     if (stageModel.gettasks() != null && !stageModel.gettasks().isEmpty()) {
-                        instanceStage.setinstancesTasks(this.taskManager.setTask(stageModel, systemRequest, instanceProcess.getIdInstanceProcess()));
+                        instanceStage.setinstancesTasks(this.setTask(stageModel, systemRequest, instanceProcess.getIdInstanceProcess()));
                     }
                     
                     
@@ -91,6 +86,41 @@ public class InstanceStageManager {
     }
     
     
+    
+    
+    public  List<InstanceStageModel> setTaskAssignmentInStage(List<InstanceStageModel> stageModel, SystemRequest systemRequest) {
+    	
+    	
+    	for (InstanceStageModel stage : stageModel) {
+    		
+    		if(stage.getStageNumber() == 1 && !stage.getinstancesTasks().isEmpty() ) {
+    			List<InstanceTaskModel> newListTask = setTaskAssignment(stage.getinstancesTasks(), systemRequest);
+    			stage.setinstancesTasks(newListTask);
+    		}
+    	}
+    	return stageModel;
+    }
+    
+    
+    public  List<InstanceTaskModel> setTaskAssignment(List<InstanceTaskModel> taskModels, SystemRequest systemRequest) {
+    	
+    	//TODO: EN ESTE PUNTO HAY QUE LLAMAR AssignmentTaskManager PASANDOLE LA INFORMACION QUE REQUIERE.
+    	// HAY QUE SEPARAR DE LA BUSQUEDA DEL ASSIGNED DE BPMASSIGNED PARA UN MEJOR CONTROL 
+    	// EL MEJOR PLAN DE ACCION ES TENER UN GESTOR SEPARADO DE LOS DOS MANAGER MENCIONADOS, EL CUAL REALICE EL MERGE DE LOS DOS.
+    	// EL SISTEMA ESTA FALLANDO EN EL SALVAR EL BPMASSIGNED.
+    	// HAY QUE SEPARAR PENSANDO EN TODOS LOS CASOS QUE SE USAN PARA BUSCAR U SELECCIONAR AL ASSIGNED.
+    	// LA COMPLEJIDAD DE TODO RECIDE EN LOS LOOPS PARA LLEGAR A LAS TAREAS Y EN SALVAR LA REFERENCIA ADECUADA EN EL OBJETO REFEERENCIA.
+    	// MUY PUNTUAL EL ASSIGNER SE SALVA INDIVIDUALMENTE PARA PODER OBTENER SU REFERENCIA O ID LUEGO EL BPMASSIGNED ESTE SE DEBE DE SALVAR 
+    	// CON EL ControlProcessReferent. ALMENOS QUE ME INVENTE SALVAR UNA REFENCIA PERO SERIA UN NUEVO OBJETO.
+    	
+    	
+    	for(InstanceTaskModel task : taskModels) {
+    		.systemRequest..
+    	}
+    	
+    	
+    	return null;
+    }
     
     
 }

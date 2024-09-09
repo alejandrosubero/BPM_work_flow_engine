@@ -17,6 +17,8 @@ import com.bpm.engine.service.ControlProcessReferentService;
 import com.bpm.engine.service.InstanceProcessService;
 import com.bpm.engine.service.ProcessService;
 import com.bpm.engine.utility.Constants;
+import com.bpm.engine.utility.SystemSate;
+import com.bpm.engine.componets.ControlProcessReferentManager;
 
 
 //TODO: routed -> AssignedModel-> mach(codeEmployee) and go to -> (List<ApprovedProcessModel> approvedProcess -> ApprovedProcessModel -> processCode or idProcess are granted
@@ -29,73 +31,93 @@ public class InstanceProcessManager {
 
     private ProcessService processService;
     private InstanceProcessService instanceProcessService;
-    private ControlProcessReferentService controlProcessReferentService;
     private InstanceStageManager instanceStageManager;
-    
+    private ControlProcessReferentManager controlProcessReferentManager;
  
    
     @Autowired
     public InstanceProcessManager(ProcessService processService, InstanceProcessService instanceProcessService,
-			ControlProcessReferentService controlProcessReferentService, InstanceStageManager instanceStageManager) {
-		super();
+			InstanceStageManager instanceStageManager,ControlProcessReferentManager controlProcessReferentManager) {
 		this.processService = processService;
 		this.instanceProcessService = instanceProcessService;
-		this.controlProcessReferentService = controlProcessReferentService;
 		this.instanceStageManager = instanceStageManager;
+		this.controlProcessReferentManager = controlProcessReferentManager;
 	}
 
 
 
-	public Boolean createInstanceProcess(SystemRequest systemRequest) {
+	public InstanceProcessModel createInstanceProcess(SystemRequest systemRequest) {
+		
         ProcessModel processRequest = processService.findByProcesCode(systemRequest.getProcessCode());
-        InstanceProcessModel instanceProcess =  null;
+   	 InstanceProcessModel instanceProcess =  new InstanceProcessModel();
        
         if (processRequest != null) {
-            
+        
         	instanceProcess = instanceProcessService.saveInternal(new InstanceProcessModel(processRequest, systemRequest.getCodeEmployee()));
-        	
-        	//TODO: IN THIS POINT IS NESESARY UPDATE THE PROCES process.setState(ACTIVE.name()); BECAUSE is in use. 
-        	
+
         	processRequest.setState(ACTIVE.name());
+        	
         	this.processService.save(processRequest);
         	
         	instanceProcess.setprocess(processRequest);            
             
             instanceProcess.setinstanceStage(this.instanceStageManager.generate(instanceProcess, systemRequest));
-            
-            ControlProcessReferentModel referentModel = ControlProcessReferentManager.createFromInstanceProcess(instanceProcess);
-            
-//                    this.controlProcessReferentService.saveOrUpdateInternalControlProcess(
-//                            new ControlProcessReferentModel(
-//                            		instanceProcess.getprocess().getProcesCode(), instanceProcess.getName(),instanceProcess.getTitle(),
-//                                    instanceProcess.getState(), Constants.TYPE_INSTANCE_PROCESS, instanceProcess.getIdInstanceProcess())
-//                            );
-
-            instanceProcess.setIdControlProcessReferent(referentModel.getIdReference());
            
+
+            instanceProcess.setIdControlProcessReferent(controlProcessReferentManager.createFromInstanceProcess(instanceProcess).getId());
             instanceProcess = instanceProcessService.updateInstanceProcessII(instanceProcess);
+            final Long instanceProccesId = instanceProcess.getIdInstanceProcess();
+                    
+            instanceProcess.getinstanceStage().forEach(instanceStageModel -> {
+            	
+            	instanceStageModel.getinstanceStages().forEach(internalInstanceStageModel ->{
+            		
+            		if (internalInstanceStageModel.getStageNumber() == 1) {
+            	
+            			 internalInstanceStageModel.setState( SystemSate.ASSIGNED.toString());
+            			 
+            			 internalInstanceStageModel.getinstancesTasks().forEach(instanceTask -> {
+            				 instanceTask.setState(SystemSate.ASSIGNED.toString());
+            				 instanceTask.setProcessCode(processRequest.getProcesCode());
+            				 
+            				 ControlProcessReferentModel instanceReferent = this.controlProcessReferentManager.createFromInstanceTask(instanceTask, systemRequest, instanceProccesId);
+            				 
+            				 if(instanceReferent!=null && instanceReferent.getId() != null) {
+            					 
+            				 }
+//            				 instance.setAssignes(getAssigned(taskModel.getCodeTask(),systemRequest,instanceProccesId, taskModel));
+//            				 instanceTask.setIdControlProcessReferent(
+//            						 .getId()
+//            						 );
+            			 });
+            			
+            		 }
+            	});
+            	
+            	if (instanceStageModel.getStageNumber() == 1) {
+       		
+	       			instanceStageModel.setState( SystemSate.ASSIGNED.toString());
+	       			instanceStageModel.getinstancesTasks().forEach(instanceTask -> {
+	       				
+	       			instanceTask.setState(SystemSate.ASSIGNED.toString());
+	       		    instanceTask.setIdControlProcessReferent(
+						 controlProcessReferentManager.createFromInstanceTask(instanceTask, systemRequest, instanceProccesId).getId()
+						 );
+       			});
+       		 }
+            	
+            });
             
-         
-            List<InstanceStageModel> instancestageModel = instanceProcess.getinstanceStage();
+            instanceProcessService.saveInternal(instanceProcess);
             
-//TODO: FAIL THE CRETE ControlProcessReferentService FOR INTANCE_TASK.
-            //This part create a ControlProcessReferentService for task into the principal Stage
-            
-            instancestageModel.forEach(instanceStageModel -> ControlProcessReferentManager.createFromTask(instanceStageModel.getinstancesTasks()));
-            
-        }
         
-        if(instanceProcess.getIdInstanceProcess() != null){
-            return true;
-        }else {
-            return false;
+        if(instanceProcess != null && instanceProcess.getIdInstanceProcess() != null && instanceProcess.getIdControlProcessReferent() != null){
+            return instanceProcess;
         }
     }
+		return null;
 
-
-
-
-
-
-    
+	}
+	
+ 
 }

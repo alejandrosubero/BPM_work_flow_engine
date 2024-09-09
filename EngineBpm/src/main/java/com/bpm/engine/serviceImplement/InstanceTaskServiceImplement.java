@@ -335,7 +335,7 @@ public class InstanceTaskServiceImplement implements InstanceTaskService {
         logger.info(" Execute Task findByRelacion");
         List<InstanceTaskModel> listaInstanceTask = new ArrayList<InstanceTaskModel>();
         for (InstanceTaskModel instancetask : this.getAllInstanceTask()) {
-            if (instancetask.gettask().equals(task)) {
+            if (instancetask.getTask().equals(task)) {
                 listaInstanceTask.add(instancetask);
             }
         }

@@ -18,10 +18,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.bpm.engine.entitys.InstanceTask;
+import com.bpm.engine.entitys.Task;
+import com.bpm.engine.entitys.TaskAssigned;
 import com.bpm.engine.serviceImplement.BpmAssignedServiceImplement;
 import com.bpm.engine.utility.SystemSate;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class InstanceTaskModel {
 
     private Long idInstanceTask;
@@ -38,8 +49,7 @@ public class InstanceTaskModel {
     private String state;
     private Long idControlProcessReferent;
 
-    public InstanceTaskModel() {
-    }
+ 
 
     public InstanceTaskModel(String name, Long instanceProcessId, TaskModel task, String codeTask, String instanceProcessCode, String processCode, Date dateStart, Date dateEnd, Integer taskDueTime, List<TaskAssignedModel> assignes, String state) {
         this.name = name;
@@ -84,18 +94,13 @@ public class InstanceTaskModel {
     }
 
 
-    public InstanceTaskModel(  List<TaskAssignedModel> assignes, TaskModel taskModel,Long instanceProccesId ) {
-        this.set(taskModel);
-       this.assignes = assignes;
-       this.instanceProcessId = instanceProccesId;
-       this.state = SystemSate.ASSIGNED.toString();
-    }
+//    public InstanceTaskModel(  List<TaskAssignedModel> assignes, TaskModel taskModel,Long instanceProccesId ) {
+//        this.set(taskModel);
+//       this.assignes = assignes;
+//       this.instanceProcessId = instanceProccesId;
+//       this.state = SystemSate.ASSIGNED.toString();
+//    }
 
-    public InstanceTaskModel(  List<TaskAssignedModel> assignes, TaskModel taskModel ) {
-        this.set(taskModel);
-        this.assignes = assignes;
-        this.state = SystemSate.ASSIGNED.toString();
-    }
 
     public InstanceTaskModel(TaskModel taskModel, Long instanceProccesId ) {
         this.set(taskModel);
@@ -137,119 +142,7 @@ public class InstanceTaskModel {
     }
 
 
-    public String getProcessCode() {
-        return processCode;
-    }
-
-    public void setProcessCode(String processCode) {
-        this.processCode = processCode;
-    }
-
-    public Long getIdInstanceTask() {
-        return idInstanceTask;
-    }
-
-    public void setIdInstanceTask(Long idInstanceTask) {
-        this.idInstanceTask = idInstanceTask;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public Date getDateStart() {
-        return dateStart;
-    }
-
-    public void setDateStart(Date dateStart) {
-        this.dateStart = dateStart;
-    }
-
-    public Date getDateEnd() {
-        return dateEnd;
-    }
-
-    public void setDateEnd(Date dateEnd) {
-        this.dateEnd = dateEnd;
-    }
-
-    public String getInstanceProcessCode() {
-        return instanceProcessCode;
-    }
-
-    public void setInstanceProcessCode(String instanceProcessCode) {
-        this.instanceProcessCode = instanceProcessCode;
-    }
-
-    public String getCodeTask() {
-        return codeTask;
-    }
-
-    public void setCodeTask(String codeTask) {
-        this.codeTask = codeTask;
-    }
-
-
-    public List<TaskAssignedModel> getassignes() {
-        return assignes;
-    }
-
-    public void setassignes(List<TaskAssignedModel> assignes) {
-        this.assignes = assignes;
-    }
-
-    public TaskModel gettask() {
-        return task;
-    }
-
-    public void settask(TaskModel task) {
-        this.task = task;
-    }
-
-
-    public TaskModel getTask() {
-        return task;
-    }
-
-    public void setTask(TaskModel task) {
-        this.task = task;
-    }
-
-    public Integer getTaskDueTime() {
-        return taskDueTime;
-    }
-
-    public void setTaskDueTime(Integer taskDueTime) {
-        this.taskDueTime = taskDueTime;
-    }
-
-    public Long getInstanceProcessId() {
-        return instanceProcessId;
-    }
-
-    public void setInstanceProcessId(Long instanceProcessId) {
-        this.instanceProcessId = instanceProcessId;
-    }
-
-    public Long getIdControlProcessReferent() {
-        return idControlProcessReferent;
-    }
-
-    public void setIdControlProcessReferent(Long idControlProcessReferent) {
-        this.idControlProcessReferent = idControlProcessReferent;
-    }
+    
 }
  /*
  Copyright (C) 2008 Google Inc.

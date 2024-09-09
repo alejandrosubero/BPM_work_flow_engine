@@ -6,8 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.bpm.engine.dto.SystemRequest;
 import com.bpm.engine.model.AssignedModel;
 import com.bpm.engine.model.BpmAssignedModel;
+import com.bpm.engine.model.InstanceTaskModel;
 import com.bpm.engine.model.TaskAssignedModel;
 import com.bpm.engine.service.AssignedService;
 import com.bpm.engine.service.BpmAssignedService;
@@ -28,30 +30,79 @@ public class AssignmentTaskManager {
 		this.conectBpmToEmployeeService = conectBpmToEmployeeService;
 	}
 	
-	
-	
+	//TODO: IN THE TASK (systemRequest) EXIST ROLE FOR THIS TASK HOW USE? 
 
-	public List<TaskAssignedModel> getTaskAssigned(String taskCode, String codeEmployee, Long instanceProccesId,Integer router) {
-		List<TaskAssignedModel> assignes = new ArrayList<>();
+	
+	/***
+	 * 
+	 * @param taskModelCode
+	 * @param systemRequest
+	 * @param instanceProccesId
+	 * @return
+	 */
+	public List<BpmAssignedModel> getAssigned(String taskModelCode, SystemRequest systemRequest, Long instanceProccesId, InstanceTaskModel taskModel) {
+		List<BpmAssignedModel> taskAssignedModelList = new ArrayList<>();
+		try {			
+
+			if (systemRequest.checkAssigned(taskModelCode)) {
+				// this part is for users direct assigned router = 0		
+				taskAssignedModelList.addAll(this.getUserDirectAssigned(systemRequest.getAssigned().get(taskModelCode),  taskModelCode, instanceProccesId));
+			} else {
+					// this part is for user create the instance Process router = 1
+				taskAssignedModelList.addAll(getUseTheUserWasCreateInstanceProcess(systemRequest.getCodeEmployee(), taskModelCode,instanceProccesId, taskModel));
+			}
+			
+		} catch (Exception e){
+			e.printStackTrace();
+			return taskAssignedModelList;
+		}
+		return taskAssignedModelList;
+	}
+	
+	
+	/***
+	 * 
+	 * @param systemRequestAssigned
+	 * @param taskCode
+	 * @param instanceProccesId
+	 * @return the User's Direct Assigned (this is only for a specific task in an instance..   
+	 */
+	private List<BpmAssignedModel> getUserDirectAssigned(List<String> systemRequestAssigned, String taskCode, Long instanceProccesId){
+		List<BpmAssignedModel> list = new ArrayList<>();
+		systemRequestAssigned.forEach(codeEmployee ->
+		list.addAll(this.getTaskAssigned(taskCode, codeEmployee, instanceProccesId, 0)));
+		return list;
+	}
+	
+	/***
+	 * 
+	 * @param codeEmployee
+	 * @param taskCode
+	 * @param instanceProccesId
+	 * @return the assigned user for the user was create the request of instance.
+	 */
+	private List<BpmAssignedModel> getUseTheUserWasCreateInstanceProcess(String codeEmployee, String taskCode, Long instanceProccesId, InstanceTaskModel taskModel){
+		return this.getTaskAssigned(taskCode, codeEmployee, instanceProccesId, 1);
+		//TODO: IN THE TASK (systemRequest) EXIST ROLE FOR THIS TASK HOW USE? 
+	}
+	
+	
+	public List<BpmAssignedModel> getTaskAssigned(String taskCode, String codeEmployee, Long instanceProccesId, Integer router) {
+		List<BpmAssignedModel> assignes = new ArrayList<>();
 		
 		if( taskCode != null &&  codeEmployee!= null &&  instanceProccesId != null && router != null) {
 
 			try {
 			
-				List<TaskAssignedModel> bpmAssigned = this.getTaskAssignedFromBpmAssigned(taskCode);
+				List<BpmAssignedModel> bpmAssigned = this.getAssignedFromBpmAssigned(taskCode);
 	
 				if (bpmAssigned != null && bpmAssigned.size() > 0) {
 					assignes.addAll(bpmAssigned);
 				} 
 	
-				if ((bpmAssigned == null || bpmAssigned.isEmpty()) && router == 0 || router == 1) {
+				if ((bpmAssigned == null || bpmAssigned.isEmpty())) {
 					assignes.addAll(getAssigned(taskCode, codeEmployee, instanceProccesId, router));
-				}
-	
-				if ((bpmAssigned == null || bpmAssigned.isEmpty()) && router == 2) {
-					assignes.addAll(this.getTaskAssignedFromBpmAssigned(taskCode));
-				}
-		
+				}		
 					
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,9 +123,9 @@ public class AssignmentTaskManager {
 	 * @service call to employeeServise need wait response and check in internal assigned
 	 * @return
 	 */
-	public List<TaskAssignedModel> getAssigned(String taskCode, String codeEmployee, Long instanceProccesId,Integer router) {
+	public List<BpmAssignedModel> getAssigned(String taskCode, String codeEmployee, Long instanceProccesId,Integer router) {
 		
-		List<TaskAssignedModel> assignesFromRouter = new ArrayList<>();
+		List<BpmAssignedModel> assignesFromRouter = new ArrayList<>();
 		AssignedModel assigned = null;
 		
 		if (router == 1) {
@@ -86,32 +137,32 @@ public class AssignmentTaskManager {
 			} else {
 				assigned = conectBpmToEmployeeService.getAssigned(codeEmployee);
 			}
+			
+			if(assigned != null) {
+				assignesFromRouter.add(this.getTaskAsigned(assigned, taskCode, null));
+			}
 		}
 		
 		if (router == 0) {
 			assigned = conectBpmToEmployeeService.getEmployeeAssignedFromEmployeeService(codeEmployee);
+			if(assigned != null) {
+				assignesFromRouter.add(this.getTaskAsigned(assigned, taskCode, instanceProccesId));  
+			}
 		}
 		
-		//IS NESESARY SAVE ALL 
-		if(assigned != null) {
-			saveAndCreteBpmAssigned(taskCode,assigned ); 
-		}
 		
-		
-		assignesFromRouter.add(this.getTaskAsigned(assigned, taskCode, instanceProccesId));
 		return assignesFromRouter;
 	}
 	
 	
 
-	public void saveAndCreteBpmAssigned(String taskCode, AssignedModel assigned ) {
+	public void saveAndCreteBpmAssigned(String taskCode, AssignedModel assigned, Long instanceProccesId) {
 		
 		try {
-		
 			if(assigned != null) {
 				AssignedModel assignedSave = this.assignedService.save(assigned);
 				if(assignedSave.getId() != null) {
-					bpmAssignedService.saveOrUpdateBpmAssigned(new BpmAssignedModel(assignedSave.getId(), taskCode));
+					bpmAssignedService.saveOrUpdateBpmAssigned(new BpmAssignedModel(assignedSave.getId(), taskCode, instanceProccesId));
 				}
 			}
 	
@@ -126,17 +177,14 @@ public class AssignmentTaskManager {
 /***
  * 
  * @param taskCode
- * @return TaskAssignedModel List from BpmAssigned for taskCode were InstanciaProccesId is null? in data base.
+ * @return BpmAssignedModel List from BpmAssigned for taskCode were InstanciaProccesId is null? in data base.
  */
-	public  List<TaskAssignedModel> getTaskAssignedFromBpmAssigned(String taskCode) {
-		//TODO: require analyze for implement ...  
-		List<TaskAssignedModel> bpmAssigned = new ArrayList<>();
+	public  List<BpmAssignedModel> getAssignedFromBpmAssigned(String taskCode) { 
+		List<BpmAssignedModel> bpmAssigned = new ArrayList<>();
 		try {
-			List<BpmAssignedModel> bpmAssignedList = bpmAssignedService.findByTaskCodeAndInstanciaProccesIdNull(taskCode,true);
-			
-			if (bpmAssignedList != null && bpmAssignedList.size() > 0) {
-				bpmAssignedList.stream().forEach(bpmAssignedModel -> 
-				bpmAssigned.add(new TaskAssignedModel(bpmAssignedModel.getIdBpmAssigned())));
+			List<BpmAssignedModel> temporaryList = bpmAssignedService.findByTaskCodeAndInstanciaProccesIdNull(taskCode,true);
+			if (temporaryList != null && !temporaryList.isEmpty()) {
+				bpmAssigned.addAll(temporaryList);
 			}
 			
 		} catch (Exception e) {
@@ -147,14 +195,16 @@ public class AssignmentTaskManager {
 	}
 
 	
-	public TaskAssignedModel getTaskAsigned(AssignedModel assigned, String taskCode, Long instanceProccesId) {
+	public BpmAssignedModel getTaskAsigned(AssignedModel assigned, String taskCode, Long instanceProccesId) {
+		
 		AssignedModel assignedInSisten = assignedService.findByCodeEmployeeAndActive(assigned.getCodeEmployee(), true);
+		
 		if (assignedInSisten == null) {
 			assignedInSisten = assignedService.save(assigned);
 		}
-		BpmAssignedModel bpmAssigned = bpmAssignedService.instanceBpmAssigned(assignedInSisten.getId(), taskCode,
-				instanceProccesId);
-		return new TaskAssignedModel(bpmAssigned.getIdBpmAssigned());
+		
+		BpmAssignedModel bpmAssigned = bpmAssignedService.instanceBpmAssigned(assignedInSisten.getId(), taskCode,instanceProccesId);
+		return bpmAssigned;
 	}
 	
 	

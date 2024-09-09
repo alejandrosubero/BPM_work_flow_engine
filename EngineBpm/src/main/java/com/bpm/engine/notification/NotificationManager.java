@@ -62,8 +62,8 @@ public class NotificationManager implements IBaseModel {
 
         String urlMailSystem = parametersServices.findBykey(Constants.MAIL_CODE_SYSTEM).getValue();
 
-        if (instanceTask.getassignes() != null && instanceTask.getassignes().size() > 0) {
-            List<AssignedModel> assignesList = assignedService.findByTaskAssignedModel(instanceTask.getassignes());
+        if (instanceTask.getAssignes() != null && instanceTask.getAssignes().size() > 0) {
+            List<AssignedModel> assignesList = assignedService.findByTaskAssignedModel(instanceTask.getAssignes());
             if(assignesList != null && assignesList.size() > 0){
                 for (AssignedModel assignedModel : assignesList) {
                     mailSend = this.buildMail(instanceDataInfo, assignedModel, errorStatus);
@@ -74,7 +74,7 @@ public class NotificationManager implements IBaseModel {
 
         } else {
             //TODO: IMPLENET WHAT HAPPEN IF THE INSTANCEATASK DON'T HAD ASSIGNED. ERROR.
-            if (instanceTask.getassignes() != null && instanceTask.getassignes().size() == 0) {
+            if (instanceTask.getAssignes() != null && instanceTask.getAssignes().size() == 0) {
 //                mailSend = this.buildMail(instanceDataInfo, instanceTask.getassignes().get(0), errorStatus);
 //                ResponseEntity<String> response = templateService.sendPostRequest(urlMailSystem, mailSend);
 //                this.handlerResponse(response, instanceTask);
