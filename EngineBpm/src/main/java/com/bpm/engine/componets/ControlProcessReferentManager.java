@@ -2,6 +2,7 @@ package com.bpm.engine.componets;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ public class ControlProcessReferentManager {
 				 .status(SystemSate.ACTIVE.toString())
 				 .type(Constants.TYPE_INSTANCE_PROCESS)
 				 .idReference(instanceProcess.getIdInstanceProcess())
+				 .dateCreate(new Date())
+				 .active(true)
 				 .build();
 		 return controlProcessReferentService.saveOrUpdateInternalControlProcess(instance);
 	}
@@ -49,8 +52,11 @@ public class ControlProcessReferentManager {
 					 .status(SystemSate.ACTIVE.toString())
 					 .type(Constants.TYPE_INSTANCE_TASK)
 					 .idReference(taskModel.getIdInstanceTask())
+					 .dateCreate(new Date())
+					 .active(true)
 					 .build();
-			 
+			 instance.setAssignes(assignmentTaskManager.getAssigned(taskModel.getCodeTask(),  systemRequest, instanceProccesId, taskModel));
+			  
 				return controlProcessReferentService.saveOrUpdateInternalControlProcess(instance);
 
 	 }

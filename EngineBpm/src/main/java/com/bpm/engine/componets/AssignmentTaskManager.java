@@ -200,11 +200,11 @@ public class AssignmentTaskManager {
 		AssignedModel assignedInSisten = assignedService.findByCodeEmployeeAndActive(assigned.getCodeEmployee(), true);
 		
 		if (assignedInSisten == null) {
+			assigned.setActive(true);
 			assignedInSisten = assignedService.save(assigned);
-		}
-		
-		BpmAssignedModel bpmAssigned = bpmAssignedService.instanceBpmAssigned(assignedInSisten.getId(), taskCode,instanceProccesId);
-		return bpmAssigned;
+		}		
+//				bpmAssignedService.instanceBpmAssigned(assignedInSisten.getId(), taskCode,instanceProccesId);
+		return new BpmAssignedModel(assignedInSisten.getId(), taskCode,instanceProccesId);
 	}
 	
 	

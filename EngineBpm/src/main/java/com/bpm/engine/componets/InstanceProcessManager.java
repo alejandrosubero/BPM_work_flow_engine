@@ -56,7 +56,7 @@ public class InstanceProcessManager {
         	instanceProcess = instanceProcessService.saveInternal(new InstanceProcessModel(processRequest, systemRequest.getCodeEmployee()));
 
         	processRequest.setState(ACTIVE.name());
-        	
+        	//TODO: FALTA ACTUALIZAR EL STATUS EN EL CONTROLPROCESSREFERENT.. REQUIERE METODO UPDATE
         	this.processService.save(processRequest);
         	
         	instanceProcess.setprocess(processRequest);            
@@ -83,7 +83,7 @@ public class InstanceProcessManager {
             				 ControlProcessReferentModel instanceReferent = this.controlProcessReferentManager.createFromInstanceTask(instanceTask, systemRequest, instanceProccesId);
             				 
             				 if(instanceReferent!=null && instanceReferent.getId() != null) {
-            					 
+            					 instanceTask.setIdControlProcessReferent(instanceReferent.getId());
             				 }
 //            				 instance.setAssignes(getAssigned(taskModel.getCodeTask(),systemRequest,instanceProccesId, taskModel));
 //            				 instanceTask.setIdControlProcessReferent(
