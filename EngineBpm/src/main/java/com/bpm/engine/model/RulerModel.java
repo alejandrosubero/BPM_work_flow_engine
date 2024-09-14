@@ -8,6 +8,7 @@ public class RulerModel {
     private String condition;
     private String action;
     private String taskCode;
+    private Integer taskNumber;
 
     public RulerModel() {
     }
@@ -43,17 +44,35 @@ public class RulerModel {
     public void setAction(String action) {
         this.action = action;
     }
+    
+    
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RulerModel that = (RulerModel) o;
-        return Objects.equals(idRuler, that.idRuler) && Objects.equals(condition, that.condition) && Objects.equals(action, that.action) && Objects.equals(taskCode, that.taskCode);
-    }
+	public Integer getTaskNumber() {
+		return taskNumber;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(idRuler, condition, action, taskCode);
-    }
+	public void setTaskNumber(Integer taskNumber) {
+		this.taskNumber = taskNumber;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(action, condition, idRuler, taskCode, taskNumber);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RulerModel other = (RulerModel) obj;
+		return Objects.equals(action, other.action) && Objects.equals(condition, other.condition)
+				&& Objects.equals(idRuler, other.idRuler) && Objects.equals(taskCode, other.taskCode)
+				&& Objects.equals(taskNumber, other.taskNumber);
+	}
+
+  
 }

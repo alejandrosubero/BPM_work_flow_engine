@@ -47,25 +47,28 @@ public class Task {
     @Column(name = "name", updatable = true, nullable = true, length = 200)
     private String name;
 
+    @Column(name = "task_number", updatable = true, nullable = true, length = 200)
+    private Integer taskNumber;
+    
     @Column(name = "taskCreate", updatable = true, nullable = true, length = 200)
     private Date dateCreate;
 
     @Column(name = "taskEnd", updatable = true, nullable = true, length = 200)
     private Date taskEnd;
 
-    @Column(name = "taskDueTime", updatable = true, nullable = true, length = 40)
+    @Column(name = "taskDueTime", updatable = true, nullable = true, length = 200)
     private Integer taskDueTime;
 
-    @Column(name = "procesCode", updatable = true, nullable = true, length = 200)
+    @Column(name = "procesCode", updatable = true, nullable = true, length = 400)
     private String procesCode;
 
-    @Column(name = "taskUrl", updatable = true, nullable = true, length = 200)
+    @Column(name = "taskUrl", updatable = true, nullable = true, length = 400)
     private String taskUrl;
 
-    @Column(name = "urlService", updatable = true, nullable = true, length = 200)
+    @Column(name = "urlService", updatable = true, nullable = true, length = 400)
     private String urlService;
 
-    @Column(name = "code", updatable = true, nullable = true, length = 200)
+    @Column(name = "code", updatable = true, nullable = true, length = 400)
     private String code;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

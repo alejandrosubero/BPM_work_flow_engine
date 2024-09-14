@@ -50,6 +50,8 @@ public class TaskModel {
     private String code;
 
     private TaskTypeModel type;
+    
+    private Integer taskNumber;
 
     private List<RoleModel> roles = new ArrayList<>();
 
@@ -57,7 +59,7 @@ public class TaskModel {
 
 
 
-    public TaskModel(String title, String name, Date dateCreate, Date taskEnd, Integer taskDueTime, String procesCode, String taskUrl, String urlService, String code, TaskTypeModel type, List<RoleModel> roles, List<RulerModel> rulers) {
+    public TaskModel(String title, String name, Date dateCreate, Date taskEnd, Integer taskDueTime, String procesCode, String taskUrl, String urlService, String code, TaskTypeModel type, List<RoleModel> roles, List<RulerModel> rulers, Integer taskNumber) {
         this.title = title;
         this.name = name;
         this.dateCreate = dateCreate;
@@ -70,9 +72,8 @@ public class TaskModel {
         this.type = type;
         this.roles = roles;
         this.rulers = rulers;
+        this.taskNumber = taskNumber;
     }
-
-
 
    
 }

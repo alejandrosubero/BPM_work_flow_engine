@@ -24,5 +24,6 @@ public class Ruler {
     private String condition;
     private String action;
     private String taskCode;
+    private Integer taskNumber;
 
 }
