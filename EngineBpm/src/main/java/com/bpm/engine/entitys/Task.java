@@ -47,8 +47,6 @@ public class Task {
     @Column(name = "name", updatable = true, nullable = true, length = 200)
     private String name;
 
-    @Column(name = "task_number", updatable = true, nullable = true, length = 200)
-    private Integer taskNumber;
     
     @Column(name = "taskCreate", updatable = true, nullable = true, length = 200)
     private Date dateCreate;
@@ -77,12 +75,19 @@ public class Task {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "idTask")
+    @Builder.Default
     private List<Role> roles = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "idTask")
+    @Builder.Default
     private List<Ruler> rulers = new ArrayList<>();
+        
+    @Column(name = "task_number", updatable = true, nullable = true, length = 200)
+    private Integer taskNumber;
 
+    @Column(name = "apprube_Type", updatable = true, nullable = false, length = 100)
+    private Integer apprubeType;
 
 }
  /*

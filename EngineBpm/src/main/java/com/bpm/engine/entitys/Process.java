@@ -72,10 +72,12 @@ public class Process {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
 	@JoinColumn(name = "process_id")
+    @Builder.Default
 	private List<Stage> stages = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "process_id")
+    @Builder.Default
     private List<Role> roles = new ArrayList<>();
 
 

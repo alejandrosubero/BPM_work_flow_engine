@@ -60,20 +60,23 @@ public class Stage {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "stage_id")
+    @Builder.Default
     private List<Task> tasks = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "stage_id")
+    @Builder.Default
     private List<Stage> stages = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
     @JoinColumn(name = "stage_id")
+    @Builder.Default
     private List<Role> roles = new ArrayList<>();
 
     @Column(name = "stageNumber", updatable = true, nullable = false, length = 100)
     private Integer stageNumber;
 
-
+  
 }
  /*
  Copyright (C) 2008 Google Inc.

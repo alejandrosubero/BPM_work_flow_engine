@@ -52,28 +52,16 @@ public class TaskModel {
     private TaskTypeModel type;
     
     private Integer taskNumber;
+    
+    private Integer apprubeType;
 
+    @Builder.Default
     private List<RoleModel> roles = new ArrayList<>();
 
+    @Builder.Default
     private List<RulerModel> rulers = new ArrayList<>();
 
 
-
-    public TaskModel(String title, String name, Date dateCreate, Date taskEnd, Integer taskDueTime, String procesCode, String taskUrl, String urlService, String code, TaskTypeModel type, List<RoleModel> roles, List<RulerModel> rulers, Integer taskNumber) {
-        this.title = title;
-        this.name = name;
-        this.dateCreate = dateCreate;
-        this.taskEnd = taskEnd;
-        this.taskDueTime = taskDueTime;
-        this.procesCode = procesCode;
-        this.taskUrl = taskUrl;
-        this.urlService = urlService;
-        this.code = code;
-        this.type = type;
-        this.roles = roles;
-        this.rulers = rulers;
-        this.taskNumber = taskNumber;
-    }
 
    
 }
