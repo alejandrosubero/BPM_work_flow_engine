@@ -8,11 +8,18 @@ import com.bpm.engine.service.RulerService;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class RulerServiceImplemet implements RulerService {
 
+	 private static final Logger logger = LogManager.getLogger(RulerServiceImplemet.class);
+	
+	@Autowired
     private RulerRepository repository;
+	
+	@Autowired
     private RulerMapper mapper;
 
 

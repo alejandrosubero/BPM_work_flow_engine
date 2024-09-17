@@ -27,7 +27,7 @@ public class InstanceAbstractionModel {
 	 
 	 private String title;
 	 
-	 private TaskType type;
+	 private TaskTypeModel type;
 	 
 	 private Long idProcess;
 	 

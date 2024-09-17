@@ -1,16 +1,17 @@
 package com.bpm.engine;
 
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.Log;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 
 
 @SpringBootApplication
 public class EngineBpmApplication {
 
-		protected static final Log logger = LogFactory.getLog(EngineBpmApplication.class);
+		private static final Logger logger = LogManager.getLogger(EngineBpmApplication.class);
 		public static void main(String[] args) {
 
 		logger.info("the document  Swagger is in link: ==>  http://localhost:1111/bpm/swagger-ui.html");

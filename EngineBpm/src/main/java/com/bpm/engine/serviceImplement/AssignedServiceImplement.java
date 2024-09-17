@@ -25,8 +25,10 @@ import java.util.stream.Collectors;
 
 import com.bpm.engine.service.BpmAssignedService;
 import com.bpm.engine.service.TaskAssignedService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+//import org.apache.commons.logging.Log;
+//import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -40,7 +42,9 @@ import com.bpm.engine.entitys.Role;
 @Service
 public class AssignedServiceImplement implements AssignedService {
 
-    protected static final Log logger = LogFactory.getLog(AssignedServiceImplement.class);
+//    protected static final Log logger = LogFactory.getLog(AssignedServiceImplement.class);
+	 private static final Logger logger = LogManager.getLogger(AssignedServiceImplement.class);
+	 
     @Autowired
     private AssignedRepository assignedrepository;
 

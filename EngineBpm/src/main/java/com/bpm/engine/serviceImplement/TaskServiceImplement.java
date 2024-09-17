@@ -22,8 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+//import org.apache.commons.logging.Log;
+//import org.apache.commons.logging.LogFactory;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -37,7 +40,7 @@ import com.bpm.engine.entitys.TaskType;
 @Service
 public class TaskServiceImplement implements TaskService {
 
-    protected static final Log logger = LogFactory.getLog(TaskServiceImplement.class);
+	private static final Logger logger = LogManager.getLogger(TaskServiceImplement.class);
     
     @Autowired
     private TaskRepository taskrepository;

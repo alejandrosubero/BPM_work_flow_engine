@@ -5,6 +5,9 @@ import com.bpm.engine.mapper.TaskAssignedMapper;
 import com.bpm.engine.model.TaskAssignedModel;
 import com.bpm.engine.repository.TaskAssignedRepository;
 import com.bpm.engine.service.TaskAssignedService;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,8 @@ import java.util.Optional;
 @Service
 public class TaskAssignedServiceImplemet implements TaskAssignedService {
 
+	private static final Logger logger = LogManager.getLogger(TaskAssignedServiceImplemet.class);
+	
     @Autowired
     private TaskAssignedRepository repository;
 

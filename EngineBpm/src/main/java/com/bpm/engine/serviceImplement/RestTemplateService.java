@@ -2,6 +2,8 @@ package com.bpm.engine.serviceImplement;
 
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,6 +19,8 @@ public class RestTemplateService {
 
     private final RestTemplate restTemplate;
 
+    private static final Logger logger = LogManager.getLogger(RestTemplateService.class);
+    
     @Autowired
     public RestTemplateService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;

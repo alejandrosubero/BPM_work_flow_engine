@@ -6,8 +6,11 @@ import com.bpm.engine.mapper.TemplateMapper;
 import com.bpm.engine.model.TemplateModel;
 import com.bpm.engine.repository.TemplateRepository;
 import com.bpm.engine.service.TemplateService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+//import org.apache.commons.logging.Log;
+//import org.apache.commons.logging.LogFactory;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +29,7 @@ import java.io.File;
 @Service
 public class TemplateServiceImplement implements TemplateService {
 
-    protected static final Log logger = LogFactory.getLog(TemplateServiceImplement.class);
+	private static final Logger logger = LogManager.getLogger(TemplateServiceImplement.class);
 
     @Autowired
     private TemplateMapper templateMapper;

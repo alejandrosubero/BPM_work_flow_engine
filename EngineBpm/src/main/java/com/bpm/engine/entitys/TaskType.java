@@ -37,7 +37,7 @@ public class TaskType {
     @Id
     @GeneratedValue(generator = "sequence_mat_id_task_type_generator")
     @SequenceGenerator(name = "sequence_mat_id_task_type_generator", initialValue = 25, allocationSize = 1000)
-    @Column(name = "idTaskType", updatable = true, nullable = false, length = 25)
+    @Column(name = "id_TaskType", updatable = true, nullable = false, length = 25)
     private Long idTaskType;
 
     @Column(name = "type", updatable = true, nullable = true, length = 200)

@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -25,11 +27,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "bpm_ruler")
+@Table(name = "bpm_instance_Abstraction")
 public class InstanceAbstraction {
 	
 	 @Id
-	 @GeneratedValue(strategy = GenerationType.IDENTITY)
+	 @GeneratedValue(generator = "sequence_matInstance_Abstraction_generator")
+	 @SequenceGenerator(name = "sequence_matInstance_Abstraction_generator", initialValue = 3, allocationSize = 10000)
+	 @Column(name = "id_instance", updatable = true, nullable = true, length = 300)
 	 private Long idInstance;
 	 
 	 @Column(name = "instan_Of", updatable = true, nullable = true, length = 200)
@@ -41,7 +45,8 @@ public class InstanceAbstraction {
 	 @Column(name = "title", updatable = true, nullable = true, length = 200)
 	 private String title;
 	 
-	 @Column(name = "type", updatable = true, nullable = true, length = 200)
+	 @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	 @JoinColumn(name = "id_type")
 	 private TaskType type;
 	 
 	 @Column(name = "id_process", updatable = true, nullable = true, length = 200)
@@ -68,10 +73,10 @@ public class InstanceAbstraction {
 	 @Column(name = "is_parallel", updatable = true, nullable = true, length = 200)
 	 private Boolean isParallel;
 	 
-	 @Column(name = "active", updatable = true, nullable = true, length = 200)
+	 @Column(name = "status", updatable = true, nullable = true, length = 200)
 	 private String status;
 	 
-	 @Column(name = "", updatable = true, nullable = true, length = 200)
+	 @Column(name = "active", updatable = true, nullable = true, length = 200)
 	 private Boolean active;
 	 
 	 @Column(name = "date_create", updatable = true, nullable = true, length = 200)
@@ -116,7 +121,7 @@ public class InstanceAbstraction {
 	 @Column(name = "abstract_Field_7", updatable = true, nullable = true, length = 300)
 	 private String abstractField7;
 	 
-	 @Column(name = "abstract_Field_7", updatable = true, nullable = true, length = 300)
+	 @Column(name = "abstract_Field_8", updatable = true, nullable = true, length = 300)
 	 private String abstractField8;
 	 
 	 @Column(name = "abstract_Field_9", updatable = true, nullable = true, length = 300)

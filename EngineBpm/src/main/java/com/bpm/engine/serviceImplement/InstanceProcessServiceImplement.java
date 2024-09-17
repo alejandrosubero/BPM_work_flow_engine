@@ -43,6 +43,8 @@ import com.bpm.engine.model.AssignedModel;
 public class InstanceProcessServiceImplement implements InstanceProcessService {
 
     protected static final Log logger = LogFactory.getLog(InstanceProcessServiceImplement.class);
+    
+    
     @Autowired
     private InstanceProcessRepository instanceprocessrepository;
 

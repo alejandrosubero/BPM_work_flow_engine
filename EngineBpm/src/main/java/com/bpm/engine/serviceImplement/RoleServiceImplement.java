@@ -19,8 +19,10 @@ import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+//import org.apache.commons.logging.Log;
+//import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -31,7 +33,7 @@ import com.bpm.engine.mapper.RoleMapper;
 @Service
 public class RoleServiceImplement implements RoleService {
 
-	protected static final Log logger = LogFactory.getLog(RoleServiceImplement.class);
+	 private static final Logger logger = LogManager.getLogger(RoleServiceImplement.class);
 	
 	@Autowired
 	private RoleRepository rolerepository;
