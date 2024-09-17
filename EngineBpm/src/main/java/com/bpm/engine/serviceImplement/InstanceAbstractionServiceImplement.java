@@ -2,6 +2,8 @@ package com.bpm.engine.serviceImplement;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bpm.engine.entitys.InstanceAbstraction;
@@ -13,6 +15,8 @@ import com.bpm.engine.service.InstanceAbstractionService;
 
 
 public class InstanceAbstractionServiceImplement implements InstanceAbstractionService {
+	
+	  private static final Logger logger = LogManager.getLogger(InstanceAbstractionServiceImplement.class);
 
 	@Autowired
 	private InstanceAbstractionRepository instanceAbstractionRepository;
@@ -22,12 +26,30 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 	
 	@Override
 	public InstanceAbstractionModel findByIdInstance(Long idInstance) {
+		
+		logger.info("find By Id Instance ");
+		
 		return mapper.entityToPojo(this.instanceAbstractionRepository.findById(idInstance).get());
 	}
 	
+	
+	
 	@Override
-	public List<InstanceAbstraction> findByCodeReferent(String codeReferent) {
-		// TODO Auto-generated method stub
+	public List<InstanceAbstractionModel> findByCodeReferent(String codeReferent) {
+		logger.info("find By code Referent ");
+		
+	try {
+		
+		
+		
+	}catch (Exception e) {
+		logger.error(e.toString());
+		e.printStackTrace();
+		return null;
+		
+	}
+		
+		
 		return null;
 	}
 
