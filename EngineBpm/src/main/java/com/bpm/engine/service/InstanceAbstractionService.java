@@ -10,7 +10,7 @@ public interface InstanceAbstractionService {
 	
 	public InstanceAbstractionModel findByIdInstance(Long idInstance);
 	public List<InstanceAbstractionModel> findByCodeReferent(String codeReferent);
-	public List<InstanceAbstraction> findByUserWorked(String userWorked);
+	public List<InstanceAbstractionModel> findByUserWorked(String userWorked);
 	public List<InstanceAbstraction> findByUserCreateInstance(String userCreateInstance);
 	public List<InstanceAbstraction> findByInstanOfAndIdInstance(String instanOf, Long idInstance);
 	public List<InstanceAbstraction> findByInstanOfAndIdInstanceOfProcess(String instanOf, Long idInstanceOfProcess);
