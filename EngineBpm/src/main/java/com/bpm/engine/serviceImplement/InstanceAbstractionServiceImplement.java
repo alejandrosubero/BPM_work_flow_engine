@@ -22,43 +22,46 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 	  private static final Logger logger = LogManager.getLogger(InstanceAbstractionServiceImplement.class);
 
 	@Autowired
-	private InstanceAbstractionRepository instanceAbstractionRepository;
+	private InstanceAbstractionRepository repository;
 	
 	@Autowired
 	private InstanceAbstractionMapper mapper;
 	
-	@Override
-	public InstanceAbstractionModel findByIdInstance(Long idInstance) {
-		
-		logger.info("find By Id Instance ");
-		
-	    try {
-	    	Optional<InstanceAbstraction> consult = this.instanceAbstractionRepository.findById(idInstance);
-			
-			if(consult.isPresent()) {
-				return mapper.entityToPojo(consult.get());
-			}else {
-				logger.error(mensages(idInstance,"the instance is no present in database") );
-				return null;
-			}
-	        
-	    } catch (DataAccessException e) {
-	    	 logger.error("Error at looking the InstanceAbstraction by code referent: ", e);
-	    	 
-	        return Collections.emptyList();
-	    }
-		
-		
-	}
-	
 	
 	private <T> Object mensages(T t , String note) {
-		
 		StringBuffer mensages = new StringBuffer(note);
 		mensages.append(t.toString());
 		
 		return mensages.toString();
 	}
+	
+	
+	
+	@SuppressWarnings("finally")
+	@Override
+	public InstanceAbstractionModel findByIdInstance(Long idInstance) {
+		
+		logger.info("find By Id Instance ");
+		InstanceAbstractionModel instanceAbstractionModel= null;
+		
+	    try {
+	    	Optional<InstanceAbstraction> consult = this.repository.findById(idInstance);
+			
+			if(consult.isPresent()) {
+				instanceAbstractionModel = mapper.entityToPojo(consult.get());
+			}else {
+				logger.error(mensages(idInstance,"the instance is no present in database") );
+			}
+	        
+	    } catch (DataAccessException e) {
+	    	 logger.error("Error at looking the InstanceAbstraction by code referent: ", e);
+	    }finally {
+			return instanceAbstractionModel;
+		}
+	}
+	
+	
+
 	
 
 	@Override
@@ -72,7 +75,7 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 	    }
 	    
 	    try {
-	        return this.mapper.entityListToPojoList(this.instanceAbstractionRepository.findByCodeReferent(codeReferent));
+	        return this.mapper.entityListToPojoList(this.repository.findByCodeReferent(codeReferent));
 	        
 	    } catch (DataAccessException e) {
 	    	 logger.error("Error at looking the InstanceAbstraction by code referent: ", e);
@@ -92,10 +95,10 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 	    }
 	    
 	    try {
-	        return this.mapper.entityListToPojoList(this.instanceAbstractionRepository.findByUserWorked(userWorked));
+	        return this.mapper.entityListToPojoList(this.repository.findByUserWorked(userWorked));
 	        
 	    } catch (DataAccessException e) {
-	    	 logger.error("Error at looking the InstanceAbstraction by code referent: ", e);
+	    	 logger.error("Error at looking the InstanceAbstraction by userWorked: ", e);
 	        return Collections.emptyList();
 	    }
 	}
@@ -103,57 +106,171 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 	
 
 	@Override
-	public List<InstanceAbstraction> findByUserCreateInstance(String userCreateInstance) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<InstanceAbstractionModel> findByUserCreateInstance(String userCreateInstance) {
+		
+		 if (userCreateInstance == null || userCreateInstance.equals("")) {
+		    	logger.error("Code userWorked is null");
+		        return Collections.emptyList();
+		    }
+		    
+		    try {
+		        return this.mapper.entityListToPojoList(this.repository.findByUserCreateInstance(userCreateInstance));
+		        
+		    } catch (DataAccessException e) {
+		    	 logger.error("Error at looking the InstanceAbstraction by userCreateInstance: ", e);
+		        return Collections.emptyList();
+		    }
 	}
 
 	@Override
-	public List<InstanceAbstraction> findByInstanOfAndIdInstance(String instanOf, Long idInstance) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<InstanceAbstractionModel> findByInstanOfAndIdInstance(String instanOf, Long idInstance) {
+		
+		 if (instanOf == null || instanOf.equals("") || idInstance== null) {
+		    	logger.error("Code userWorked is null");
+		        return Collections.emptyList();
+		    }
+		    
+		    try {
+		        return this.mapper.entityListToPojoList(this.repository.findByInstanOfAndIdInstance( instanOf,  idInstance));
+		        
+		    } catch (DataAccessException e) {
+		    	 logger.error("Error at looking the InstanceAbstraction by instanOf,  idInstance: ", e);
+		        return Collections.emptyList();
+		    }
+		
 	}
 
 	@Override
-	public List<InstanceAbstraction> findByInstanOfAndIdInstanceOfProcess(String instanOf, Long idInstanceOfProcess) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<InstanceAbstractionModel> findByInstanOfAndIdInstanceOfProcess(String instanOf, Long idInstanceOfProcess) {
+		
+		 if (instanOf == null || instanOf.equals("") || idInstanceOfProcess== null) {
+		    	logger.error("Code userWorked is null");
+		        return Collections.emptyList();
+		    }
+		    
+		    try {
+		        return this.mapper.entityListToPojoList(this.repository.findByInstanOfAndIdInstanceOfProcess( instanOf, idInstanceOfProcess));
+		        
+		    } catch (DataAccessException e) {
+		    	 logger.error("Error at looking the InstanceAbstraction by instanOf, idInstanceOfProcess: ", e);
+		        return Collections.emptyList();
+		    }
 	}
 
 	@Override
-	public List<InstanceAbstraction> findByInstanOfAndIdInstanceOfProcessAndLevel(String instanOf,
-			Long idInstanceOfProcess, Integer level) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<InstanceAbstractionModel> findByInstanOfAndIdInstanceOfProcessAndLevel(String instanOf, Long idInstanceOfProcess, Integer level) {
+		
+		if ((instanOf == null || instanOf.equals("")) || idInstanceOfProcess == null || level== null) {
+		    	logger.error("Code userWorked is null");
+		        return Collections.emptyList();
+		    }
+		    
+		    try {
+		        return this.mapper.entityListToPojoList(this.repository.findByInstanOfAndIdInstanceOfProcessAndLevel( instanOf,  idInstanceOfProcess, level));
+		        
+		    } catch (DataAccessException e) {
+		    	 logger.error("Error at looking the InstanceAbstraction by instanOf, idInstanceOfProcess, level: ", e);
+		        return Collections.emptyList();
+		    }
 	}
+	
+	
 
 	@Override
 	public void updateStatus(String status, Long idInstance) {
-		// TODO Auto-generated method stub
+		try {
+			if(status !=null && !status.equals("") && idInstance !=null) {
+				this.repository.updateStatus( status, idInstance);
+			}
+			
+		} catch ( DataAccessException e) {
+			 logger.error("Error at update a InstanceAbstraction field: ", e);
+			e.printStackTrace();
+			
+		}catch(IllegalArgumentException e) {
+			logger.error("the one or all parameters are null");
+			e.printStackTrace();
+			
+		}
 		
 	}
 
 	@Override
 	public void updateActive(Boolean active, Long idInstance) {
-		// TODO Auto-generated method stub
+		
+		try {
+			if(active !=null && idInstance !=null) {
+				this.repository.updateActive( active, idInstance);
+			}
+			
+		} catch ( DataAccessException e) {
+			 logger.error("Error at update a InstanceAbstraction field: ", e);
+			e.printStackTrace();
+			
+		}catch(IllegalArgumentException e) {
+			logger.error("the one or all parameters are null");
+			e.printStackTrace();
+			
+		}
 		
 	}
 
 	@Override
 	public void updateUserWorked(String userWorked, Long idInstance) {
-		// TODO Auto-generated method stub
+		try {
+			if(userWorked !=null && !userWorked.equals("") && idInstance !=null) {
+				this.repository.updateUserWorked( userWorked, idInstance);
+			}
+			
+		} catch ( DataAccessException e) {
+			 logger.error("Error at update a InstanceAbstraction field: ", e);
+			e.printStackTrace();
+			
+		}catch(IllegalArgumentException e) {
+			logger.error("the one or all parameters are null");
+			e.printStackTrace();
+			
+		}
 		
 	}
 
 	@Override
 	public void updateInstances(List<InstanceAbstraction> instances, Long idInstance) {
-		// TODO Auto-generated method stub
+		
+		try {
+			if(instances !=null && !instances.isEmpty() && idInstance !=null) {
+				this.repository.updateInstances(instances, idInstance);
+			}
+			
+		} catch ( DataAccessException e) {
+			 logger.error("Error at update a InstanceAbstraction field: ", e);
+			e.printStackTrace();
+			
+		}catch(IllegalArgumentException e) {
+			logger.error("the one or all parameters are null");
+			e.printStackTrace();
+			
+		}
 		
 	}
 
 	@Override
 	public void updateUserWorked(Long idParent, Long idInstance) {
-		// TODO Auto-generated method stub
+		
+		try {
+			if(idParent !=null  && idInstance !=null) {
+				this.repository.updateUserWorked( idParent, idInstance);
+			}
+			
+		} catch ( DataAccessException e) {
+			 logger.error("Error at update a InstanceAbstraction field: ", e);
+			e.printStackTrace();
+			
+		}catch(IllegalArgumentException e) {
+			logger.error("the one or all parameters are null");
+			e.printStackTrace();
+			
+		}
 		
 	}
 

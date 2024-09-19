@@ -11,10 +11,10 @@ public interface InstanceAbstractionService {
 	public InstanceAbstractionModel findByIdInstance(Long idInstance);
 	public List<InstanceAbstractionModel> findByCodeReferent(String codeReferent);
 	public List<InstanceAbstractionModel> findByUserWorked(String userWorked);
-	public List<InstanceAbstraction> findByUserCreateInstance(String userCreateInstance);
-	public List<InstanceAbstraction> findByInstanOfAndIdInstance(String instanOf, Long idInstance);
-	public List<InstanceAbstraction> findByInstanOfAndIdInstanceOfProcess(String instanOf, Long idInstanceOfProcess);
-	public List<InstanceAbstraction> findByInstanOfAndIdInstanceOfProcessAndLevel(String instanOf, Long idInstanceOfProcess, Integer level);
+	public List<InstanceAbstractionModel> findByUserCreateInstance(String userCreateInstance);
+	public List<InstanceAbstractionModel> findByInstanOfAndIdInstance(String instanOf, Long idInstance);
+	public List<InstanceAbstractionModel> findByInstanOfAndIdInstanceOfProcess(String instanOf, Long idInstanceOfProcess);
+	public List<InstanceAbstractionModel> findByInstanOfAndIdInstanceOfProcessAndLevel(String instanOf, Long idInstanceOfProcess, Integer level);
 	
 	
 	//TODO: CHANGE THE VOID RETURN FOR BOOLEAN IF HAD A ERROR RETURN FALSE Y ALL OK RETURN TRUE.
