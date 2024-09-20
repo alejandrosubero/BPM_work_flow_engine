@@ -46,7 +46,7 @@ public class RulerServiceImplemet implements RulerService {
     }
 
     @Override
-    public List<RulerModel> findByAction(String action) {
+    public List<RulerModel> findByAction(Integer action) {
         List<RulerModel> find = new ArrayList<>();
         repository.findByAction(action).stream().forEach(act ->{
             find.add(mapper.entityToPojo(act));

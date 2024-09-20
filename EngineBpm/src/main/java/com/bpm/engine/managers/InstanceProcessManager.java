@@ -115,5 +115,15 @@ public class InstanceProcessManager {
 
 	}
 	
+	
+public InstanceProcessModel createInstanceProcess2(SystemRequest systemRequest) {
+		
+        ProcessModel processRequest = processService.findByProcesCode(systemRequest.getProcessCode());
+      
+       
+
+		return null;
+
+	}
  
 }

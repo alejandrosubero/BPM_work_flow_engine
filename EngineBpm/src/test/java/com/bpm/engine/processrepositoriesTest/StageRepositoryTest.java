@@ -47,8 +47,8 @@ public class StageRepositoryTest {
         return  Task.builder().name("Task_test_1").title("Task Test 1").urlService( ".....xxxx....")
                 .taskUrl("htttp....iiiiuuu...")
                 .rulers(Arrays.asList(
-                        Ruler.builder().condition("APRUBE").action("go to end").build(),
-                        Ruler.builder().condition("CANCEL").action("go to STAR").build()
+                        Ruler.builder().condition("APRUBE").action(1).build(),
+                        Ruler.builder().condition("CANCEL").action(2).build()
                 ))
                 .roles(roles)
                 .type(TaskType.builder().type("Human").build())

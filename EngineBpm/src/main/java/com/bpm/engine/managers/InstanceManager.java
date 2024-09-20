@@ -1,10 +1,13 @@
 package com.bpm.engine.managers;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bpm.engine.dto.SystemRequest;
+import com.bpm.engine.model.BpmAssignedModel;
 import com.bpm.engine.model.InstanceAbstractionModel;
 import com.bpm.engine.model.ProcessModel;
 import com.bpm.engine.model.StageModel;
@@ -18,6 +21,9 @@ public class InstanceManager {
 	
 	@Autowired
 	private InstanceAbstractionService instanceAbstractionService;
+	
+	 @Autowired
+	 private AssignmentTaskManager assignmentTaskManager;
 
 	
 
@@ -65,7 +71,7 @@ public class InstanceManager {
 	
 	
 	//TODO: RESOLVE THE PARALLEL IN  TASK
-	public InstanceAbstractionModel createFromTask(InstanceAbstractionModel parent, TaskModel task) {
+	public InstanceAbstractionModel createFromTask(InstanceAbstractionModel parent, TaskModel task, SystemRequest systemRequest) {
 		
 		InstanceAbstractionModel instance =  InstanceAbstractionModel.builder()
 		.name(task.getName())
@@ -130,6 +136,10 @@ public class InstanceManager {
 		
 		if(parent.getLevel() == 1 ) {
 			//TODO: IMPLEMENT THE ADSING USER.....
+			
+			
+			List<BpmAssignedModel> listAssigned = assignmentTaskManager.getAssigned(task.getCode(),  systemRequest, parent.getIdInstanceOfProcess());
+			
 		}
 		
 		

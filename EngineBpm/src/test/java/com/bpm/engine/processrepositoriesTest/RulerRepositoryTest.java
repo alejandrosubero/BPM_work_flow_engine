@@ -20,7 +20,7 @@ public class RulerRepositoryTest {
 
     @Test
     public  void saveRulerAndReturnRuler(){
-        String action = "go to end";
+        Integer action = 1;
         String condition = "APRUBE";
 
         //Arrange
@@ -40,7 +40,7 @@ public class RulerRepositoryTest {
     @Test
     public  void findRulerByConditionAndActionAndReturnRuler(){
         //Arrange
-        String action = "go to end";
+        Integer action = 1;
         String condition = "APRUBE";
 
         //Arrange

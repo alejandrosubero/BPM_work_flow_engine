@@ -11,6 +11,7 @@ import com.bpm.engine.model.AssignedModel;
 import com.bpm.engine.model.BpmAssignedModel;
 import com.bpm.engine.model.InstanceTaskModel;
 import com.bpm.engine.model.TaskAssignedModel;
+import com.bpm.engine.model.TaskModel;
 import com.bpm.engine.service.AssignedService;
 import com.bpm.engine.service.BpmAssignedService;
 
@@ -49,7 +50,7 @@ public class AssignmentTaskManager {
 				taskAssignedModelList.addAll(this.getUserDirectAssigned(systemRequest.getAssigned().get(taskModelCode),  taskModelCode, instanceProccesId));
 			} else {
 					// this part is for user create the instance Process router = 1
-				taskAssignedModelList.addAll(getUseTheUserWasCreateInstanceProcess(systemRequest.getCodeEmployee(), taskModelCode,instanceProccesId, taskModel));
+				taskAssignedModelList.addAll(getUseTheUserWasCreateInstanceProcess(systemRequest.getCodeEmployee(), taskModelCode,instanceProccesId));
 			}
 			
 		} catch (Exception e){
@@ -59,6 +60,26 @@ public class AssignmentTaskManager {
 		return taskAssignedModelList;
 	}
 	
+	
+	
+	public List<BpmAssignedModel> getAssigned(String taskModelCode, SystemRequest systemRequest, Long instanceProccesId) {
+		List<BpmAssignedModel> taskAssignedModelList = new ArrayList<>();
+		try {			
+
+			if (systemRequest.checkAssigned(taskModelCode)) {
+				// this part is for users direct assigned router = 0		
+				taskAssignedModelList.addAll(this.getUserDirectAssigned(systemRequest.getAssigned().get(taskModelCode),  taskModelCode, instanceProccesId));
+			} else {
+					// this part is for user create the instance Process router = 1
+				taskAssignedModelList.addAll(getUseTheUserWasCreateInstanceProcess(systemRequest.getCodeEmployee(), taskModelCode,instanceProccesId));
+			}
+			
+		} catch (Exception e){
+			e.printStackTrace();
+			return taskAssignedModelList;
+		}
+		return taskAssignedModelList;
+	}
 	
 	
 	public BpmAssignedModel getOneUserDirectAssigned(String codeEmployee, Long instanceProccesId){
@@ -87,7 +108,7 @@ public class AssignmentTaskManager {
 	 * @param instanceProccesId
 	 * @return the assigned user for the user was create the request of instance.
 	 */
-	private List<BpmAssignedModel> getUseTheUserWasCreateInstanceProcess(String codeEmployee, String taskCode, Long instanceProccesId, InstanceTaskModel taskModel){
+	private List<BpmAssignedModel> getUseTheUserWasCreateInstanceProcess(String codeEmployee, String taskCode, Long instanceProccesId){
 		return this.getTaskAssigned(taskCode, codeEmployee, instanceProccesId, 1);
 		//TODO: IN THE TASK (systemRequest) EXIST ROLE FOR THIS TASK HOW USE? 
 	}
