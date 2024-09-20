@@ -15,9 +15,9 @@ public interface InstanceAbstractionService {
 	public List<InstanceAbstractionModel> findByInstanOfAndIdInstance(String instanOf, Long idInstance);
 	public List<InstanceAbstractionModel> findByInstanOfAndIdInstanceOfProcess(String instanOf, Long idInstanceOfProcess);
 	public List<InstanceAbstractionModel> findByInstanOfAndIdInstanceOfProcessAndLevel(String instanOf, Long idInstanceOfProcess, Integer level);
+	public InstanceAbstractionModel save(InstanceAbstractionModel instance);
 	
 	
-	//TODO: CHANGE THE VOID RETURN FOR BOOLEAN IF HAD A ERROR RETURN FALSE Y ALL OK RETURN TRUE.
     void updateStatus(String status, Long idInstance);
     void updateActive(Boolean active, Long idInstance);
     void updateUserWorked(String userWorked, Long idInstance);

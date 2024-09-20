@@ -10,6 +10,7 @@ public class BpmAssignedModel {
     private String taskCode;
     private Long instanciaProccesId;
     private Boolean active;
+    private String codeEmployee;
 
     public BpmAssignedModel() {
     }
@@ -23,6 +24,23 @@ public class BpmAssignedModel {
         }
         if(null!=instanciaProccesId){
             this.instanciaProccesId = instanciaProccesId;
+        }
+        
+        this.active = true;
+    }
+    
+    public BpmAssignedModel(Long idAssigned, String taskCode, Long instanciaProccesId, String codeEmployee ) {
+        if(null!=idAssigned){
+            this.idAssigned = idAssigned;
+        }
+        if(null!=taskCode ){
+            this.taskCode = taskCode;
+        }
+        if(null!=instanciaProccesId){
+            this.instanciaProccesId = instanciaProccesId;
+        }
+        if(codeEmployee != null && !codeEmployee.equals("")) {
+        	this.codeEmployee = codeEmployee;
         }
         
         this.active = true;
@@ -93,11 +111,20 @@ public class BpmAssignedModel {
 		this.active = active;
 	}
 
+	public String getCodeEmployee() {
+		return codeEmployee;
+	}
+
+	public void setCodeEmployee(String codeEmployee) {
+		this.codeEmployee = codeEmployee;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((active == null) ? 0 : active.hashCode());
+		result = prime * result + ((codeEmployee == null) ? 0 : codeEmployee.hashCode());
 		result = prime * result + ((idAssigned == null) ? 0 : idAssigned.hashCode());
 		result = prime * result + ((idBpmAssigned == null) ? 0 : idBpmAssigned.hashCode());
 		result = prime * result + ((instanciaProccesId == null) ? 0 : instanciaProccesId.hashCode());
@@ -118,6 +145,11 @@ public class BpmAssignedModel {
 			if (other.active != null)
 				return false;
 		} else if (!active.equals(other.active))
+			return false;
+		if (codeEmployee == null) {
+			if (other.codeEmployee != null)
+				return false;
+		} else if (!codeEmployee.equals(other.codeEmployee))
 			return false;
 		if (idAssigned == null) {
 			if (other.idAssigned != null)
@@ -141,6 +173,8 @@ public class BpmAssignedModel {
 			return false;
 		return true;
 	}
+
+	
 
  
 }

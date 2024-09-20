@@ -47,7 +47,6 @@ public class Task {
     @Column(name = "name", updatable = true, nullable = true, length = 200)
     private String name;
 
-    
     @Column(name = "taskCreate", updatable = true, nullable = true, length = 200)
     private Date dateCreate;
 
@@ -89,7 +88,14 @@ public class Task {
     @Column(name = "apprube_Type", updatable = true, nullable = false, length = 100)
     private Integer apprubeType;
 
+    @Column(name = "is_parallel", updatable = true, nullable = true, length = 200)
+	 private Boolean isParallel;
+    
+    @Column(name = "parallel_with_task_Number", updatable = true, nullable = true, length = 200)
+	 private Integer parallelWithTaskNumber;
 }
+
+
  /*
  Copyright (C) 2008 Google Inc.
 * Licensed to the Apache Software Foundation (ASF) under one or more

@@ -67,7 +67,7 @@ public class InstanceAbstraction {
 	 @Column(name = "code_Referent", updatable = true, nullable = true, length = 200)
 	 private String codeReferent;
 	 
-	 @Column(name = "apprube_Type", updatable = true, nullable = true, length = 200)
+	 @Column(name = "apprube_Type", updatable = true, nullable = true)
 	 private Integer apprubeType;
 	 
 	 @Column(name = "is_parallel", updatable = true, nullable = true, length = 200)
@@ -94,7 +94,7 @@ public class InstanceAbstraction {
 	 @Column(name = "response", updatable = true, nullable = true, length = 200)
 	 private String response;
 	 
-	 @Column(name = "level", updatable = true, nullable = true, length = 200)
+	 @Column(name = "level", updatable = true, nullable = true)
 	 private Integer level;
 	 
 	 @Column(name = "abstract_Field_0", updatable = true, nullable = true, length = 300)
@@ -121,11 +121,25 @@ public class InstanceAbstraction {
 	 @Column(name = "abstract_Field_7", updatable = true, nullable = true, length = 300)
 	 private String abstractField7;
 	 
-	 @Column(name = "abstract_Field_8", updatable = true, nullable = true, length = 300)
-	 private String abstractField8;
+	 @Column(name = "abstract_Field_Number_0", updatable = true, nullable = true)
+	 private Integer abstractFieldNumber0;
 	 
-	 @Column(name = "abstract_Field_9", updatable = true, nullable = true, length = 300)
-	 private String abstractField9;
+	 @Column(name = "abstract_Field_Number_1", updatable = true, nullable = true)
+	 private Integer abstractFieldNumber1;
+	 
+	 @Column(name = "abstract_Field_Number_2", updatable = true, nullable = true)
+	 private Integer abstractFieldNumber2;
+	 
+	 @Column(name = "abstract_Field_Number_3", updatable = true, nullable = true)
+	 private Integer abstractFieldNumber3;
+	 
+	 @Column(name = "abstract_Field_Number_4", updatable = true, nullable = true)
+	 private Integer abstractFieldNumber4;
+	 
+	 @Column(name = "abstract_Field_Number_5", updatable = true, nullable = true)
+	 private Integer abstractFieldNumber5;
+	 
+	 
 	 
 	 @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false)
 	 @JoinColumn(name = "instances_id")
@@ -139,8 +153,8 @@ public class InstanceAbstraction {
 
 
 
+// the process don't have TaskType or type, apprubeType,idInstanceOfProcess, userWorked,response, and level. Only task and is possible the stages
 
-
-
+// in abstract_Field_9 for intance of process the value is the process_id represent the roles can't crete the process.
 
 

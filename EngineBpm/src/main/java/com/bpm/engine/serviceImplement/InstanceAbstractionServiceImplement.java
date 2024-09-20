@@ -276,4 +276,25 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 
 
 
+	@SuppressWarnings("finally")
+	@Override
+	public InstanceAbstractionModel save(InstanceAbstractionModel instance) {
+		InstanceAbstractionModel saveInstance = null;
+		try {
+			
+			saveInstance = mapper.entityToPojo(repository.save( mapper.pojoToEntity(instance)));
+			
+		}catch( DataAccessException e) {
+			 logger.error("Error at update a InstanceAbstraction field: ", e);
+			e.printStackTrace();	
+		}catch(IllegalArgumentException e) {
+			logger.error("the one or all parameters are null");
+			e.printStackTrace();
+		}finally {
+			return saveInstance;
+		}
+	}
+
+
+
 }

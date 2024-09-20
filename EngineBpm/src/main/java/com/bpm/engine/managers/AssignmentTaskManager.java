@@ -1,4 +1,4 @@
-package com.bpm.engine.componets;
+package com.bpm.engine.managers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -203,15 +203,20 @@ public class AssignmentTaskManager {
 	
 	public BpmAssignedModel getTaskAsigned(AssignedModel assigned, String taskCode, Long instanceProccesId) {
 		
-		BpmAssignedModel bpmAssignedModel = null;
-		
-		AssignedModel assignedInSisten = assignedService.findByCodeEmployeeAndActive(assigned.getCodeEmployee(), true);
+	try {
+			AssignedModel assignedInSisten = assignedService.findByCodeEmployeeAndActive(assigned.getCodeEmployee(), true);
 		
 		if (assignedInSisten == null) {
 			assigned.setActive(true);
 			assignedInSisten = assignedService.save(assigned);
 		}		
-		return new BpmAssignedModel(assignedInSisten.getId(), taskCode,instanceProccesId);
+		return new BpmAssignedModel(assignedInSisten.getId(), taskCode, instanceProccesId, assignedInSisten.getCodeEmployee());
+	}catch(Exception e) {
+		e.printStackTrace();
+		//TODO: registrar en el sistema de notificacion error and set logger
+		return null;
+	}
+		
 	}
 	
 	
@@ -224,7 +229,10 @@ public class AssignmentTaskManager {
 		if (router == 0) {
 			assigned = conectBpmToEmployeeService.getEmployeeAssignedFromEmployeeService(codeEmployee);
 			if(assigned != null) {
-				assignesFromRouter = this.getTaskAsigned(assigned, taskCode, instanceProccesId);  
+				BpmAssignedModel temporal = this.getTaskAsigned(assigned, taskCode, instanceProccesId);
+				if(temporal != null) {
+					assignesFromRouter = temporal;  
+				}
 			}
 		}
 		return assignesFromRouter;

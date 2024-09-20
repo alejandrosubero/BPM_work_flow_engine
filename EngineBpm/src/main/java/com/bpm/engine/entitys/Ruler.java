@@ -22,7 +22,7 @@ public class Ruler {
     @Column(name = "idRuler", updatable = true, nullable = false, length = 25)
     private Long idRuler;
     private String condition;
-    private String action;
+    private Integer action;
     private String taskCode;
     private Integer taskNumber;
 

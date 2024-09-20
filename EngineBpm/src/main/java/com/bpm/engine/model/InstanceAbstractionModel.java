@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+
 import com.bpm.engine.entitys.InstanceAbstraction;
 import com.bpm.engine.entitys.TaskType;
 
@@ -77,9 +79,17 @@ public class InstanceAbstractionModel {
 	 
 	 private String abstractField7;
 	 
-	 private String abstractField8;
+	 private Integer abstractFieldNumber0;
 	 
-	 private String abstractField9;
+	 private Integer abstractFieldNumber1;
+
+	 private Integer abstractFieldNumber2;
+	 
+	 private Integer abstractFieldNumber3;
+	 
+	 private Integer abstractFieldNumber4;
+	 
+	 private Integer abstractFieldNumber5;
 	 
 	 @Builder.Default
 	 private List<InstanceAbstraction> instances = new ArrayList<>();

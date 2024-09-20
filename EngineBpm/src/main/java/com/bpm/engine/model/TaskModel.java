@@ -54,6 +54,10 @@ public class TaskModel {
     private Integer taskNumber;
     
     private Integer apprubeType;
+    
+    private Boolean isParallel;
+    
+    private Integer parallelWithTaskNumber;
 
     @Builder.Default
     private List<RoleModel> roles = new ArrayList<>();

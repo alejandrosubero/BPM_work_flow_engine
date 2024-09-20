@@ -22,7 +22,6 @@ import java.util.List;
 @Service
 public class ApprovedProcessServiceImplement implements ApprovedProcessService {
 
-//    protected static final Log logger = LogFactory.getLog(ApprovedProcessServiceImplement.class);
     private static final Logger logger = LogManager.getLogger(ApprovedProcessServiceImplement.class);
     
     @Autowired

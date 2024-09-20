@@ -40,8 +40,8 @@ public class BpmAssigned {
     @Column(name = "active", updatable = true, nullable = true, length = 100)
     private Boolean active;
     
-    
+    @Column(name = "taskCode", updatable = true, nullable = true, length = 200)
+    private String codeEmployee;
  
 
- 
 }

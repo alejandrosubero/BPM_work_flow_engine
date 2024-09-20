@@ -14,7 +14,6 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 
 package com.bpm.engine.controller;
 
-import com.bpm.engine.componets.BpmAssignedManager;
 import com.bpm.engine.dto.BpmAssignedDTO;
 import com.bpm.engine.entitys.Assigned;
 import com.bpm.engine.service.BpmAssignedService;
@@ -37,6 +36,7 @@ import com.bpm.engine.model.AssignedModel;
 import com.bpm.engine.model.BpmAssignedModel;
 import com.bpm.engine.model.AssignedModel;
 import com.bpm.engine.entitys.Role;
+import com.bpm.engine.managers.BpmAssignedManager;
 import com.bpm.engine.validation.RoleValidation;
 import com.bpm.engine.mapper.RoleMapper;
 import com.bpm.engine.model.RoleModel;

@@ -1,9 +1,9 @@
 package com.bpm.engine.controller.client;
-import com.bpm.engine.componets.ConectBpmToEmployeeService;
-import com.bpm.engine.componets.InstanceProcessManager;
-import com.bpm.engine.componets.ProcessManager;
 import com.bpm.engine.dto.EntityRespone;
 import com.bpm.engine.dto.SystemRequest;
+import com.bpm.engine.managers.ConectBpmToEmployeeService;
+import com.bpm.engine.managers.InstanceProcessManager;
+import com.bpm.engine.managers.ProcessManager;
 import com.bpm.engine.mapper.MapperEntityRespone;
 import com.bpm.engine.model.BpmAssignedModel;
 import com.bpm.engine.model.ProcessModel;

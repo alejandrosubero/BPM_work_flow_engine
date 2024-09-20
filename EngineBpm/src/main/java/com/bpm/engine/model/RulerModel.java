@@ -6,7 +6,7 @@ public class RulerModel {
 
     private Long idRuler;
     private String condition;
-    private String action;
+    private Integer action;
     private String taskCode;
     private Integer taskNumber;
 
@@ -37,11 +37,11 @@ public class RulerModel {
         this.condition = condition;
     }
 
-    public String getAction() {
+    public Integer getAction() {
         return action;
     }
 
-    public void setAction(String action) {
+    public void setAction(Integer action) {
         this.action = action;
     }
     

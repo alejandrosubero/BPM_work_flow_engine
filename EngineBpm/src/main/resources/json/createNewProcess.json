@@ -39,11 +39,11 @@
 					"rulers": [
 						{
 							"action": "0",
-							"condition": "APRUBE"
+							"condition": "APPROVED"
 						},
 						{
 							"action": "2",
-							"condition": "DENIED"
+							"condition": "REJECTED"
 						}
 					],
 					"urlService": "/star",
@@ -72,7 +72,7 @@
 					"rulers": [
 						{
 							"action": "3",
-							"condition": "APRUBE"
+							"condition": "APPROVED"
 						}
 					],
 					"urlService": "NOTIFICATION_PROCESS_USER",
@@ -112,11 +112,11 @@
 					"rulers": [
 						{
 							"action": "0",
-							"condition": "APRUBE"
+							"condition": "APPROVED"
 						},
 						{
 							"action": "0",
-							"condition": "DENIED"
+							"condition": "REJECTED"
 						}
 					],
 					"urlService": "/star",
@@ -142,7 +142,7 @@
 					"rulers": [
 						{
 						   "action": "0.3",
-						   "condition": "APRUBE"
+						   "condition": "APPROVED"
 											}
 					],
 					"urlService": "",

@@ -1,4 +1,4 @@
-package com.bpm.engine.componets;
+package com.bpm.engine.managers;
 
 import static com.bpm.engine.utility.SystemSate.ACTIVE;
 
@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bpm.engine.dto.SystemRequest;
+import com.bpm.engine.managers.ControlProcessReferentManager;
 import com.bpm.engine.model.ControlProcessReferentModel;
 import com.bpm.engine.model.InstanceProcessModel;
 import com.bpm.engine.model.InstanceStageModel;
@@ -18,7 +19,6 @@ import com.bpm.engine.service.InstanceProcessService;
 import com.bpm.engine.service.ProcessService;
 import com.bpm.engine.utility.Constants;
 import com.bpm.engine.utility.SystemSate;
-import com.bpm.engine.componets.ControlProcessReferentManager;
 
 
 //TODO: routed -> AssignedModel-> mach(codeEmployee) and go to -> (List<ApprovedProcessModel> approvedProcess -> ApprovedProcessModel -> processCode or idProcess are granted
@@ -43,7 +43,6 @@ public class InstanceProcessManager {
 		this.instanceStageManager = instanceStageManager;
 		this.controlProcessReferentManager = controlProcessReferentManager;
 	}
-
 
 
 	public InstanceProcessModel createInstanceProcess(SystemRequest systemRequest) {

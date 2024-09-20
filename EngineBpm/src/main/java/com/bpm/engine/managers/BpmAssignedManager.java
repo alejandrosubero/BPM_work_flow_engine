@@ -1,4 +1,4 @@
-package com.bpm.engine.componets;
+package com.bpm.engine.managers;
 
 import com.bpm.engine.dto.BpmAssignedDTO;
 import com.bpm.engine.mapper.AssignedMapper;
