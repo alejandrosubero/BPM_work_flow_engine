@@ -25,22 +25,22 @@ public class BpmAssigned {
     @Id
     @GeneratedValue(generator = "sequence_bpm_assigned")
     @SequenceGenerator(name = "sequence_bpm_assigned", initialValue = 1, allocationSize = 2000)
-    @Column(name = "idBpmAssigned", updatable = true, nullable = false, length = 200)
+    @Column(name = "id_Bpm_Assigned", updatable = true, nullable = false, length = 200)
     private Long idBpmAssigned;
 
-    @Column(name = "idAssigned", updatable = true, nullable = true, length = 200)
+    @Column(name = "id_Assigned", updatable = true, nullable = true, length = 200)
     private Long idAssigned;
 
-    @Column(name = "taskCode", updatable = true, nullable = true, length = 200)
+    @Column(name = "task_Code", updatable = true, nullable = true, length = 200)
     private String taskCode;
 
-    @Column(name = "instanciaProccesId", updatable = true, nullable = true, length = 100)
+    @Column(name = "instancia_Procces_Id", updatable = true, nullable = true, length = 100)
     private Long instanciaProccesId;
 
     @Column(name = "active", updatable = true, nullable = true, length = 100)
     private Boolean active;
     
-    @Column(name = "taskCode", updatable = true, nullable = true, length = 200)
+    @Column(name = "code_Employee", updatable = true, nullable = true, length = 200)
     private String codeEmployee;
  
 

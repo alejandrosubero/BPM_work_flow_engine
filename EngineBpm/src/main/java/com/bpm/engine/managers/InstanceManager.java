@@ -1,9 +1,11 @@
 package com.bpm.engine.managers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.bpm.engine.dto.SystemRequest;
@@ -16,7 +18,7 @@ import com.bpm.engine.service.InstanceAbstractionService;
 import com.bpm.engine.utility.InstanOf;
 import com.bpm.engine.utility.SystemSate;
 
-@Service
+@Component
 public class InstanceManager {
 	
 	@Autowired
@@ -26,10 +28,15 @@ public class InstanceManager {
 	 private AssignmentTaskManager assignmentTaskManager;
 
 	
+	 public InstanceAbstractionModel saveCompliteInstance(InstanceAbstractionModel instance) {
+		 return instanceAbstractionService.save(instance);
+	 }
+	 
+	 
 
 	public InstanceAbstractionModel createFromProcess(ProcessModel processModel) {
 		
-		return  InstanceAbstractionModel.builder()
+		InstanceAbstractionModel instance = InstanceAbstractionModel.builder()
 		.name(processModel.getName())
 		.instanOf(InstanOf.INSTANCE_PROCESS.getValue())
 		.title(processModel.getProcesTitle())
@@ -43,37 +50,76 @@ public class InstanceManager {
 		.dateCreate(new Date())
 		.userCreateInstance(processModel.getUserCreate())
 		.build();
+		
+		InstanceAbstractionModel instanceSave = instanceAbstractionService.save(instance);
+		
+		return instanceSave;
+		
 	}
 	
 	
 	
 	//TODO: RESOLVE THE PARALLEL IN STAGE 
-	public InstanceAbstractionModel createFromStage(InstanceAbstractionModel parent, StageModel stage, Long idInstanceOfProcess) {
+	public InstanceAbstractionModel createFromStage(InstanceAbstractionModel parent, StageModel stage) {
 		
-		return InstanceAbstractionModel.builder()
-		.name(stage.getName())
-		.instanOf(InstanOf.INSTANCE_STAGE.getValue())
-		.title(stage.getTitle())
+		return  InstanceAbstractionModel.builder()
 		.idProcess(parent.getIdProcess())
 		.codeProcess(parent.getCodeProcess())
-		.idInstanceOfProcess(idInstanceOfProcess)
-		.idRefenet(parent.getIdInstance())
+		.userCreateInstance(parent.getUserCreateInstance())
+		.idInstanceOfProcess(parent.getIdInstance())
+		
+		.instanOf(InstanOf.INSTANCE_STAGE.getValue())
+		.idRefenet(stage.getIdStage())
 		.codeReferent(stage.getStageCode())
+		.title(stage.getTitle())
+		.name(stage.getName())
 		.isParallel(false)
 		.status(SystemSate.CREATE.toString())
 		.active(true)
 		.dateCreate(new Date())
-		.userCreateInstance(parent.getUserCreateInstance())
 		.level(stage.getStageNumber())
 		.build();
 		
+//		InstanceAbstractionModel instanceSave = instanceAbstractionService.save(instance);
+		
+//		return instance;
 	}
 	
 	
-	//TODO: RESOLVE THE PARALLEL IN  TASK
-	public InstanceAbstractionModel createFromTask(InstanceAbstractionModel parent, TaskModel task, SystemRequest systemRequest) {
+	public List<InstanceAbstractionModel> createFromListOfTask(InstanceAbstractionModel parent, List<TaskModel> tasksList, SystemRequest systemRequest){
+		
+		List<InstanceAbstractionModel> listOfInstanceAbstractionModel = new ArrayList<>();
+		
+		tasksList.parallelStream().forEach(task -> {
+			if(parent.getLevel() == 1 ) {
+				List<BpmAssignedModel> listAssigned = assignmentTaskManager.getAssigned(task.getCode(), systemRequest, parent.getIdInstanceOfProcess());	
+				listOfInstanceAbstractionModel.addAll(this.createFromTaskListOfUsers(listAssigned,parent, task));
+			}else {
+				
+				listOfInstanceAbstractionModel.add( this.createFromTask( parent,  task, null));
+			}
+		});
+		return listOfInstanceAbstractionModel;
+	}
+	
+	
+	public  List<InstanceAbstractionModel> createFromTaskListOfUsers(List<BpmAssignedModel> listAssigned,InstanceAbstractionModel parent, TaskModel task) {
+		
+		List<InstanceAbstractionModel> listOfInstance = new ArrayList<>();
+		listAssigned.parallelStream().forEach(bpmAssigned -> listOfInstance.add(this.createFromTask(parent,task,bpmAssigned.getCodeEmployee())));
+		return listOfInstance;
+	}
+	
+	
+	public InstanceAbstractionModel createFromTask(InstanceAbstractionModel parent, TaskModel task, String userwork) {
 		
 		InstanceAbstractionModel instance =  InstanceAbstractionModel.builder()
+		
+		.idProcess(parent.getIdProcess())
+		.codeProcess(parent.getCodeProcess())
+		.idInstanceOfProcess(parent.getIdInstanceOfProcess())
+		.userCreateInstance(parent.getUserCreateInstance())
+		
 		.name(task.getName())
 		.instanOf(InstanOf.INSTANCE_TASK.getValue())
 		.title(task.getTitle())
@@ -86,11 +132,6 @@ public class InstanceManager {
 		.abstractFieldNumber0(task.getTaskDueTime())
 		.abstractField2(task.getUrlService())
 		.abstractField4(task.getTaskUrl())
-		.idProcess(parent.getIdProcess())
-		.codeProcess(parent.getCodeProcess())
-		.idInstanceOfProcess(parent.getIdInstanceOfProcess())
-		.userCreateInstance(parent.getUserCreateInstance())
-		.status(SystemSate.CREATE.toString())
 		.active(true)
 		.dateCreate(new Date())
 		.build();
@@ -98,6 +139,7 @@ public class InstanceManager {
 		if(task.getIsParallel()) { 
 			instance.setAbstractFieldNumber1(task.getParallelWithTaskNumber());
 		}
+		
 		
 		if(task.getRulers() != null && !task.getRulers().isEmpty()) {
 			
@@ -132,19 +174,16 @@ public class InstanceManager {
 			});
 		}
 		
-		
-		
-		if(parent.getLevel() == 1 ) {
-			//TODO: IMPLEMENT THE ADSING USER.....
-			
-			
-			List<BpmAssignedModel> listAssigned = assignmentTaskManager.getAssigned(task.getCode(),  systemRequest, parent.getIdInstanceOfProcess());
-			
+		if(userwork !=null && !userwork.equals("") ) {
+			instance.setUserWorked(userwork);
+			instance.setStatus(SystemSate.ASSIGNED.toString());
+		}else {
+			instance.setStatus(SystemSate.CREATE.toString());
 		}
 		
+//		InstanceAbstractionModel instanceSave = instanceAbstractionService.save(instance);
 		
-		 
-		 return null;
+		 return instance;
 	}
 	
 }

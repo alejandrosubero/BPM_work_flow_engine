@@ -2,7 +2,7 @@ package com.bpm.engine.utility;
 
 public enum ApprubeType {
 	
-	VOTING(0),  UNITARY(1), MULTIPLE(2) , FIRST_TO_PASS(3);
+	VOTING(0),  UNITARY(1), MULTIPLE(2) , FIRST_TO_PASS(3), AUTO(4);
 
     private final int value;
 

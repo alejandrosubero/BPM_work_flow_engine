@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
 
 import com.bpm.engine.entitys.InstanceAbstraction;
 import com.bpm.engine.mapper.InstanceAbstractionMapper;
@@ -16,7 +17,7 @@ import com.bpm.engine.repository.InstanceAbstractionRepository;
 import com.bpm.engine.service.InstanceAbstractionService;
 
 
-
+@Service
 public class InstanceAbstractionServiceImplement implements InstanceAbstractionService {
 	
 	  private static final Logger logger = LogManager.getLogger(InstanceAbstractionServiceImplement.class);
@@ -234,6 +235,8 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 		
 	}
 
+	
+	//TODO: ES NECESARIO CREAR EL TETS UNITARIO PARA ESTE METODO
 	@Override
 	public void updateInstances(List<InstanceAbstraction> instances, Long idInstance) {
 		
@@ -285,7 +288,7 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 			saveInstance = mapper.entityToPojo(repository.save( mapper.pojoToEntity(instance)));
 			
 		}catch( DataAccessException e) {
-			 logger.error("Error at update a InstanceAbstraction field: ", e);
+			 logger.error("Error at save a InstanceAbstraction field: ", e);
 			e.printStackTrace();	
 		}catch(IllegalArgumentException e) {
 			logger.error("the one or all parameters are null");

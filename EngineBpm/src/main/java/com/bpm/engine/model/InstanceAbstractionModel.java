@@ -92,5 +92,15 @@ public class InstanceAbstractionModel {
 	 private Integer abstractFieldNumber5;
 	 
 	 @Builder.Default
-	 private List<InstanceAbstraction> instances = new ArrayList<>();
+	 private List<InstanceAbstractionModel> instances = new ArrayList<>();
+	 
+	 
+	 public void addInstanceAbstractionModel(InstanceAbstractionModel instance) {
+		 this.instances.add(instance);
+	 }
+	 
+	 
+	 public void addAllInstanceAbstractionModel(List<InstanceAbstractionModel> instances) {
+		 this.instances.addAll(instances);
+	 }
 }

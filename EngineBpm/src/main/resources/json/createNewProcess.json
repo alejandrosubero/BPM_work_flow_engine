@@ -38,11 +38,11 @@
 					],
 					"rulers": [
 						{
-							"action": "0",
+							"action": 0,
 							"condition": "APPROVED"
 						},
 						{
-							"action": "2",
+							"action": 2,
 							"condition": "REJECTED"
 						}
 					],
@@ -50,7 +50,11 @@
 					"taskUrl": "http://localhost:1111/bpm/engineBpm/start",
 					"type": {
 						"type": "Human"
-					}
+					},
+					"taskNumber":1,
+					"apprubeType":1,
+					"isParallel":false,
+					"parallelWithTaskNumber":0
 				}
 			]
 		},
@@ -71,12 +75,16 @@
 					"roles": [],
 					"rulers": [
 						{
-							"action": "3",
+							"action": 0,
 							"condition": "APPROVED"
 						}
 					],
 					"urlService": "NOTIFICATION_PROCESS_USER",
-					"taskUrl": "<PAY_LOAD>"
+					"taskUrl": "<PAY_LOAD>",
+					"taskNumber":1,
+					"apprubeType":4,
+					"isParallel":false,
+					"parallelWithTaskNumber":0
 				}
 			]
 		},
@@ -121,6 +129,10 @@
 					],
 					"urlService": "/star",
 					"taskUrl": "http://localhost:1111/bpm/engineBpm/start",
+					"taskNumber":1,
+					"apprubeType":1,
+					"isParallel":false,
+					"parallelWithTaskNumber":0,
 					"type": {
 						"type": "Human"
 					}
@@ -136,20 +148,24 @@
 			"stages": [],
 			"tasks": [
 				{
-					"name": "CLOSE_PROCESS",
-					"title": "CLOSE_PROCESS",
-					"roles": [],
-					"rulers": [
-						{
-						   "action": "0.3",
-						   "condition": "APPROVED"
-											}
-					],
-					"urlService": "",
-					"taskUrl": "",
-					"type": {
-						"type": "Auto"
-					}
+				    "name": "CLOSE_PROCESS",
+				    "title": "CLOSE_PROCESS",
+				    "roles": [],
+				    "rulers": [
+				        {
+				           "action": 0,
+				           "condition": "APPROVED"
+				        }
+				    ],
+				    "urlService": "",
+				    "taskUrl": "",
+					"taskNumber":1,
+					"apprubeType":4,
+					"isParallel":false,
+					"parallelWithTaskNumber":0,
+				    "type": {
+				        "type": "Auto"
+				    }
 				}
 			]
 		}

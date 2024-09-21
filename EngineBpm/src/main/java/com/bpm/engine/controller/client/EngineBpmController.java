@@ -42,7 +42,7 @@ public class EngineBpmController {
 		try {
 			
 			if(systemRequest != null && systemRequest.getCodeTask() != null) {
-				EntityRespone entityRespone = mapperEntityRespone.setEntityTobj(instanceProcessManager.createInstanceProcess(systemRequest));
+				EntityRespone entityRespone = mapperEntityRespone.setEntityTobj(instanceProcessManager.createInstanceProcess2(systemRequest));
 				return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.OK);
 			}
 			

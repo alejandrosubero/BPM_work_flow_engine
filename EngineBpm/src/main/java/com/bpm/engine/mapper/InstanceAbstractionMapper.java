@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
 import com.bpm.engine.entitys.InstanceAbstraction;
 import com.bpm.engine.model.InstanceAbstractionModel;
 
+@Component
 public class InstanceAbstractionMapper {
 
 	
