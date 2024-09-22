@@ -6,9 +6,9 @@
 	"visible": true,
 	"roles": [
 		{
-			"codeRole": "w23a",
-			"description": "developer",
-			"name": "Developer"
+			"codeRole": "IT_DEVELOPER",
+			"description": "IT JAVA DEVELOP AREA",
+			"name": "JAVA_ANALYST"
 		}
 	],
 	"stages": [

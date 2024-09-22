@@ -29,7 +29,7 @@ public class InstanceManager {
 
 	
 	 public InstanceAbstractionModel saveCompliteInstance(InstanceAbstractionModel instance) {
-		 return instanceAbstractionService.save(instance);
+		 return instanceAbstractionService.saveInitial(instance);
 	 }
 	 
 	 
@@ -130,7 +130,7 @@ public class InstanceManager {
 		.apprubeType(task.getApprubeType())
 		.type(task.getType())
 		.abstractFieldNumber0(task.getTaskDueTime())
-		.abstractField2(task.getUrlService())
+		.abstractField3(task.getUrlService())
 		.abstractField4(task.getTaskUrl())
 		.active(true)
 		.dateCreate(new Date())
@@ -165,7 +165,7 @@ public class InstanceManager {
 						instance.setAbstractFieldNumber3(ruler.getTaskNumber());
 					}
 					if(ruler.getAction() != null ) {
-						instance.setAbstractFieldNumber4(ruler.getAction());
+						instance.setAbstractFieldNumber5(ruler.getAction());
 					}
 					if(ruler.getTaskCode() !=null) {
 						instance.setAbstractField6(ruler.getTaskCode());
@@ -185,6 +185,8 @@ public class InstanceManager {
 		
 		 return instance;
 	}
+	
+	
 	
 }
 

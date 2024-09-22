@@ -16,7 +16,7 @@ public interface InstanceAbstractionService {
 	public List<InstanceAbstractionModel> findByInstanOfAndIdInstanceOfProcess(String instanOf, Long idInstanceOfProcess);
 	public List<InstanceAbstractionModel> findByInstanOfAndIdInstanceOfProcessAndLevel(String instanOf, Long idInstanceOfProcess, Integer level);
 	public InstanceAbstractionModel save(InstanceAbstractionModel instance);
-	
+	public InstanceAbstractionModel saveInitial(InstanceAbstractionModel instance);
 	
     void updateStatus(String status, Long idInstance);
     void updateActive(Boolean active, Long idInstance);

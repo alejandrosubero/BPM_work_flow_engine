@@ -42,7 +42,6 @@ import com.bpm.engine.model.StageModel;
 @Service
 public class ProcessServiceImplement implements ProcessService, RadomCode {
 
-//    protected static final Log logger = LogFactory.getLog(ProcessServiceImplement.class);
 	private static final Logger logger = LogManager.getLogger(ProcessServiceImplement.class);
     @Autowired
     private ProcessRepository processrepository;
@@ -83,21 +82,21 @@ public class ProcessServiceImplement implements ProcessService, RadomCode {
         return processMapper.entityToPojo(processEntity);
     }
 
-    @Override
-    public ProcessModel findByUserCreate(String userCreate) {
-        logger.info("Starting getProcess");
-        Process processEntity = new Process();
-        Optional<Process> fileOptional1 = processrepository.findByUserCreate(userCreate);
-
-        if (fileOptional1.isPresent()) {
-            try {
-                processEntity = fileOptional1.get();
-            } catch (DataAccessException e) {
-                logger.error(" ERROR : " + e);
-            }
-        }
-        return processMapper.entityToPojo(processEntity);
-    }
+  
+//    public ProcessModel findByUserCreate(String userCreate) {
+//        logger.info("Starting getProcess");
+//        Process processEntity = new Process();
+//        Optional<Process> fileOptional1 = processrepository.findByUserCreate(userCreate);
+//
+//        if (fileOptional1.isPresent()) {
+//            try {
+//                processEntity = fileOptional1.get();
+//            } catch (DataAccessException e) {
+//                logger.error(" ERROR : " + e);
+//            }
+//        }
+//        return processMapper.entityToPojo(processEntity);
+//    }
 
     @Override
     public ProcessModel findByProcesTitle(String procesTitle) {
@@ -115,20 +114,20 @@ public class ProcessServiceImplement implements ProcessService, RadomCode {
     }
 
 
-    @Override
-    public ProcessModel findByState(String state) {
-        logger.info("Starting getProcess");
-        Process processEntity = new Process();
-        Optional<Process> fileOptional1 = processrepository.findByState(state);
-        if (fileOptional1.isPresent()) {
-            try {
-                processEntity = fileOptional1.get();
-            } catch (DataAccessException e) {
-                logger.error(" ERROR : " + e);
-            }
-        }
-        return processMapper.entityToPojo(processEntity);
-    }
+//    @Override
+//    public ProcessModel findByState(String state) {
+//        logger.info("Starting getProcess");
+//        Process processEntity = new Process();
+//        Optional<Process> fileOptional1 = processrepository.findByState(state);
+//        if (fileOptional1.isPresent()) {
+//            try {
+//                processEntity = fileOptional1.get();
+//            } catch (DataAccessException e) {
+//                logger.error(" ERROR : " + e);
+//            }
+//        }
+//        return processMapper.entityToPojo(processEntity);
+//    }
 
 
     @Override
@@ -148,35 +147,35 @@ public class ProcessServiceImplement implements ProcessService, RadomCode {
     }
 
 
-    @Override
-    public ProcessModel findByVisible(Boolean visible) {
-        logger.info("Starting findByVisible");
-        Process processEntity = new Process();
-        Optional<Process> fileOptional1 = processrepository.findByVisible(visible);
-        if (fileOptional1.isPresent()) {
-            try {
-                processEntity = fileOptional1.get();
-            } catch (DataAccessException e) {
-                logger.error(" ERROR : " + e);
-            }
-        }
-        return processMapper.entityToPojo(processEntity);
-    }
+//    @Override
+//    public ProcessModel findByVisible(Boolean visible) {
+//        logger.info("Starting findByVisible");
+//        Process processEntity = new Process();
+//        Optional<Process> fileOptional1 = processrepository.findByVisible(visible);
+//        if (fileOptional1.isPresent()) {
+//            try {
+//                processEntity = fileOptional1.get();
+//            } catch (DataAccessException e) {
+//                logger.error(" ERROR : " + e);
+//            }
+//        }
+//        return processMapper.entityToPojo(processEntity);
+//    }
 
-    @Override
-    public ProcessModel findByGlobal(Boolean global) {
-        logger.info("Starting findByGlobal");
-        Process processEntity = new Process();
-        Optional<Process> fileOptional1 = processrepository.findByGlobal(global);
-        if (fileOptional1.isPresent()) {
-            try {
-                processEntity = fileOptional1.get();
-            } catch (DataAccessException e) {
-                logger.error(" ERROR : " + e);
-            }
-        }
-        return processMapper.entityToPojo(processEntity);
-    }
+//    @Override
+//    public ProcessModel findByGlobal(Boolean global) {
+//        logger.info("Starting findByGlobal");
+//        Process processEntity = new Process();
+//        Optional<Process> fileOptional1 = processrepository.findByGlobal(global);
+//        if (fileOptional1.isPresent()) {
+//            try {
+//                processEntity = fileOptional1.get();
+//            } catch (DataAccessException e) {
+//                logger.error(" ERROR : " + e);
+//            }
+//        }
+//        return processMapper.entityToPojo(processEntity);
+//    }
 
 
     @Override

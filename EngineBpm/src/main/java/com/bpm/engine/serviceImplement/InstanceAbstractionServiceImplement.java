@@ -298,6 +298,46 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 		}
 	}
 
+	@SuppressWarnings("finally")
+	@Override
+	public InstanceAbstractionModel saveInitial(InstanceAbstractionModel instance) {
+		
+		InstanceAbstractionModel saveInstance = null;
+		InstanceAbstraction entity = null;
+		
+		try {
+			entity = repository.save( mapper.pojoToEntity(instance));
+			
+			if(entity != null) {
+				 logger.info("Save a InstanceAbstraction... " + entity.getIdInstance());
+				 
+				List<InstanceAbstraction> instancesOfProcess = repository.findByIdInstanceOfProcess(entity.getIdInstance());
+				
+				if(instancesOfProcess != null && !instancesOfProcess.isEmpty()) {
+					instancesOfProcess.parallelStream().forEach(instanceAbstraction-> repository.updateParentByIdInstance(instanceAbstraction.getIdInstance()));
+				}
+				
+				Optional<InstanceAbstraction> entityOptional = repository.findById(entity.getIdInstance());
+				
+				if(entityOptional.isPresent()) {
+					saveInstance = mapper.entityToPojo(entityOptional.get());
+				}
+			}
+		
+		}catch( DataAccessException e) {
+			 logger.error("Error at save a InstanceAbstraction field: ", e);
+			e.printStackTrace();	
+		}catch(IllegalArgumentException e) {
+			logger.error("the one or all parameters are null");
+			e.printStackTrace();
+		}finally {
+			return saveInstance;
+		}
+		
+	}
+
+
+
 
 
 }

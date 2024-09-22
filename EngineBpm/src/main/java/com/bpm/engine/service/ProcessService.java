@@ -35,17 +35,9 @@ public interface ProcessService {
 
     public ProcessModel findByCreateDate(Date createDate);
 
-    public ProcessModel findByUserCreate(String userCreate);
-
     public ProcessModel findByProcesTitle(String procesTitle);
 
-    public ProcessModel findByState(String state);
-
     public ProcessModel findByProcesCode(String procesCode);
-
-    public ProcessModel findByVisible(Boolean visible);
-
-    public ProcessModel findByGlobal(Boolean global);
 
     public ProcessModel findByActivo(Boolean activo);
 
@@ -79,6 +71,8 @@ public interface ProcessService {
     public boolean saveOrUpdateProcess(Process process);
 
     public List<ProcessModel> findByStageContaining(Stage stages);
+    
+    
 }
  /*
  Copyright (C) 2008 Google Inc.
