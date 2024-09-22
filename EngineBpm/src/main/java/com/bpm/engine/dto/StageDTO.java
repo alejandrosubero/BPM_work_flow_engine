@@ -4,11 +4,15 @@ import com.bpm.engine.model.RoleModel;
 import com.bpm.engine.model.StageModel;
 import com.bpm.engine.model.TaskModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class StageDTO {
+public class StageDTO implements Serializable {
+	
+    private static final long serialVersionUID = 2L;
+    
     private Long id;
     private String Code;
     private String name;
@@ -54,11 +58,13 @@ public class StageDTO {
         if (stageModel.gettasks() != null && stageModel.gettasks().size() > 0)
             this.tasks = this.getTask(stageModel.gettasks());
 
+        
         if (stageModel.getstages() != null && stageModel.getstages().size() > 0) {
             List<StageDTO> stageModelList = new ArrayList<>();
             for (StageModel stage : stageModel.getstages()) {
                 stageModelList.add(new StageDTO(stage, "children"));
             }
+            
             this.stages = stageModelList;
         }
     }
@@ -88,10 +94,9 @@ public class StageDTO {
                 this.tasks = this.getTask(stageModel.gettasks());
 
         }
-
-
-
     }
+    
+    
     private List<TaskDTO> getTask(List<TaskModel> taskModels) {
         List<TaskDTO> dTOList = new ArrayList<>();
         for (TaskModel task : taskModels) {

@@ -338,6 +338,16 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 
 
 
+	@Override
+	public List<InstanceAbstractionModel> finBySearch(String keyword) {
+		
+		List<InstanceAbstraction> list =repository.finBySearch2(keyword);
+		
+		return mapper.entityListToPojoList(list);
+	}
+
+
+
 
 
 }

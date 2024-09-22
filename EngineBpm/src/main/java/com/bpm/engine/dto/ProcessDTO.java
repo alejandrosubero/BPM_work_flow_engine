@@ -4,11 +4,14 @@ import com.bpm.engine.model.ProcessModel;
 import com.bpm.engine.model.StageModel;
 import com.bpm.engine.model.TaskModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ProcessDTO {
+public class ProcessDTO implements Serializable {
+	
+    private static final long serialVersionUID = 1L;
 
     private Long id;
     private String name;

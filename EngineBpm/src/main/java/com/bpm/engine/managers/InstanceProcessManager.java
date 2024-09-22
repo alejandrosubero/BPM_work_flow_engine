@@ -1,5 +1,7 @@
 package com.bpm.engine.managers;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,14 @@ public class InstanceProcessManager {
 		this.processService = processService;
 		this.instanceManager = instanceManager;
 	}
+    
+    
+    public List<InstanceAbstractionModel> getInstancesProcessDTO(SystemRequest systemRequest) {
+    	
+    	List<InstanceAbstractionModel> listInstancesProcessDTO = instanceManager.getInstanceBySearch(systemRequest.getCodeEmployee());
+    	
+    	return listInstancesProcessDTO;
+    }
     
     
    public InstanceAbstractionModel createInstanceProcess2 (SystemRequest systemRequest) {

@@ -24,14 +24,13 @@ public class InstanceAbstractionMapper {
     }
 
     public List<InstanceAbstractionModel> entityListToPojoList(List<InstanceAbstraction> entitys) {
-        ModelMapper modelMapper = new ModelMapper();
         List<InstanceAbstractionModel> pojos = new ArrayList<>();
-
         if (entitys != null && entitys.size()>0 ) {
-            entitys.forEach(assigned -> {
+            entitys.parallelStream().forEach(assigned -> {
                 pojos.add(this.entityToPojo(assigned));
             });
         }
+        
         return pojos;
     }
 

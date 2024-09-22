@@ -58,6 +58,18 @@ public interface InstanceAbstractionRepository extends CrudRepository<InstanceAb
     void updateUserWorked(Long idParent, Long idInstance);
 	
 	
-//	  @Query(value = "SELECT p FROM DataJshandyManServicesConfig p WHERE CONCAT( p.userCode, ' ', p.direction, ' ', p.phoneNumber, ' ', p.company) LIKE %?1%")
-//	    public List<DataJshandyManServicesConfig> finBySearch(String keyword);
+	@Query(value = "SELECT p FROM InstanceAbstraction p WHERE  p.userWorked LIKE %?1% OR p.userCreateInstance LIKE %?1%")
+	public List<InstanceAbstraction> finBySearch2(String keyword);
+	  
+//	SELECT * FROM BPM_INSTANCE_ABSTRACTION 
+//	WHERE BPM_INSTANCE_ABSTRACTION.INSTAN_OF = 'INSTANCE_PROCESS' and  BPM_INSTANCE_ABSTRACTION. USER_CREATE_INSTANCE LIKE '%:keyword%'
+//	   OR BPM_INSTANCE_ABSTRACTION.USER_WORKED  LIKE '%hx39075%';
+	  
+	
+	 @Modifying
+	 @Query(value = "SELECT * FROM BPM_INSTANCE_ABSTRACTION WHERE  BPM_INSTANCE_ABSTRACTION. USER_CREATE_INSTANCE LIKE '%:keyword%' OR BPM_INSTANCE_ABSTRACTION.USER_WORKED  LIKE '%:keyword%'", nativeQuery = true)
+	 public List<InstanceAbstraction> finBySearch(@Param("keyword") String keyword);
+	
+	
+	
 }

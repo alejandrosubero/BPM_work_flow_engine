@@ -1,8 +1,12 @@
 package com.bpm.engine.dto;
 
+import java.io.Serializable;
+
 import com.bpm.engine.model.RulerModel;
 
-public class RulerDTO {
+public class RulerDTO implements Serializable {
+	
+    private static final long serialVersionUID = 44L;
 
     private Long id;
     private String condition;

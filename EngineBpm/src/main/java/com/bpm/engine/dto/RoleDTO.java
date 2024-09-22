@@ -1,10 +1,13 @@
 package com.bpm.engine.dto;
 
+import java.io.Serializable;
+
 import com.bpm.engine.model.RoleModel;
 import com.google.gson.annotations.SerializedName;
 
-public class RoleDTO {
-
+public class RoleDTO implements Serializable {
+	
+    private static final long serialVersionUID = 454L;
 
     @SerializedName("idRole")
     private Long idRole;

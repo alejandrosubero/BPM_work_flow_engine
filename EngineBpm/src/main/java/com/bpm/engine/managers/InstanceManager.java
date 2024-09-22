@@ -33,6 +33,11 @@ public class InstanceManager {
 	 }
 	 
 	 
+	 public List<InstanceAbstractionModel> getInstanceBySearch(String keyword) {
+		 return instanceAbstractionService.finBySearch(keyword);
+	 }
+	 
+	
 
 	public InstanceAbstractionModel createFromProcess(ProcessModel processModel) {
 		

@@ -1,19 +1,24 @@
 package com.bpm.engine.controller.client;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.bpm.engine.dto.EntityRespone;
 import com.bpm.engine.dto.SystemRequest;
 import com.bpm.engine.managers.ConectBpmToEmployeeService;
 import com.bpm.engine.managers.InstanceProcessManager;
 import com.bpm.engine.managers.ProcessManager;
 import com.bpm.engine.mapper.MapperEntityRespone;
-import com.bpm.engine.model.BpmAssignedModel;
 import com.bpm.engine.model.ProcessModel;
-import com.bpm.engine.service.BpmAssignedService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -81,12 +86,39 @@ public class EngineBpmController {
 		}
 	}
 
+//	http://localhost:1111/bpm/engineBpm/get/process/user
+	@PostMapping("/get/process/user")
+	private ResponseEntity<EntityRespone> getInstanceOfEmpleado(@RequestBody SystemRequest systemRequest) {
 
-	@GetMapping("/start")
+		EntityRespone entityRespone = null;
+		try {
+
+			if (systemRequest == null) {
+				return ResponseEntity.badRequest().body(
+						mapperEntityRespone.setEntityResponBadRequest("the systemRequest cannot be empty or null..."));
+			}
+
+			entityRespone = mapperEntityRespone.setEntityT(
+					instanceProcessManager.getInstancesProcessDTO(systemRequest)
+					);
+
+			return ResponseEntity.ok(entityRespone);
+
+		} catch (DataAccessException e) {
+			entityRespone = mapperEntityRespone.setEntityResponT(null,
+					"Faill in the system (Error tray to find user process...)", e.getMessage());
+			return ResponseEntity.badRequest().body(entityRespone);
+		}
+
+	}
+	
+
+
+	@GetMapping("/start/chek/server/bpm")
 	public String startTest() {
-		return " <h1>!!!!!!!!!!!!!!!!!Hello Mundo!!!!!!!!!!!!</h1>"+ 
+		return " <h1>!!!!!!!!!!!!!!!!!  BPM SERVER IS RUNING... !!!!!!!!!!!!</h1>"+ 
 		"<br>" + 
 
-		"<h2> !!!!!!!!!!!Estoy funcionando!!!!!!!!! </h2>"; 
+		"<h2> !!!!!!!!!!! Estoy funcionando !!!!!!!!! </h2>"; 
 	}
 	}

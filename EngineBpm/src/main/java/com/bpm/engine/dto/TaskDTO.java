@@ -5,11 +5,14 @@ import com.bpm.engine.model.RulerModel;
 import com.bpm.engine.model.TaskModel;
 import com.bpm.engine.model.TaskTypeModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class TaskDTO {
+public class TaskDTO implements Serializable {
+	
+    private static final long serialVersionUID = 3L;
 
     private Long id;
 
@@ -66,6 +69,17 @@ public class TaskDTO {
 
         if(taskModel.getRulers().size()>0)
         this.rulers = this.getRules(taskModel.getRulers());
+    }
+
+    public TaskDTO(Long id, String title, String name, String codeProcess, String url, String serviceUrl, String codeOfTask, TaskTypeModel type) {
+        this.id = id;
+        this.title = title;
+        this.name = name;
+        this.codeProcess = codeProcess;
+        this.url = url;
+        this.serviceUrl = serviceUrl;
+        this.codeOfTask = codeOfTask;
+        this.type = type;
     }
 
     public TaskDTO(Long id, String title, String name, String codeProcess, String url, String serviceUrl, String codeOfTask, TaskTypeModel type, List<RoleDTO> roles, List<RulerDTO> rulers) {
