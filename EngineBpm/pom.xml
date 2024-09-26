@@ -80,11 +80,11 @@
         </dependency>
 
         <!-- connection pools -->
-        <dependency>
+    <!--    <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>2.6.0</version>
-        </dependency>
+        </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
        <!-- <dependency>
