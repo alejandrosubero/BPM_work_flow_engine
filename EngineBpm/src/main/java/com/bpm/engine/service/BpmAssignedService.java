@@ -9,6 +9,8 @@ public interface BpmAssignedService {
     public BpmAssignedModel instanceBpmAssigned(Long idAssigned, String taskCode, Long instanciaProccesId);
     
     public BpmAssignedModel findByIdBpmAssigned(Long id);
+    
+    public BpmAssignedModel findByCodeEmployeeAndTaskCode(String codeEmployee, String taskCode);
 
     public List<BpmAssignedModel> findByIdAssigned(Long idAssigned);
 
@@ -30,4 +32,7 @@ public interface BpmAssignedService {
     
     public List<BpmAssignedModel> findByTaskCodeActive(String taskCode, Boolean active);
 
+    
+    
+    
 }

@@ -103,6 +103,10 @@ public class InstanceManager {
 		tasksList.parallelStream().forEach(task -> {
 			if(parent.getLevel() == 1 ) {
 				List<BpmAssignedModel> listAssigned = assignmentTaskManager.getAssigned(task.getCode(), systemRequest, parent.getIdInstanceOfProcess());	
+				
+				// save BpmAssignedModel userCreateInstanceProcess if not exist for taskCode
+				assignmentTaskManager.getOneAssigned(task.getCode(), systemRequest.getCodeEmployee(), parent.getIdInstanceOfProcess(),0);
+				
 				listOfInstanceAbstractionModel.addAll(this.createFromTaskListOfUsers(listAssigned,parent, task));
 			}else {
 				

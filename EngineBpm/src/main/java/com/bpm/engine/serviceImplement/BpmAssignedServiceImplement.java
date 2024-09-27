@@ -124,4 +124,17 @@ public class BpmAssignedServiceImplement implements BpmAssignedService {
 		 return mapper.entityListToPojoList(repository.findByTaskCodeAndActive(taskCode, active));
 	}
 
+
+
+	@Override
+	public BpmAssignedModel findByCodeEmployeeAndTaskCode(String codeEmployee, String taskCode) {
+		try {
+			return mapper.entityToPojo(repository.findByCodeEmployeeAndTaskCode(codeEmployee, taskCode));
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }

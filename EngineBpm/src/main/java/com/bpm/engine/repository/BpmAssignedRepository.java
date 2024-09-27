@@ -32,4 +32,8 @@ public interface BpmAssignedRepository extends CrudRepository<BpmAssigned, Long>
     public List<BpmAssigned> findByTaskCodeAndActiveAndInstanciaProccesIdNull(String taskCode, Boolean active);
     
     public List<BpmAssigned> findByTaskCodeAndActive(String taskCode, Boolean active);
+    
+    public List<BpmAssigned>  findByCodeEmployee(String codeEmployee);
+    
+    public BpmAssigned findByCodeEmployeeAndTaskCode(String codeEmployee, String taskCode);
 }

@@ -162,7 +162,7 @@ public class AssignmentTaskManager {
 			if (employeeCreator != null && employeeCreator.getemployeeRole().getCodeRole() != null) {
 				assigned = this.conectBpmToEmployeeService.getAssigned(codeEmployee, employeeCreator.getemployeeRole().getCodeRole());
 			} else {
-				assigned = conectBpmToEmployeeService.getAssigned(codeEmployee);
+				assigned = this.conectBpmToEmployeeService.getAssigned(codeEmployee);
 			}
 			
 			if(assigned != null) {
@@ -224,19 +224,38 @@ public class AssignmentTaskManager {
 	
 	public BpmAssignedModel getTaskAsigned(AssignedModel assigned, String taskCode, Long instanceProccesId) {
 		
-	try {
-			AssignedModel assignedInSisten = assignedService.findByCodeEmployeeAndActive(assigned.getCodeEmployee(), true);
-		
-		if (assignedInSisten == null) {
-			assigned.setActive(true);
-			assignedInSisten = assignedService.save(assigned);
-		}		
-		return new BpmAssignedModel(assignedInSisten.getId(), taskCode, instanceProccesId, assignedInSisten.getCodeEmployee());
-	}catch(Exception e) {
-		e.printStackTrace();
-		//TODO: registrar en el sistema de notificacion error and set logger
-		return null;
-	}
+		 BpmAssignedModel bpmAssignedModel =  null;
+		try {
+			AssignedModel assignedInSisten = null;
+			
+			if(assigned.getId() == null && assigned.getCodeEmployee() != null) {
+				 assignedInSisten = assignedService.findByCodeEmployeeAndActive(assigned.getCodeEmployee(), true);
+			}else {
+				assignedInSisten = assigned;
+			}
+			
+			if (assignedInSisten == null) {
+				assigned.setActive(true);
+				assignedInSisten = assignedService.save(assigned);
+			}		
+			
+			  bpmAssignedModel =  bpmAssignedService.findByCodeEmployeeAndTaskCode(assigned.getCodeEmployee(), taskCode); 
+			
+			 if(bpmAssignedModel == null) {
+				  bpmAssignedModel =  new BpmAssignedModel(assignedInSisten.getId(), taskCode, instanceProccesId, assignedInSisten.getCodeEmployee());
+			 }
+			 
+			if(assignedInSisten.getId() != null && bpmAssignedModel != null && bpmAssignedModel.getIdBpmAssigned() == null) {
+				bpmAssignedService.saveOrUpdateBpmAssigned(bpmAssignedModel);
+			}
+			
+			return bpmAssignedModel;
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			//TODO: registrar en el sistema de notificacion error and set logger
+			return bpmAssignedModel;
+		}
 		
 	}
 	
@@ -246,16 +265,20 @@ public class AssignmentTaskManager {
 		
 		BpmAssignedModel assignesFromRouter = null;
 		AssignedModel assigned = null;
-			
-		if (router == 0) {
+		
+	     assigned = assignedService.findByCodeEmployeeAndActive(codeEmployee, true);
+		
+		if (assigned == null) {
 			assigned = conectBpmToEmployeeService.getEmployeeAssignedFromEmployeeService(codeEmployee);
-			if(assigned != null) {
-				BpmAssignedModel temporal = this.getTaskAsigned(assigned, taskCode, instanceProccesId);
-				if(temporal != null) {
-					assignesFromRouter = temporal;  
-				}
+		}
+			
+		if(assigned != null) {
+			BpmAssignedModel temporal = this.getTaskAsigned(assigned, taskCode, instanceProccesId);
+			if(temporal != null) {
+				assignesFromRouter = temporal;  
 			}
 		}
+		
 		return assignesFromRouter;
 	}
 	
