@@ -32,14 +32,19 @@ public class InstanceManager {
 		 return instanceAbstractionService.saveInitial(instance);
 	 }
 	 
-	 
-	 public List<InstanceAbstractionModel> getInstanceBySearch(String keyword) {
-		 return instanceAbstractionService.finBySearch(keyword);
+	 	
+	 public List<InstanceAbstractionModel> getInstancesOfUser(String user) { 
+		 
+		 
+		 
+		 
+		 
+		return instanceAbstractionService.findByUser(user);
 	 }
 	 
-	
+	 
 
-	public InstanceAbstractionModel createFromProcess(ProcessModel processModel) {
+	public InstanceAbstractionModel createFromProcess(ProcessModel processModel, String userCreateInstance) {
 		
 		InstanceAbstractionModel instance = InstanceAbstractionModel.builder()
 		.name(processModel.getName())
@@ -53,7 +58,7 @@ public class InstanceManager {
 		.status(SystemSate.CREATE.toString())
 		.active(true)
 		.dateCreate(new Date())
-		.userCreateInstance(processModel.getUserCreate())
+		.userCreateInstance(userCreateInstance)
 		.build();
 		
 		InstanceAbstractionModel instanceSave = instanceAbstractionService.save(instance);
@@ -119,7 +124,6 @@ public class InstanceManager {
 	public InstanceAbstractionModel createFromTask(InstanceAbstractionModel parent, TaskModel task, String userwork) {
 		
 		InstanceAbstractionModel instance =  InstanceAbstractionModel.builder()
-		
 		.idProcess(parent.getIdProcess())
 		.codeProcess(parent.getCodeProcess())
 		.idInstanceOfProcess(parent.getIdInstanceOfProcess())
@@ -185,8 +189,6 @@ public class InstanceManager {
 		}else {
 			instance.setStatus(SystemSate.CREATE.toString());
 		}
-		
-//		InstanceAbstractionModel instanceSave = instanceAbstractionService.save(instance);
 		
 		 return instance;
 	}

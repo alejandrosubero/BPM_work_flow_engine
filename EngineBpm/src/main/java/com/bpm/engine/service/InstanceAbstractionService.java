@@ -18,6 +18,7 @@ public interface InstanceAbstractionService {
 	public InstanceAbstractionModel save(InstanceAbstractionModel instance);
 	public InstanceAbstractionModel saveInitial(InstanceAbstractionModel instance);
 	public List<InstanceAbstractionModel> finBySearch(String keyword);
+	public List<InstanceAbstractionModel> findByUser(String userWorked);
 	
     void updateStatus(String status, Long idInstance);
     void updateActive(Boolean active, Long idInstance);

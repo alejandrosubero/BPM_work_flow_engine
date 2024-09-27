@@ -1,5 +1,6 @@
 package com.bpm.engine.serviceImplement;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -344,6 +345,47 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 		List<InstanceAbstraction> list =repository.finBySearch2(keyword);
 		
 		return mapper.entityListToPojoList(list);
+	}
+
+
+
+	@SuppressWarnings("finally")
+	@Override
+	public List<InstanceAbstractionModel> findByUser(String user) {
+		
+		List<InstanceAbstractionModel> listInstance = null ;
+		
+		try {
+			if(user != null) {
+				
+				listInstance  = new ArrayList<>();
+				List<InstanceAbstraction> list = new ArrayList<>();
+				
+				List<Long> ids = repository.findIdInstanceProcessFromUserWorked(user);
+				
+				if(!ids.isEmpty()) {
+					list.addAll(repository.findByIdInstanceIn(ids));
+				}
+				
+				list.addAll(repository.findByUserCreateInstanceAndIdInstanceOfProcessIsNull(user));
+				
+				listInstance = mapper.entityListToPojoList(list);
+			
+			}
+			
+		}catch( DataAccessException e) {
+			 logger.error("Error in find a InstanceAbstraction by user: ", e);
+			e.printStackTrace();	
+		}catch(IllegalArgumentException e) {
+			logger.error("the user parameters are null");
+			e.printStackTrace();
+		}catch (Exception e) {
+			logger.error("Error in findByUser...", e);
+			e.printStackTrace();
+		}finally {
+			return listInstance;
+		}
+	
 	}
 
 

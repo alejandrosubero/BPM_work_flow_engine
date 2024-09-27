@@ -31,7 +31,7 @@ public class InstanceProcessManager {
     
     public List<InstanceAbstractionModel> getInstancesProcessDTO(SystemRequest systemRequest) {
     	
-    	List<InstanceAbstractionModel> listInstancesProcessDTO = instanceManager.getInstanceBySearch(systemRequest.getCodeEmployee());
+    	List<InstanceAbstractionModel> listInstancesProcessDTO = instanceManager.getInstancesOfUser(systemRequest.getCodeEmployee());
     	
     	return listInstancesProcessDTO;
     }
@@ -39,7 +39,7 @@ public class InstanceProcessManager {
     
    public InstanceAbstractionModel createInstanceProcess2 (SystemRequest systemRequest) {
 		
-	   logger.info("Started create Instance Process chanel 2.......");
+	   logger.info("Started create Instance Process ...");
 	   
         ProcessModel process = processService.findByProcesCode(systemRequest.getProcessCode());
       
@@ -48,7 +48,7 @@ public class InstanceProcessManager {
         	return null;
         }
         
-        InstanceAbstractionModel instanceProcess = instanceManager.createFromProcess(process);
+        InstanceAbstractionModel instanceProcess = instanceManager.createFromProcess(process, systemRequest.getCodeEmployee());
        
         process.getstages().parallelStream().forEach(stage->{
         	InstanceAbstractionModel instanceStageParen = instanceManager.createFromStage(instanceProcess,stage);

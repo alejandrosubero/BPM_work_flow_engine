@@ -22,6 +22,8 @@ public interface InstanceAbstractionRepository extends CrudRepository<InstanceAb
 	public List<InstanceAbstraction> findByInstanOfAndIdInstanceOfProcess(String instanOf, Long idInstanceOfProcess);
 	public List<InstanceAbstraction> findByInstanOfAndIdInstanceOfProcessAndLevel(String instanOf, Long idInstanceOfProcess, Integer level);
 	public List<InstanceAbstraction> findByIdInstanceOfProcess(Long idInstanceOfProcess);
+	public List<InstanceAbstraction> findByIdInstanceIn(List<Long> idInstances);
+	public List<InstanceAbstraction> findByUserCreateInstanceAndIdInstanceOfProcessIsNull(String userCreateInstance);
 	
 
 	 @Transactional
@@ -61,15 +63,32 @@ public interface InstanceAbstractionRepository extends CrudRepository<InstanceAb
 	@Query(value = "SELECT p FROM InstanceAbstraction p WHERE  p.userWorked LIKE %?1% OR p.userCreateInstance LIKE %?1%")
 	public List<InstanceAbstraction> finBySearch2(String keyword);
 	  
-//	SELECT * FROM BPM_INSTANCE_ABSTRACTION 
-//	WHERE BPM_INSTANCE_ABSTRACTION.INSTAN_OF = 'INSTANCE_PROCESS' and  BPM_INSTANCE_ABSTRACTION. USER_CREATE_INSTANCE LIKE '%:keyword%'
-//	   OR BPM_INSTANCE_ABSTRACTION.USER_WORKED  LIKE '%hx39075%';
-	  
+	 
+	@Query(value = "SELECT p.idInstanceOfProcess FROM InstanceAbstraction p WHERE  p.userWorked = :userWorked AND p.active = true")
+	public List<Long> findIdInstanceProcessFromUserWorked(@Param("userWorked") String userWorked);
 	
-	 @Modifying
-	 @Query(value = "SELECT * FROM BPM_INSTANCE_ABSTRACTION WHERE  BPM_INSTANCE_ABSTRACTION. USER_CREATE_INSTANCE LIKE '%:keyword%' OR BPM_INSTANCE_ABSTRACTION.USER_WORKED  LIKE '%:keyword%'", nativeQuery = true)
-	 public List<InstanceAbstraction> finBySearch(@Param("keyword") String keyword);
+	@Query("SELECT ia FROM InstanceAbstraction ia WHERE ia.idInstanceOfProcess IN (:idInstanceOfProcess)")
+	public List<InstanceAbstraction> findInstancesByIdInstanceOfProcess(@Param("idInstanceOfProcess") List<Integer> idInstanceOfProcess);
+	 
+//	 @Modifying
+//	 @Query(value = "SELECT * FROM BPM_INSTANCE_ABSTRACTION WHERE  BPM_INSTANCE_ABSTRACTION. USER_CREATE_INSTANCE LIKE '%:keyword%' OR BPM_INSTANCE_ABSTRACTION.USER_WORKED  LIKE '%:keyword%'", nativeQuery = true)
+//	 public List<InstanceAbstraction> finBySearch(@Param("keyword") String keyword);
 	
-	
+//	@Query(value = "SELECT p.idInstanceOfProcess FROM InstanceAbstraction p WHERE  p.userWorked = ?1and p.active = true")
+//	public List<Long> findIdInstanceProcessFromUserWorked(String userWorked);
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
