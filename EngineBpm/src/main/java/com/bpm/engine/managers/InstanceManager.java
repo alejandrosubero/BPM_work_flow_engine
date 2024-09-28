@@ -58,11 +58,10 @@ public class InstanceManager {
 		
 		listProcessModel.addAll(processManager.findByGlobal(true));
 		
-		List<ProcessModel> distinctProcessModelList = listProcessModel.stream()
-		        .distinct()
-		        .collect(Collectors.toList());
-		
+		List<ProcessModel> distinctProcessModelList = listProcessModel.stream().distinct().collect(Collectors.toList());
 		 
+		
+		
 		return instanceAbstractionService.findByUser(user);
 	 }
 	 
