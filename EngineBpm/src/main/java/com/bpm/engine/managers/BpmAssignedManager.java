@@ -6,6 +6,9 @@ import com.bpm.engine.model.AssignedModel;
 import com.bpm.engine.model.BpmAssignedModel;
 import com.bpm.engine.service.AssignedService;
 import com.bpm.engine.service.BpmAssignedService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,4 +60,11 @@ public class BpmAssignedManager {
         return response;
     }
 
+    
+    
+    public List<BpmAssignedModel> getAllBpmAssignedByEmployeeCode(String employeeCode){
+    	return bpmAssignedService.findByCodeEmployeeActive(employeeCode);
+    }
+    
+    
 }

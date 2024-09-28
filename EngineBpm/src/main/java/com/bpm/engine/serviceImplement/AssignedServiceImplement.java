@@ -215,13 +215,29 @@ public class AssignedServiceImplement implements AssignedService {
         return listaAssigned;
     }
 
-    @Override
+    @SuppressWarnings("finally")
+	@Override
     public AssignedModel findByCodeEmployeeAndActive(String codeEmployee, Boolean active) {
-        Optional<Assigned> fileOptional2 = assignedrepository.findByCodeEmployeeAndActive(codeEmployee, active);
-        if(fileOptional2.isPresent()){
-            return assignedMapper.entityToPojo(fileOptional2.get());
-        }
-        return null;
+      
+    	AssignedModel assignedModel = null;
+        try {
+        	  Optional<Assigned> fileOptional2 = assignedrepository.findByCodeEmployeeAndActive(codeEmployee, active);
+              if(fileOptional2.isPresent()){
+            	  assignedModel = assignedMapper.entityToPojo(fileOptional2.get());
+              }
+        }catch( DataAccessException e) {
+			 logger.error("Error in find a AssignedModel by codeEmployee: ", e);
+			e.printStackTrace();	
+		}catch(IllegalArgumentException e) {
+			logger.error("the codeEmployee parameters are null");
+			e.printStackTrace();
+		}catch (Exception e) {
+			logger.error("Error in findByCodeEmployeeAndActive...", e);
+			e.printStackTrace();
+		}finally {
+			return assignedModel;
+		}
+        
     }
 
     @Override
@@ -242,6 +258,13 @@ public class AssignedServiceImplement implements AssignedService {
         }
         return listTaskAssignedModel;
     }
+
+	@Override
+	public Boolean checkCodeEmployeeExists(String codeEmployee) {
+		  	Integer result = assignedrepository.checkCodeEmployeeExists(codeEmployee);
+	        return result != null;
+		
+	}
 
 
 

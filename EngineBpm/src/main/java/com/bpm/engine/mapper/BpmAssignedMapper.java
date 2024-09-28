@@ -13,6 +13,7 @@ import com.bpm.engine.model.BpmAssignedModel;
 @Component
 public class BpmAssignedMapper {
 
+	
 	public BpmAssignedModel entityToPojo(BpmAssigned entity) {
 		ModelMapper modelMapper = new ModelMapper();
 		BpmAssignedModel pojo = null;
@@ -22,6 +23,8 @@ public class BpmAssignedMapper {
 		}
 		return pojo;
 	}
+	
+	
 
 	public List<BpmAssignedModel> entityListToPojoList(List<BpmAssigned> entitys) {
 
@@ -31,16 +34,11 @@ public class BpmAssignedMapper {
 
 			pojos = entitys == null ? new ArrayList<>()
 					: entitys.stream().map(this::entityToPojo).collect(Collectors.toList());
-
-			// if (entitys != null && entitys.size()>0 ) {
-			// entitys.forEach(assigned -> {
-			// pojos.add(this.entityToPojo(assigned));
-			// });
-			// }
-
 		}
 		return pojos;
 	}
+	
+	
 
 	public BpmAssigned pojoToEntity(BpmAssignedModel pojo) {
 		ModelMapper modelMapper = new ModelMapper();

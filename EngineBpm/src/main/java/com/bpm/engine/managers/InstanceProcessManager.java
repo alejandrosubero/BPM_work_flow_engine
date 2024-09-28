@@ -18,20 +18,21 @@ public class InstanceProcessManager {
 
 	private static final Logger logger = LogManager.getLogger(InstanceProcessManager.class);
 	
-    private ProcessService processService;
+
     private InstanceManager instanceManager;
+    private ProcessManager processManager;
    
     @Autowired
-    public InstanceProcessManager(ProcessService processService, InstanceManager instanceManager) {
+    public InstanceProcessManager(ProcessManager processManager, InstanceManager instanceManager) {
 		super();
-		this.processService = processService;
+		this.processManager = processManager;
 		this.instanceManager = instanceManager;
 	}
     
     
     public List<InstanceAbstractionModel> getInstancesProcessDTO(SystemRequest systemRequest) {
     	
-    	List<InstanceAbstractionModel> listInstancesProcessDTO = instanceManager.getInstancesOfUser(systemRequest.getCodeEmployee());
+    	List<InstanceAbstractionModel> listInstancesProcessDTO = instanceManager.getInstancesAndProcessOfUser(systemRequest.getCodeEmployee());
     	
     	return listInstancesProcessDTO;
     }
@@ -41,7 +42,7 @@ public class InstanceProcessManager {
 		
 	   logger.info("Started create Instance Process ...");
 	   
-        ProcessModel process = processService.findByProcesCode(systemRequest.getProcessCode());
+        ProcessModel process = processManager.findByProcesCode(systemRequest.getProcessCode());
       
         if(process == null) {
         	logger.error("Fail to find a process......");

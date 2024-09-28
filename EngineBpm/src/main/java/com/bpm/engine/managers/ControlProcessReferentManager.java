@@ -43,7 +43,7 @@ public class ControlProcessReferentManager {
 		 
 		 		List<BpmAssignedModel> assigneds = new ArrayList<>();
 		 		
-		 		assigneds.add(assignmentTaskManager.getOneUserDirectAssigned(instanceProcess.getCreateBy(), instanceProcess.getIdInstanceProcess()));
+		 		assigneds.add(assignmentTaskManager.getOneUserDirectAssigned(instanceProcess.getCreateBy(), instanceProcess.getIdInstanceProcess(),instanceProcess.getprocess().getId_process()));
 		 		
 		       instance.setAssignes(assigneds);
 		 
@@ -63,7 +63,7 @@ public class ControlProcessReferentManager {
 					 .dateCreate(new Date())
 					 .active(true)
 					 .build();
-			 instance.setAssignes(assignmentTaskManager.getAssigned(taskModel.getCodeTask(),  systemRequest, instanceProccesId, taskModel));
+			 instance.setAssignes(assignmentTaskManager.getAssigned(taskModel.getCodeTask(),  systemRequest, instanceProccesId, taskModel, instanceProccesId));
 			  
 				return controlProcessReferentService.saveOrUpdateInternalControlProcess(instance);
 

@@ -2,6 +2,7 @@ package com.bpm.engine.service;
 
 import java.util.List;
 
+import com.bpm.engine.entitys.BpmAssigned;
 import com.bpm.engine.model.BpmAssignedModel;
 
 public interface BpmAssignedService {
@@ -11,6 +12,10 @@ public interface BpmAssignedService {
     public BpmAssignedModel findByIdBpmAssigned(Long id);
     
     public BpmAssignedModel findByCodeEmployeeAndTaskCode(String codeEmployee, String taskCode);
+    
+    public List<BpmAssignedModel>  findByCodeEmployee(String codeEmployee);
+    
+    public List<BpmAssignedModel> findByCodeEmployeeActive (String codeEmployee);
 
     public List<BpmAssignedModel> findByIdAssigned(Long idAssigned);
 
@@ -31,7 +36,8 @@ public interface BpmAssignedService {
     public List<BpmAssignedModel> findByTaskCodeAndInstanciaProccesIdNull(String taskCode, Boolean active);
     
     public List<BpmAssignedModel> findByTaskCodeActive(String taskCode, Boolean active);
-
+    
+    public List<BpmAssignedModel> findByProccesIdAndCodeEmployeeAndActive (Long proccesId, String codeEmployee);
     
     
     

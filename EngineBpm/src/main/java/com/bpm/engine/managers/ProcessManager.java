@@ -2,7 +2,10 @@ package com.bpm.engine.managers;
 
 import static com.bpm.engine.utility.SystemSate.CREATE;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +44,20 @@ public class ProcessManager implements RadomCode {
         this.controlProcessReferent = controlProcessReferent;
     }
 
+    
+    public List<ProcessModel> getListProcessModel(List<Long> idProcessModelList){
+    	
+    	List<ProcessModel> listProcessModel = new ArrayList<>();
+    	
+    	idProcessModelList.stream().parallel().forEach(id ->{
+    		ProcessModel process = processService.findById(id);
+    		if(process != null) {
+    			listProcessModel.add(process);
+    		}
+    	});
+    	return listProcessModel;
+    }
+    
     public EntityRespone createProcess(ProcessModel processModel) {
         EntityRespone entityRespone = null;
         SystemInternalResponseModel response = processValidationService.isValid(processModel);
@@ -105,5 +122,12 @@ public class ProcessManager implements RadomCode {
         }
         return code;
     }
+    
+    
+    public ProcessModel findByProcesCode(String procesCode) {
+    	return processService.findByProcesCode(procesCode);
+    }
+    
+    
 }
 

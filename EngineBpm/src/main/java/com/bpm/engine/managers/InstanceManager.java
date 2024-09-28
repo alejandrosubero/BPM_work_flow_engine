@@ -3,6 +3,7 @@ package com.bpm.engine.managers;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,12 @@ public class InstanceManager {
 	
 	 @Autowired
 	 private AssignmentTaskManager assignmentTaskManager;
+	 
+	 @Autowired
+	 private BpmAssignedManager bpmAssignedManager;
+	 
+	 @Autowired
+	 private ProcessManager processManager;
 
 	
 	 public InstanceAbstractionModel saveCompliteInstance(InstanceAbstractionModel instance) {
@@ -33,10 +40,19 @@ public class InstanceManager {
 	 }
 	 
 	 	
-	 public List<InstanceAbstractionModel> getInstancesOfUser(String user) { 
+	 
+	 public List<InstanceAbstractionModel> getInstancesAndProcessOfUser(String user) { 
 		 
-		 
-		 
+		 List<BpmAssignedModel>  bpmAssignedModelList =  bpmAssignedManager.getAllBpmAssignedByEmployeeCode(user);
+		   
+		if(bpmAssignedModelList !=null && !bpmAssignedModelList.isEmpty()) {
+			
+			 List<Long> idProcessModelList = bpmAssignedModelList.stream().map(BpmAssignedModel::getProccesId)
+		                .collect(Collectors.toList());
+			 
+			 List<ProcessModel> listProcessModel =  processManager.getListProcessModel(idProcessModelList);
+		}
+		
 		 
 		 
 		return instanceAbstractionService.findByUser(user);
@@ -102,13 +118,13 @@ public class InstanceManager {
 		
 		tasksList.parallelStream().forEach(task -> {
 			if(parent.getLevel() == 1 ) {
-				List<BpmAssignedModel> listAssigned = assignmentTaskManager.getAssigned(task.getCode(), systemRequest, parent.getIdInstanceOfProcess());	
+				List<BpmAssignedModel> listAssigned = assignmentTaskManager.getAssigned(task.getCode(), systemRequest, parent.getIdInstanceOfProcess(),parent.getIdProcess());	
 				
 				// save BpmAssignedModel userCreateInstanceProcess if not exist for taskCode
-				assignmentTaskManager.getOneAssigned(task.getCode(), systemRequest.getCodeEmployee(), parent.getIdInstanceOfProcess(),0);
+				assignmentTaskManager.getOneAssigned(task.getCode(), systemRequest.getCodeEmployee(), parent.getIdInstanceOfProcess(),parent.getIdProcess(),0);
 				
 				listOfInstanceAbstractionModel.addAll(this.createFromTaskListOfUsers(listAssigned,parent, task));
-			}else {
+			} else {
 				
 				listOfInstanceAbstractionModel.add( this.createFromTask( parent,  task, null));
 			}

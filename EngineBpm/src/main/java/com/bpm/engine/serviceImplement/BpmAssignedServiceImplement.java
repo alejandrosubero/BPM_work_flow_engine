@@ -137,4 +137,38 @@ public class BpmAssignedServiceImplement implements BpmAssignedService {
 		}
 	}
 
+	
+	@Override
+	public List<BpmAssignedModel> findByCodeEmployee(String codeEmployee) {
+		
+		try {
+			return mapper.entityListToPojoList(repository.findByCodeEmployee(codeEmployee));
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<BpmAssignedModel> findByProccesIdAndCodeEmployeeAndActive(Long proccesId, String codeEmployee) {
+		return mapper.entityListToPojoList(repository.findByProccesIdAndCodeEmployeeAndActive(proccesId,codeEmployee, true));
+	}
+	
+
+	@Override
+	public List<BpmAssignedModel> findByCodeEmployeeActive(String codeEmployee) {
+		
+		try {
+			return mapper.entityListToPojoList(repository.findByCodeEmployeeAndActive(codeEmployee, true));	
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+
 }
+
+
+

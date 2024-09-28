@@ -42,6 +42,8 @@ public class BpmAssigned {
     
     @Column(name = "code_Employee", updatable = true, nullable = true, length = 200)
     private String codeEmployee;
- 
-
+    
+    @Column(name = "procces_Id", updatable = true, nullable = true, length = 200)
+    private Long proccesId;
+    
 }
