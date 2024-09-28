@@ -288,7 +288,7 @@ public class AssignmentTaskManager {
 		
 	}
 	
-	private AssignedModel getAssignedModel(String codeEmployee) {
+	public AssignedModel getAssignedModel(String codeEmployee) {
 		return assignedService.findByCodeEmployeeAndActive(codeEmployee, true);
 	}
 	

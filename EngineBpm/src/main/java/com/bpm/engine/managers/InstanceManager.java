@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.bpm.engine.dto.SystemRequest;
+import com.bpm.engine.model.AssignedModel;
 import com.bpm.engine.model.BpmAssignedModel;
 import com.bpm.engine.model.InstanceAbstractionModel;
 import com.bpm.engine.model.ProcessModel;
@@ -43,17 +44,17 @@ public class InstanceManager {
 	 
 	 public List<InstanceAbstractionModel> getInstancesAndProcessOfUser(String user) { 
 		 
-		 List<BpmAssignedModel>  bpmAssignedModelList =  bpmAssignedManager.getAllBpmAssignedByEmployeeCode(user);
-		   
-		if(bpmAssignedModelList !=null && !bpmAssignedModelList.isEmpty()) {
-			
-			 List<Long> idProcessModelList = bpmAssignedModelList.stream().map(BpmAssignedModel::getProccesId)
-		                .collect(Collectors.toList());
-			 
-			 List<ProcessModel> listProcessModel =  processManager.getListProcessModel(idProcessModelList);
-		}
+
+//			
+//			 List<Long> idProcessModelList = bpmAssignedModelList.stream().map(BpmAssignedModel::getProccesId)
+//		                .collect(Collectors.toList());
+
 		
+		 AssignedModel assignedUser =  assignmentTaskManager.getAssignedModel(user);
 		 
+		 List<ProcessModel> listProcessModel =  processManager.findAllByRoleCodeRole(assignedUser.getemployeeRole().getCodeRole());
+		
+		
 		 
 		return instanceAbstractionService.findByUser(user);
 	 }

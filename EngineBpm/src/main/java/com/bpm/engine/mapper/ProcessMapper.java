@@ -15,7 +15,9 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 
 package com.bpm.engine.mapper;
 
+import com.bpm.engine.entitys.InstanceAbstraction;
 import com.bpm.engine.entitys.Process;
+import com.bpm.engine.model.InstanceAbstractionModel;
 import com.bpm.engine.model.ProcessModel;
 import com.bpm.engine.entitys.Stage;
 import com.bpm.engine.model.StageModel;
@@ -56,6 +58,29 @@ public class ProcessMapper {
         }
         return entity;
     }
+    
+    
+    public List<ProcessModel> entityListToPojoList(List<Process> entitys) {
+        List<ProcessModel> pojos = new ArrayList<>();
+        if (entitys != null && !entitys.isEmpty() ) {
+            entitys.parallelStream().forEach(process -> {
+                pojos.add(this.entityToPojo(process));
+            });
+        }
+        return pojos;
+    }
+    
+    
+    public List<Process> PojoListToentityList(List<ProcessModel> pojos) {
+        List<Process> entitys = new ArrayList<>();
+        if (pojos != null && !pojos.isEmpty() ) {
+        	pojos.parallelStream().forEach(process -> {
+        		entitys.add(this.pojoToEntity(process));
+            });
+        }
+        return entitys;
+    }
+    
 }
  /*
  Copyright (C) 2008 Google Inc.

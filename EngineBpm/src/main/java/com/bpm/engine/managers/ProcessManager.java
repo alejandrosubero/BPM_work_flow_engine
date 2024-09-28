@@ -45,6 +45,11 @@ public class ProcessManager implements RadomCode {
     }
 
     
+    public List<ProcessModel> findAllByRoleCodeRole(String codeRole) {
+    	return processService.findAllByRoleCodeRole(codeRole);
+    }
+    
+    
     public List<ProcessModel> getListProcessModel(List<Long> idProcessModelList){
     	
     	List<ProcessModel> listProcessModel = new ArrayList<>();

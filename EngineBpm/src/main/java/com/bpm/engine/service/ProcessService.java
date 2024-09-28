@@ -14,15 +14,12 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 
 package com.bpm.engine.service;
 
-import java.util.Optional;
 import java.util.Date;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import com.bpm.engine.entitys.Process;
-import com.bpm.engine.model.ProcessModel;
 import com.bpm.engine.entitys.Stage;
+import com.bpm.engine.model.ProcessModel;
 
 
 public interface ProcessService {
@@ -72,7 +69,7 @@ public interface ProcessService {
 
     public List<ProcessModel> findByStageContaining(Stage stages);
     
-    
+    public List<ProcessModel> findAllByRoleCodeRole(String codeRole);
 }
  /*
  Copyright (C) 2008 Google Inc.
