@@ -4,11 +4,20 @@ import com.bpm.engine.model.RoleModel;
 import com.bpm.engine.model.StageModel;
 import com.bpm.engine.model.TaskModel;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class StageDTO implements Serializable {
 	
     private static final long serialVersionUID = 2L;
@@ -18,23 +27,15 @@ public class StageDTO implements Serializable {
     private String name;
     private String title;
     private String type;
+    
+    @Builder.Default
     private List<StageDTO> stages = new ArrayList<>();
-    private List<RoleDTO> roles = new ArrayList<>();
+   
+    @Builder.Default
     private List<TaskDTO> tasks = new ArrayList<>();
-
-    public StageDTO() {
-    }
-
-    public StageDTO(Long id, String code, String name, String title, String type, List<StageDTO> stages, List<RoleDTO> roles, List<TaskDTO> tasks) {
-        this.id = id;
-        Code = code;
-        this.name = name;
-        this.title = title;
-        this.type = type;
-        this.stages = stages;
-        this.roles = roles;
-        this.tasks = tasks;
-    }
+   
+    @Builder.Default
+    private List<RoleDTO> roles = new ArrayList<>();
 
     public StageDTO(StageModel stageModel) {
         if (stageModel.getIdStage() != null)

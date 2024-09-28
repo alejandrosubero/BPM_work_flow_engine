@@ -1,14 +1,21 @@
 package com.bpm.engine.dto;
 
-import com.bpm.engine.model.ProcessModel;
-import com.bpm.engine.model.StageModel;
-import com.bpm.engine.model.TaskModel;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import com.bpm.engine.model.ProcessModel;
+import com.bpm.engine.model.StageModel;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ProcessDTO implements Serializable {
 	
     private static final long serialVersionUID = 1L;
@@ -20,21 +27,11 @@ public class ProcessDTO implements Serializable {
     private String Code;
     private Boolean visible;
     private Boolean global;
+    
+    @Builder.Default
     private List<StageDTO> stages = new ArrayList<>();
 
-    public ProcessDTO() {
-    }
-
-    public ProcessDTO(Long id, String name, String title, String state, String code, Boolean visible, Boolean global, List<StageDTO> stages) {
-        this.id = id;
-        this.name = name;
-        Title = title;
-        this.state = state;
-        Code = code;
-        this.visible = visible;
-        this.global = global;
-        this.stages = stages;
-    }
+  
 
     public ProcessDTO(ProcessModel process) {
         if( process.getId_process()!=null)

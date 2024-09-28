@@ -2,7 +2,7 @@ package com.bpm.engine.utility;
 
 public enum InstanOf {
 	
-     INSTANCE_PROCESS("INSTANCE_PROCESS"),INSTANCE_TASK ("INSTANCE_TASK"),INSTANCE_STAGE("INSTANCE_STAGE");
+     INSTANCE_PROCESS("INSTANCE_PROCESS"),INSTANCE_TASK ("INSTANCE_TASK"),INSTANCE_STAGE("INSTANCE_STAGE"), PROCESS("PROCESS"),TASK ("TASK"),STAGE("INSTANCE_STAGE");
 
 	
 	   private final String value;
@@ -16,3 +16,4 @@ public enum InstanOf {
 	    }
 	    
 }
+
