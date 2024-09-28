@@ -49,6 +49,9 @@ public class ProcessManager implements RadomCode {
     	return processService.findAllByRoleCodeRole(codeRole);
     }
     
+    public List<ProcessModel> findByGlobal(Boolean global){
+    	return processService.findByGlobalContaining(global);
+    }
     
     public List<ProcessModel> getListProcessModel(List<Long> idProcessModelList){
     	

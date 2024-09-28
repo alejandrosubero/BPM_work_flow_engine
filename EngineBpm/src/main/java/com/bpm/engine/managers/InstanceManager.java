@@ -52,8 +52,15 @@ public class InstanceManager {
 		
 		 AssignedModel assignedUser =  assignmentTaskManager.getAssignedModel(user);
 		 
-		 List<ProcessModel> listProcessModel =  processManager.findAllByRoleCodeRole(assignedUser.getemployeeRole().getCodeRole());
+		 List<ProcessModel> listProcessModel = new ArrayList<>();
+		 
+		listProcessModel.addAll(processManager.findAllByRoleCodeRole(assignedUser.getemployeeRole().getCodeRole()));
 		
+		listProcessModel.addAll(processManager.findByGlobal(true));
+		
+		List<ProcessModel> distinctProcessModelList = listProcessModel.stream()
+		        .distinct()
+		        .collect(Collectors.toList());
 		
 		 
 		return instanceAbstractionService.findByUser(user);

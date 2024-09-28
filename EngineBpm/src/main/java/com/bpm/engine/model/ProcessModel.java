@@ -144,21 +144,34 @@ public class ProcessModel {
         this.roles = roles;
     }
 
+ 
+    
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ProcessModel that = (ProcessModel) o;
-        return Objects.equals(id_process, that.id_process) && Objects.equals(name, that.name) && Objects.equals(createDate, that.createDate) && Objects.equals(userCreate, that.userCreate) && Objects.equals(procesTitle, that.procesTitle) && Objects.equals(state, that.state) && Objects.equals(procesCode, that.procesCode) && Objects.equals(visible, that.visible) && Objects.equals(global, that.global) && Objects.equals(activo, that.activo) && Objects.equals(stages, that.stages) && Objects.equals(roles, that.roles);
-    }
+	public int hashCode() {
+		return Objects.hash(activo, createDate, global, id_process, name, procesCode, procesTitle, roles, stages, state,
+				userCreate, visible);
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id_process, name, createDate, userCreate, procesTitle, state, procesCode, visible, global, activo, stages, roles);
-    }
-    
-    
-    /***
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ProcessModel other = (ProcessModel) obj;
+		return Objects.equals(activo, other.activo) && Objects.equals(createDate, other.createDate)
+				&& Objects.equals(global, other.global) && Objects.equals(id_process, other.id_process)
+				&& Objects.equals(name, other.name) && Objects.equals(procesCode, other.procesCode)
+				&& Objects.equals(procesTitle, other.procesTitle) && Objects.equals(roles, other.roles)
+				&& Objects.equals(stages, other.stages) && Objects.equals(state, other.state)
+				&& Objects.equals(userCreate, other.userCreate) && Objects.equals(visible, other.visible);
+	}
+
+
+	/***
      * 
      * @return true is proces_code Exit and Stages are No Empty.
      */
