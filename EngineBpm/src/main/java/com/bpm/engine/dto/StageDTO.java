@@ -27,6 +27,7 @@ public class StageDTO implements Serializable {
     private String name;
     private String title;
     private String type;
+    private String instanceOf;
     
     @Builder.Default
     private List<StageDTO> stages = new ArrayList<>();
@@ -115,67 +116,4 @@ public class StageDTO implements Serializable {
     }
 
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCode() {
-        return Code;
-    }
-
-    public void setCode(String code) {
-        Code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public List<StageDTO> getStages() {
-        return stages;
-    }
-
-    public void setStages(List<StageDTO> stages) {
-        this.stages = stages;
-    }
-
-    public List<RoleDTO> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<RoleDTO> roles) {
-        this.roles = roles;
-    }
-
-    public List<TaskDTO> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<TaskDTO> tasks) {
-        this.tasks = tasks;
-    }
 }

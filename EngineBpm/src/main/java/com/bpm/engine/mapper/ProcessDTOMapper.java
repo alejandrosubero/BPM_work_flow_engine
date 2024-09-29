@@ -35,33 +35,40 @@ public class ProcessDTOMapper {
 	
 	
 	
-	public List<StageDTO> getStage(List<InstanceAbstractionModel> instances) {
+	// stage 1
+	public List<StageDTO> getStage(List<InstanceAbstractionModel> instancesLevel1) {
 		
 		List<StageDTO> stages = new ArrayList<>();
+		List<StageDTO> stagesTemporal = new ArrayList<>();
 		
-		if(instances != null && !instances.isEmpty()) {
+		
+		
+		if(instancesLevel1 != null && !instancesLevel1.isEmpty()) {
 			
-			for(InstanceAbstractionModel instance : instances) {
+			for(InstanceAbstractionModel instanceLeveFroml1 : instancesLevel1) {
 				
-				if(instance.getInstanOf().equals(InstanOf.INSTANCE_STAGE.getValue())) {
+				if(instanceLeveFroml1.getInstanOf().equals(InstanOf.INSTANCE_STAGE.getValue())) {
 					
-					if(instance.getInstances() != null && !instance.getInstances().isEmpty()) {
+					StageDTO stageL1 = getStageDTO(instanceLeveFroml1);		
+					
+					if(instanceLeveFroml1.getInstances() != null && !instanceLeveFroml1.getInstances().isEmpty()) {
 						
-						instance.getInstances().parallelStream().forEach(internalLevel ->{
+						List<TaskDTO> lisOfTaks = new ArrayList<>();
+						
+//						instanceLeveFroml1.getInstances().parallelStream().forEach(internalLevel ->{
+						
+						StageDTO stageInstanceLeveFroml1 = null;
 							
-							if(internalLevel.getInstanOf().equals(InstanOf.INSTANCE_STAGE.getValue())) {
+							if(instanceLeveFroml1.getInstances().get(0).getInstanOf().equals(InstanOf.INSTANCE_STAGE.getValue())) {
+								
 								
 							}
 							
-							if(internalLevel.getInstanOf().equals(InstanOf.INSTANCE_TASK.getValue()) &&
-									(internalLevel.getInstances() != null && !internalLevel.getInstances().isEmpty())
-								){
+							if(instanceLeveFroml1.getInstances().get(0).getInstanOf().equals(InstanOf.INSTANCE_TASK.getValue())){
 								
-								getTaks(List<InstanceAbstractionModel> instances)
+								this.getTaks(instanceLeveFroml1.getInstances());
 							}
-						});
-
-						
+//						});
 					}
 				}
 			}
@@ -70,6 +77,33 @@ public class ProcessDTOMapper {
 		}
 		
 		return null;
+	}
+	
+	
+	public StageDTO getStageDTO(InstanceAbstractionModel instanceStage) {
+		return StageDTO.builder()
+		.id(instanceStage.getIdInstance())
+		.name(instanceStage.getName())
+		.Code(instanceStage.getCodeReferent())
+		.title(instanceStage.getTitle())
+		.instanceOf(InstanOf.INSTANCE_STAGE.getValue())
+		.build();
+	}
+	
+	
+	public TaskDTO getTask(InstanceAbstractionModel instanceTask) {
+		
+			return TaskDTO.builder()
+					.id(instanceTask.getIdInstance())
+					.title(instanceTask.getTitle())
+					.name(instanceTask.getName())
+					.userCode(instanceTask.getUserWorked())
+					.status(instanceTask.getStatus())
+					.response(instanceTask.getResponse())
+					.codeOfTask(instanceTask.getCodeReferent())
+					.codeProcess(instanceTask.getCodeProcess())
+					.instanceOf(InstanOf.INSTANCE_TASK.getValue())
+					.build();
 	}
 	
 	
