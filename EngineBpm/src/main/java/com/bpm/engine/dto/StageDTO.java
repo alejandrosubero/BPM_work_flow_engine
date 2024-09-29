@@ -3,6 +3,7 @@ package com.bpm.engine.dto;
 import com.bpm.engine.model.RoleModel;
 import com.bpm.engine.model.StageModel;
 import com.bpm.engine.model.TaskModel;
+import com.bpm.engine.utility.InstanOf;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,9 +38,12 @@ public class StageDTO implements Serializable {
    
     @Builder.Default
     private List<RoleDTO> roles = new ArrayList<>();
+    
+    
 
     public StageDTO(StageModel stageModel) {
-        if (stageModel.getIdStage() != null)
+    
+    	if (stageModel.getIdStage() != null)
             this.id = stageModel.getIdStage();
 
         if (stageModel.getStageCode() != null)
@@ -53,9 +57,11 @@ public class StageDTO implements Serializable {
 
         if (stageModel.getType() != null)
             this.type = stageModel.getType();
+        
+        this.instanceOf = InstanOf.STAGE.getValue();
 
-        if (stageModel.getroles() != null && stageModel.getroles().size() > 0)
-            this.roles = this.getRoles(stageModel.getroles());
+//        if (stageModel.getroles() != null && stageModel.getroles().size() > 0)
+//            this.roles = this.getRoles(stageModel.getroles());
 
         if (stageModel.gettasks() != null && stageModel.gettasks().size() > 0)
             this.tasks = this.getTask(stageModel.gettasks());
@@ -63,14 +69,15 @@ public class StageDTO implements Serializable {
         
         if (stageModel.getstages() != null && stageModel.getstages().size() > 0) {
             List<StageDTO> stageModelList = new ArrayList<>();
-            for (StageModel stage : stageModel.getstages()) {
-                stageModelList.add(new StageDTO(stage, "children"));
-            }
-            
+            stageModel.getstages().parallelStream().forEach(stage -> stageModelList.add(new StageDTO(stage, "children")));
+//            for (StageModel stage : stageModel.getstages()) {
+//                stageModelList.add(new StageDTO(stage, "children"));
+//            }
             this.stages = stageModelList;
         }
     }
 
+    
     public StageDTO(StageModel stageModel, String children) {
 
         if(children != null){
@@ -89,8 +96,8 @@ public class StageDTO implements Serializable {
             if (stageModel.getType() != null)
                 this.type = stageModel.getType();
 
-            if (stageModel.getroles() != null && stageModel.getroles().size() > 0)
-                this.roles = this.getRoles(stageModel.getroles());
+//            if (stageModel.getroles() != null && stageModel.getroles().size() > 0)
+//                this.roles = this.getRoles(stageModel.getroles());
 
             if (stageModel.gettasks() != null && stageModel.gettasks().size() > 0)
                 this.tasks = this.getTask(stageModel.gettasks());
@@ -101,9 +108,10 @@ public class StageDTO implements Serializable {
     
     private List<TaskDTO> getTask(List<TaskModel> taskModels) {
         List<TaskDTO> dTOList = new ArrayList<>();
-        for (TaskModel task : taskModels) {
-            dTOList.add(new TaskDTO(task));
-        }
+        taskModels.parallelStream().forEach(task->  dTOList.add(new TaskDTO(task)));
+//        for (TaskModel task : taskModels) {
+//            dTOList.add(new TaskDTO(task));
+//        }
         return dTOList;
     }
 

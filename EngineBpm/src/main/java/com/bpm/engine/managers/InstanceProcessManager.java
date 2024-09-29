@@ -32,7 +32,7 @@ public class InstanceProcessManager {
     
     public List<InstanceAbstractionModel> getInstancesProcessDTO(SystemRequest systemRequest) {
     	
-    	List<InstanceAbstractionModel> listInstancesProcessDTO = instanceManager.getInstancesAndProcessOfUser(systemRequest.getCodeEmployee());
+    	List<InstanceAbstractionModel> listInstancesProcessDTO = instanceManager.getInstancesOfUser(systemRequest.getCodeEmployee());
     	
     	return listInstancesProcessDTO;
     }

@@ -4,6 +4,7 @@ import com.bpm.engine.model.RoleModel;
 import com.bpm.engine.model.RulerModel;
 import com.bpm.engine.model.TaskModel;
 import com.bpm.engine.model.TaskTypeModel;
+import com.bpm.engine.utility.InstanOf;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -77,16 +78,17 @@ public class TaskDTO implements Serializable {
         if( taskModel.getCode() != null)
         this.codeOfTask = taskModel.getCode();
 
-        if( taskModel.getType() != null)
-        this.type = taskModel.getType();
-
-
+        this.instanceOf = InstanOf.TASK.getValue();
+        
         if(taskModel.getRoles().size() >0)
         this.roles = this.getRoles(taskModel.getRoles());
 
-        if(taskModel.getRulers().size()>0)
-        this.rulers = this.getRules(taskModel.getRulers());
+//        if(taskModel.getRulers().size()>0)
+//        this.rulers = this.getRules(taskModel.getRulers());
     }
+    
+    
+       
 
     public TaskDTO(Long id, String title, String name, String codeProcess, String url, String serviceUrl, String codeOfTask, TaskTypeModel type) {
         this.id = id;

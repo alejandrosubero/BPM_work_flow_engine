@@ -2,26 +2,31 @@ package com.bpm.engine.managers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bpm.engine.dto.ProcessDTO;
 import com.bpm.engine.dto.SystemRequest;
 import com.bpm.engine.model.InstanceAbstractionModel;
-import com.bpm.engine.service.ProcessService;
+import com.bpm.engine.model.ProcessModel;
 
 @Component
 public class InstanceProcessManagerDTO {
 
 	
-	  private ProcessService processService;
-	  private InstanceManager instanceManager;
-	    
+	
+	 private ProcessManager processManager;
+	 private InstanceProcessManager instanceProcessManager;
 	  
-	  public InstanceProcessManagerDTO(ProcessService processService, InstanceManager instanceManager) {
+	    
+	@Autowired
+	public InstanceProcessManagerDTO(ProcessManager processManager, InstanceProcessManager instanceProcessManager) {
 		super();
-		this.processService = processService;
-		this.instanceManager = instanceManager;
+		this.processManager = processManager;
+		this.instanceProcessManager = instanceProcessManager;
 	}
+
+
 
 
 
@@ -29,9 +34,11 @@ public class InstanceProcessManagerDTO {
 	public List<ProcessDTO> createInstanceAbstractionDTO (SystemRequest systemRequest) {
 		  
 		  
+		List<InstanceAbstractionModel> instancesProcessOfUser	=	instanceProcessManager.getInstancesProcessDTO(systemRequest);
+		List<ProcessModel> processOfUser = processManager.getProcessOfUser(systemRequest.getCodeEmployee());
 		  
-		  
-		  
+//		ProcessDTO processDTO =  new ProcessDTO(ProcessModel process);
+		
 		  
 		  return null;
 	  }

@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,9 @@ import com.bpm.engine.entitys.ControlProcessReferent;
 import com.bpm.engine.interfaces.RadomCode;
 import com.bpm.engine.mapper.MapperEntityRespone;
 import com.bpm.engine.mapper.ProcessMapper;
+import com.bpm.engine.model.AssignedModel;
 import com.bpm.engine.model.ControlProcessReferentModel;
+import com.bpm.engine.model.InstanceAbstractionModel;
 import com.bpm.engine.model.ProcessModel;
 import com.bpm.engine.model.StageModel;
 import com.bpm.engine.model.SystemInternalResponseModel;
@@ -34,16 +37,39 @@ public class ProcessManager implements RadomCode {
     private ProcessMapper processMapper;
     private MapperEntityRespone mapperEntityRespone;
     private ControlProcessReferentService controlProcessReferent;
+	private AssignmentTaskManager assignmentTaskManager;
+
+
 
     @Autowired
-    public ProcessManager(ProcessService processService, ProcessValidation processValidationService, ProcessMapper processMapper, MapperEntityRespone mapperEntityRespone, ControlProcessReferentService controlProcessReferent) {
-        this.processService = processService;
-        this.processValidationService = processValidationService;
-        this.processMapper = processMapper;
-        this.mapperEntityRespone = mapperEntityRespone;
-        this.controlProcessReferent = controlProcessReferent;
-    }
+    public ProcessManager(ProcessService processService, ProcessValidation processValidationService,
+			ProcessMapper processMapper, MapperEntityRespone mapperEntityRespone,ControlProcessReferentService controlProcessReferent, AssignmentTaskManager assignmentTaskManager) {
+		this.processService = processService;
+		this.processValidationService = processValidationService;
+		this.processMapper = processMapper;
+		this.mapperEntityRespone = mapperEntityRespone;
+		this.controlProcessReferent = controlProcessReferent;
+		this.assignmentTaskManager = assignmentTaskManager;
+	}
 
+
+
+	public List<ProcessModel> getProcessOfUser(String user) { 
+	
+	 AssignedModel assignedUser =  assignmentTaskManager.getAssignedModel(user);
+	 
+	 List<ProcessModel> listProcessModel = new ArrayList<>();
+	 
+	listProcessModel.addAll(this.findAllByRoleCodeRole(assignedUser.getemployeeRole().getCodeRole()));
+	
+	listProcessModel.addAll(this.findByGlobal(true));
+	
+	List<ProcessModel> distinctProcessModelList = listProcessModel.stream().distinct().collect(Collectors.toList());
+	 
+	return distinctProcessModelList;
+ }
+    
+    
     
     public List<ProcessModel> findAllByRoleCodeRole(String codeRole) {
     	return processService.findAllByRoleCodeRole(codeRole);

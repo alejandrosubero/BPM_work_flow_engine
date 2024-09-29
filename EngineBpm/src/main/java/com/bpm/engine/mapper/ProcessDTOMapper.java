@@ -9,38 +9,47 @@ import com.bpm.engine.dto.TaskDTO;
 import com.bpm.engine.model.InstanceAbstractionModel;
 import com.bpm.engine.utility.InstanOf;
 
-//import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Component;
 
-//@Component
+@Component
 public class ProcessDTOMapper {
 
 	
 	public ProcessDTO InstanceAbstractionModelToDTO(InstanceAbstractionModel instance) {
 		
+		ProcessDTO processDTO = null;
 		
-		
-		ProcessDTO processDTO = ProcessDTO.builder()
-				
-				.build();
-		
-		if(instance.getInstances() != null && !instance.getInstances().isEmpty()) {
-			processDTO.setStages(this.getStage(instance.getInstances()));
+		if(instance.getInstanOf().equals(InstanOf.INSTANCE_PROCESS.getValue())) {
+			
+			 processDTO = ProcessDTO.builder()
+					.id(instance.getIdInstance())
+					.name(instance.getName())
+					.Title(instance.getTitle())
+					.state(instance.getStatus())
+					.userCreate(instance.getUserCreateInstance())
+					.instanceOf(instance.getInstanOf())
+					.build();
+			
+			if(instance.getInstances() != null && !instance.getInstances().isEmpty()) {
+				processDTO.setStages(this.getStage(instance.getInstances()));
+			}
 		}
 		
-		
-		return null;
+		return processDTO;
 	}
 	
 	
 	
-	// stage 1
+
 	public List<StageDTO> getStage(List<InstanceAbstractionModel> instancesLevel1) {
 		
 		List<StageDTO> stages = new ArrayList<>();
 			
 		if(instancesLevel1 != null && !instancesLevel1.isEmpty()) {
 			
-			for(InstanceAbstractionModel parent : instancesLevel1) {
+//			for(InstanceAbstractionModel parent : instancesLevel1) {
+				
+				instancesLevel1.parallelStream().forEach(parent ->{
 				
 				if(parent.getInstanOf().equals(InstanOf.INSTANCE_STAGE.getValue())) {
 					
@@ -58,7 +67,8 @@ public class ProcessDTOMapper {
 						}
 						stages.add(stageL1);	
 				}
-			}
+			});
+//			}
 		}
 		
 		return stages;

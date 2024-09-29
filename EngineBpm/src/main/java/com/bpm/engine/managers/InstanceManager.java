@@ -23,44 +23,29 @@ import com.bpm.engine.utility.SystemSate;
 @Component
 public class InstanceManager {
 	
-	@Autowired
-	private InstanceAbstractionService instanceAbstractionService;
-	
-	 @Autowired
-	 private AssignmentTaskManager assignmentTaskManager;
-	 
-	 @Autowired
-	 private BpmAssignedManager bpmAssignedManager;
-	 
-	 @Autowired
-	 private ProcessManager processManager;
 
-	
-	 public InstanceAbstractionModel saveCompliteInstance(InstanceAbstractionModel instance) {
+	private InstanceAbstractionService instanceAbstractionService;
+	private AssignmentTaskManager assignmentTaskManager;
+
+	@Autowired
+	 public InstanceManager(InstanceAbstractionService instanceAbstractionService, AssignmentTaskManager assignmentTaskManager) {
+		super();
+		this.instanceAbstractionService = instanceAbstractionService;
+		this.assignmentTaskManager = assignmentTaskManager;
+	}
+
+
+
+	public InstanceAbstractionModel saveCompliteInstance(InstanceAbstractionModel instance) {
 		 return instanceAbstractionService.saveInitial(instance);
 	 }
 	 
 	 	
 	 
-	 public List<InstanceAbstractionModel> getInstancesAndProcessOfUser(String user) { 
-		 
-
-//			
+	 public List<InstanceAbstractionModel> getInstancesOfUser(String user) { 
+		
 //			 List<Long> idProcessModelList = bpmAssignedModelList.stream().map(BpmAssignedModel::getProccesId)
 //		                .collect(Collectors.toList());
-
-		
-		 AssignedModel assignedUser =  assignmentTaskManager.getAssignedModel(user);
-		 
-		 List<ProcessModel> listProcessModel = new ArrayList<>();
-		 
-		listProcessModel.addAll(processManager.findAllByRoleCodeRole(assignedUser.getemployeeRole().getCodeRole()));
-		
-		listProcessModel.addAll(processManager.findByGlobal(true));
-		
-		List<ProcessModel> distinctProcessModelList = listProcessModel.stream().distinct().collect(Collectors.toList());
-		 
-		
 		
 		return instanceAbstractionService.findByUser(user);
 	 }
@@ -112,10 +97,6 @@ public class InstanceManager {
 		.dateCreate(new Date())
 		.level(stage.getStageNumber())
 		.build();
-		
-//		InstanceAbstractionModel instanceSave = instanceAbstractionService.save(instance);
-		
-//		return instance;
 	}
 	
 	
