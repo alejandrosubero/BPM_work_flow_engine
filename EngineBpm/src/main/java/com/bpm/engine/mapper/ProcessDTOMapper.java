@@ -19,15 +19,13 @@ public class ProcessDTOMapper {
 		
 		
 		
+		ProcessDTO processDTO = ProcessDTO.builder()
+				
+				.build();
 		
-		
-		
-		
-		
-		ProcessDTO processDTO = ProcessDTO.builder().build();
-		
-		
-		
+		if(instance.getInstances() != null && !instance.getInstances().isEmpty()) {
+			processDTO.setStages(this.getStage(instance.getInstances()));
+		}
 		
 		
 		return null;
@@ -39,45 +37,52 @@ public class ProcessDTOMapper {
 	public List<StageDTO> getStage(List<InstanceAbstractionModel> instancesLevel1) {
 		
 		List<StageDTO> stages = new ArrayList<>();
-		List<StageDTO> stagesTemporal = new ArrayList<>();
-		
-		
-		
+			
 		if(instancesLevel1 != null && !instancesLevel1.isEmpty()) {
 			
-			for(InstanceAbstractionModel instanceLeveFroml1 : instancesLevel1) {
+			for(InstanceAbstractionModel parent : instancesLevel1) {
 				
-				if(instanceLeveFroml1.getInstanOf().equals(InstanOf.INSTANCE_STAGE.getValue())) {
+				if(parent.getInstanOf().equals(InstanOf.INSTANCE_STAGE.getValue())) {
 					
-					StageDTO stageL1 = getStageDTO(instanceLeveFroml1);		
+						StageDTO stageL1 = getStageDTO(parent);		
 					
-					if(instanceLeveFroml1.getInstances() != null && !instanceLeveFroml1.getInstances().isEmpty()) {
+						if(parent.getInstances() != null && !parent.getInstances().isEmpty()) {
 						
-						List<TaskDTO> lisOfTaks = new ArrayList<>();
-						
-//						instanceLeveFroml1.getInstances().parallelStream().forEach(internalLevel ->{
-						
-						StageDTO stageInstanceLeveFroml1 = null;
-							
-							if(instanceLeveFroml1.getInstances().get(0).getInstanOf().equals(InstanOf.INSTANCE_STAGE.getValue())) {
-								
-								
+							if(parent.getInstances().get(0).getInstanOf().equals(InstanOf.INSTANCE_STAGE.getValue())) {
+								stageL1.setStages(this.getInternalStageDTO(parent.getInstances()));// set stages list
 							}
-							
-							if(instanceLeveFroml1.getInstances().get(0).getInstanOf().equals(InstanOf.INSTANCE_TASK.getValue())){
-								
-								this.getTaks(instanceLeveFroml1.getInstances());
+						
+							if(parent.getInstances().get(0).getInstanOf().equals(InstanOf.INSTANCE_TASK.getValue())){
+								stageL1.setTasks(this.getTaks(parent.getInstances()));
 							}
-//						});
-					}
+						}
+						stages.add(stageL1);	
 				}
 			}
-			
-			
 		}
 		
-		return null;
+		return stages;
 	}
+	
+	
+	public List<StageDTO> getInternalStageDTO(List<InstanceAbstractionModel> instanceStage) {
+		
+		List<StageDTO> internalStageDTOList= new ArrayList<>();
+		
+		instanceStage.parallelStream().forEach(stage ->{
+			
+			StageDTO stageChild = getStageDTO(stage);		
+			
+			if(stage.getInstances() != null && !stage.getInstances().isEmpty()) {	
+				stageChild.setTasks(this.getTaks(stage.getInstances()));
+			}
+			
+			internalStageDTOList.add(stageChild);
+		});
+		return internalStageDTOList;
+	}
+	
+	
 	
 	
 	public StageDTO getStageDTO(InstanceAbstractionModel instanceStage) {
@@ -112,24 +117,17 @@ public class ProcessDTOMapper {
 		List<TaskDTO> lisOfTaks = new ArrayList<>();
 		
 		if(instances != null && !instances.isEmpty()) {
-			
-			for(InstanceAbstractionModel instance : instances) {
+			instances.parallelStream().forEach(instance ->{
 				if(instance.getInstanOf().equals(InstanOf.INSTANCE_TASK.getValue())) {
-					lisOfTaks.add( TaskDTO.builder()
-					.id(instance.getIdInstance())
-					.title(instance.getTitle())
-					.name(instance.getName())
-					.userCode(instance.getUserWorked())
-					.status(instance.getStatus())
-					.response(instance.getResponse())
-					.codeOfTask(instance.getCodeReferent())
-					.codeProcess(instance.getCodeProcess())
-					.instanceOf(InstanOf.INSTANCE_TASK.getValue())
-					.build());
+					lisOfTaks.add( this.getTask(instance));
 				}
-			}
+			});
+//			for(InstanceAbstractionModel instance : instances) {
+//				if(instance.getInstanOf().equals(InstanOf.INSTANCE_TASK.getValue())) {
+//					lisOfTaks.add( this.getTask(instance));
+//				}
+//			}
 		}
-		
 		return lisOfTaks;
 	}
 	
