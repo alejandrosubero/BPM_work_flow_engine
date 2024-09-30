@@ -55,7 +55,7 @@ public class StageValidation {
         StageModel pojo = null;
         try {
             if (stage != null) {
-                if (this.checkNameTitleType(stage) && validStagesChildren(stage)) {
+                if (this.checkNameTitleType(stage) && validStagesChildren(stage) && validRulerStageOrTask(stage) ) {
                     pojo = stage;
                 }
             }
@@ -66,19 +66,25 @@ public class StageValidation {
         }
     }
 
-    private boolean validStagesChildren(StageModel stage) {
+    private Boolean validStagesChildren(StageModel stage) {
         boolean response = false;
-        if (stage.gettasks() != null &&
-                stage.gettasks().size() > 0 ||
-                stage.getstages() != null &&
-                stage.getstages().size() > 0) {
+       
+        if (stage.gettasks() != null && stage.gettasks().size() > 0 || stage.getstages() != null && stage.getstages().size() > 0) {
 
             if (stage.getstages() != null && stage.getstages().size() > 0) {
-                for (StageModel stagesChildren : stage.getstages()) {
-                    if (stagesChildren.gettasks().size() > 0) {
+              
+            	for (StageModel stagesChildren : stage.getstages()) {
+                
+            		if(!stagesChildren.getstages().isEmpty()) {
+            			 systemMenssageStage = "Fail valid the Stages Children can't contain another Stage. (Stages Children in Stage validation)... ";
+            			return false;
+            		}
+            		
+            		if (stagesChildren.gettasks().size() > 0) {
                         for (TaskModel task : stage.gettasks()) {
                             response = validTask(task);
                         }
+                        
                     }
                 }
             }
@@ -94,11 +100,41 @@ public class StageValidation {
         return response;
     }
 
+    
+    private Boolean validRulerStageOrTask(StageModel stage) {
+    	
+    	Object result = null;
+    	
+        if (stage.gettasks() == null && stage.getstages() != null &&  !stage.getstages().isEmpty()) {
+        	result = "yes";
+        } 
+        
+        if (stage.gettasks() != null && stage.getstages() == null && !stage.gettasks().isEmpty()) {
+        	result = "yes";
+        } 
+        
+        if (stage.gettasks() != null && stage.getstages() != null && (!stage.gettasks().isEmpty() && stage.getstages().isEmpty()) || (stage.gettasks().isEmpty() && !stage.getstages().isEmpty())) {
+        	result = "yes";
+        } 
+        if(result == null) {
+        	 systemMenssageStage = "Fail valid Ruler only one Stage or Task for Stage ( in Stage validation)... ";
+        }
+       
+        return result != null;
+    }
+    
+    
+    
     public boolean validTask(TaskModel task) {
         SystemInternalResponseModel taskValid = taskValidationService.validTask(task);
         systemMenssageStage = taskValid.getMensaje();
         return taskValid.getCondition();
     }
+    
+    
+    
+    
+    
 
     // remplace de name of variable for you proyecte
     public Long valida_id(String poder) {
@@ -115,6 +151,12 @@ public class StageValidation {
             return id_Delete;
         }
     }
+    
+    
+    
+    
+    
+    
 
     public <T> Object validation(T t) {
         T elemento = null;

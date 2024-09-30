@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class ProcessDTOMapper {
 
 	
-	public ProcessDTO InstanceAbstractionModelToDTO(InstanceAbstractionModel instance) {
+	public ProcessDTO instanceAbstractionModelToDTO(InstanceAbstractionModel instance) {
 		
 		ProcessDTO processDTO = null;
 		
@@ -93,6 +93,24 @@ public class ProcessDTOMapper {
 	}
 	
 	
+	public List<TaskDTO> getTaks(List<InstanceAbstractionModel> instances) {
+		
+		List<TaskDTO> lisOfTaks = new ArrayList<>();
+		
+		if(instances != null && !instances.isEmpty()) {
+			instances.parallelStream().forEach(instance ->{
+				if(instance.getInstanOf().equals(InstanOf.INSTANCE_TASK.getValue())) {
+					lisOfTaks.add( this.getTask(instance));
+				}
+			});
+//			for(InstanceAbstractionModel instance : instances) {
+//				if(instance.getInstanOf().equals(InstanOf.INSTANCE_TASK.getValue())) {
+//					lisOfTaks.add( this.getTask(instance));
+//				}
+//			}
+		}
+		return lisOfTaks;
+	}
 	
 	
 	public StageDTO getStageDTO(InstanceAbstractionModel instanceStage) {
@@ -122,24 +140,7 @@ public class ProcessDTOMapper {
 	}
 	
 	
-	public List<TaskDTO> getTaks(List<InstanceAbstractionModel> instances) {
-		
-		List<TaskDTO> lisOfTaks = new ArrayList<>();
-		
-		if(instances != null && !instances.isEmpty()) {
-			instances.parallelStream().forEach(instance ->{
-				if(instance.getInstanOf().equals(InstanOf.INSTANCE_TASK.getValue())) {
-					lisOfTaks.add( this.getTask(instance));
-				}
-			});
-//			for(InstanceAbstractionModel instance : instances) {
-//				if(instance.getInstanOf().equals(InstanOf.INSTANCE_TASK.getValue())) {
-//					lisOfTaks.add( this.getTask(instance));
-//				}
-//			}
-		}
-		return lisOfTaks;
-	}
+
 	
 	
 	
