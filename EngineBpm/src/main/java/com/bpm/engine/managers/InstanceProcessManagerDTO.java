@@ -3,6 +3,8 @@ package com.bpm.engine.managers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +18,7 @@ import com.bpm.engine.model.ProcessModel;
 public class InstanceProcessManagerDTO {
 
 	
+	 private static final Logger logger = LogManager.getLogger(InstanceProcessManagerDTO.class);
 	
 	 private ProcessManager processManager;
 	 private InstanceProcessManager instanceProcessManager;
@@ -32,10 +35,16 @@ public class InstanceProcessManagerDTO {
 
 
 
-	public List<ProcessDTO> createInstanceAbstractionDTO (SystemRequest systemRequest) {
+	public List<ProcessDTO> getInstancesDTO (SystemRequest systemRequest) {
 		  
 		List<ProcessDTO> processList = new ArrayList<>();
 		
+		try {
+			
+		}catch(Exception e) {
+			logger.error("Error in DTO service...",e);
+			e.printStackTrace();
+		}
 		  
 		List<InstanceAbstractionModel> instancesProcessOfUser = instanceProcessManager.getInstancesProcessDTO(systemRequest);
 		List<ProcessModel> processOfUser = processManager.getProcessOfUser(systemRequest.getCodeEmployee());

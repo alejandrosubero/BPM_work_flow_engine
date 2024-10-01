@@ -16,6 +16,7 @@ import com.bpm.engine.dto.EntityRespone;
 import com.bpm.engine.dto.SystemRequest;
 import com.bpm.engine.managers.ConectBpmToEmployeeService;
 import com.bpm.engine.managers.InstanceProcessManager;
+import com.bpm.engine.managers.InstanceProcessManagerDTO;
 import com.bpm.engine.managers.ProcessManager;
 import com.bpm.engine.mapper.MapperEntityRespone;
 import com.bpm.engine.model.ProcessModel;
@@ -25,67 +26,54 @@ import com.bpm.engine.model.ProcessModel;
 @RequestMapping("/engineBpm")
 public class EngineBpmController {
 
-	@Autowired
-	ConectBpmToEmployeeService conectBpmToEmployeeService;
+	
 
 	@Autowired
 	private MapperEntityRespone mapperEntityRespone;
 
 	@Autowired
-	private ProcessManager processManager;
-
-	@Autowired
 	private InstanceProcessManager instanceProcessManager;
+	
+	@Autowired
+	private InstanceProcessManagerDTO instanceProcessManagerDTO;
+	
 
-	
-	
-	
-
-//		 http://localhost:1111/bpm/engineBpm/create/instance/process
+//	http://localhost:1111/bpm/engineBpm/create/instance/process
 	@PostMapping("/create/instance/process")
 	private ResponseEntity<EntityRespone> createInstanceProcess(@RequestBody SystemRequest systemRequest) {
 		try {
-			
-			if(systemRequest != null && systemRequest.getCodeTask() != null) {
-				EntityRespone entityRespone = mapperEntityRespone.setEntityTobj(instanceProcessManager.createInstanceProcess2(systemRequest));
+
+			if (systemRequest != null && systemRequest.getCodeTask() != null) {
+				EntityRespone entityRespone = mapperEntityRespone
+						.setEntityTobj(instanceProcessManager.createInstanceProcess2(systemRequest));
 				return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.OK);
 			}
-			
-			return new ResponseEntity<EntityRespone>( mapperEntityRespone.setEntityResponT("Error", "","Call which a null Object" ), HttpStatus.BAD_REQUEST);
-			
+
+			return new ResponseEntity<EntityRespone>(
+					mapperEntityRespone.setEntityResponT("Error", "", "Call which a null Object"),
+					HttpStatus.BAD_REQUEST);
+
 		} catch (DataAccessException e) {
-			EntityRespone entityRespone = mapperEntityRespone.setEntityResponT(null, "Ocurrio un error", e.getMessage());
+			EntityRespone entityRespone = mapperEntityRespone.setEntityResponT(null, "Ocurrio un error",
+					e.getMessage());
 			return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.BAD_REQUEST);
 		}
 	}
 
-
-//			http://localhost:1111/bpm/engineBpm/create/process
+//	http://localhost:1111/bpm/engineBpm/create/process
 	@PostMapping("/create/process")
 	private ResponseEntity<EntityRespone> createProcess(@RequestBody ProcessModel process) {
 		try {
-			EntityRespone entityRespone = mapperEntityRespone.setEntityTobj(processManager.createProcess(process));
+			EntityRespone entityRespone = mapperEntityRespone.setEntityTobj(instanceProcessManager.createProcess(process));
 			return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.OK);
 		} catch (DataAccessException e) {
-			EntityRespone entityRespone = mapperEntityRespone.setEntityResponT(null, "Ocurrio un error", e.getMessage());
+			EntityRespone entityRespone = mapperEntityRespone.setEntityResponT(null, "Ocurrio un error",
+					e.getMessage());
 			return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.BAD_REQUEST);
 		}
 	}
 
-
-	@GetMapping("user/name/{userName}")
-	private ResponseEntity<EntityRespone> findEmployeeByUserName (@PathVariable("userName") String userName) {
-		try {
-			return new ResponseEntity<EntityRespone>(
-					mapperEntityRespone.setEntityRespon(
-							conectBpmToEmployeeService.getAssignedUserName(userName), "ok"), HttpStatus.OK);
-		} catch (DataAccessException e) {
-			EntityRespone entityRespone = mapperEntityRespone.setEntityResponT(
-					null, "Fail error", e.getMessage());
-			return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.BAD_REQUEST);
-		}
-	}
-
+	
 //	http://localhost:1111/bpm/engineBpm/get/process/user
 	@PostMapping("/get/process/user")
 	private ResponseEntity<EntityRespone> getInstanceOfEmpleado(@RequestBody SystemRequest systemRequest) {
@@ -94,13 +82,10 @@ public class EngineBpmController {
 		try {
 
 			if (systemRequest == null) {
-				return ResponseEntity.badRequest().body(
-						mapperEntityRespone.setEntityResponBadRequest("the systemRequest cannot be empty or null..."));
+				return ResponseEntity.badRequest().body(mapperEntityRespone.setEntityResponBadRequest("the systemRequest cannot be empty or null..."));
 			}
 
-			entityRespone = mapperEntityRespone.setEntityT(
-					instanceProcessManager.getInstancesProcessDTO(systemRequest)
-					);
+			entityRespone = mapperEntityRespone.setEntityT(instanceProcessManagerDTO.getInstancesDTO(systemRequest));
 
 			return ResponseEntity.ok(entityRespone);
 
@@ -113,12 +98,24 @@ public class EngineBpmController {
 	}
 	
 
-
 	@GetMapping("/start/chek/server/bpm")
 	public String startTest() {
-		return " <h1>!!!!!!!!!!!!!!!!!  BPM SERVER IS RUNING... !!!!!!!!!!!!</h1>"+ 
-		"<br>" + 
+		return " <h1>!!!!!!!!!!!!!!!!!  BPM SERVER IS RUNING... !!!!!!!!!!!!</h1>" + "<br>" +
 
-		"<h2> !!!!!!!!!!! Estoy funcionando !!!!!!!!! </h2>"; 
+				"<h2> !!!!!!!!!!! Estoy funcionando !!!!!!!!! </h2>";
 	}
-	}
+
+//	@GetMapping("user/name/{userName}")
+//	private ResponseEntity<EntityRespone> findEmployeeByUserName (@PathVariable("userName") String userName) {
+//		try {
+//			return new ResponseEntity<EntityRespone>(
+//					mapperEntityRespone.setEntityRespon(
+//							conectBpmToEmployeeService.getAssignedUserName(userName), "ok"), HttpStatus.OK);
+//		} catch (DataAccessException e) {
+//			EntityRespone entityRespone = mapperEntityRespone.setEntityResponT(
+//					null, "Fail error", e.getMessage());
+//			return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.BAD_REQUEST);
+//		}
+//	}
+
+}

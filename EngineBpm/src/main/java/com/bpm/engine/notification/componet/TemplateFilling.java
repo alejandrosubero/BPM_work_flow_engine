@@ -1,12 +1,12 @@
 package com.bpm.engine.notification.componet;
 
-import com.bpm.engine.model.StateModel;
-import com.bpm.engine.model.TemplateFlexibleDataModel;
-import com.bpm.engine.service.TemplateService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import com.bpm.engine.model.TemplateFlexibleDataModel;
+import com.bpm.engine.service.TemplateService;
 
 @Component
 public class TemplateFilling {

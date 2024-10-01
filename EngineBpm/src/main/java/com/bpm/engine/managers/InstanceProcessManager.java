@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bpm.engine.dto.EntityRespone;
 import com.bpm.engine.dto.SystemRequest;
 import com.bpm.engine.model.InstanceAbstractionModel;
 import com.bpm.engine.model.ProcessModel;
@@ -21,13 +22,15 @@ public class InstanceProcessManager {
 
     private InstanceManager instanceManager;
     private ProcessManager processManager;
+    
    
     @Autowired
-    public InstanceProcessManager(ProcessManager processManager, InstanceManager instanceManager) {
-		super();
-		this.processManager = processManager;
-		this.instanceManager = instanceManager;
-	}
+    public InstanceProcessManager(InstanceManager instanceManager, ProcessManager processManager) {
+ 		this.instanceManager = instanceManager;
+ 		this.processManager = processManager;
+ 	}
+    
+    
     
     
     public List<InstanceAbstractionModel> getInstancesProcessDTO(SystemRequest systemRequest) {
@@ -36,6 +39,15 @@ public class InstanceProcessManager {
     	
     	return listInstancesProcessDTO;
     }
+    
+    
+   
+
+	public EntityRespone createProcess(ProcessModel processModel) {
+    	return processManager.createProcess(processModel);
+    }
+    
+    
     
     
    public InstanceAbstractionModel createInstanceProcess2 (SystemRequest systemRequest) {

@@ -11,43 +11,43 @@ Create on Sat Sep 30 10:44:39 EDT 2023
 *<p>Description: Business Project Management engine  </p>
 */
 
+package com.bpm.engine.service;
 
-package com.bpm.engine.service ;
-
-import java.util.Optional;import java.util.Date;
-
-import java.util.ArrayList;
 import java.util.List;
-import com.bpm.engine.entitys.SystemResponse;import com.bpm.engine.model.SystemResponseModel;
 
+import com.bpm.engine.entitys.SystemResponse;
+import com.bpm.engine.model.SystemResponseModel;
 
-public interface SystemResponseService{
- 
-		public SystemResponseModel  findByResponse(String	response);
+public interface SystemResponseService {
 
-		public List<SystemResponseModel>  findByResponseContaining(String	response);				public	SystemResponseModel findById(Long id);
-		public boolean saveSystemResponse(SystemResponse systemresponse);
-		public List<SystemResponseModel> getAllSystemResponse();
-		public boolean updateSystemResponse(SystemResponse	systemresponse);
-		public boolean saveOrUpdateSystemResponse(SystemResponse	systemresponse);
+	public SystemResponseModel findByResponse(String response);
+
+	public List<SystemResponseModel> findByResponseContaining(String response);
+
+	public SystemResponseModel findById(Long id);
+
+	public boolean saveSystemResponse(SystemResponse systemresponse);
+
+	public List<SystemResponseModel> getAllSystemResponse();
+
+	public boolean updateSystemResponse(SystemResponse systemresponse);
+
+	public boolean saveOrUpdateSystemResponse(SystemResponse systemresponse);
 
 }
- /*
- Copyright (C) 2008 Google Inc.
-* Licensed to the Apache Software Foundation (ASF) under one or more
-* contributor license agreements.  See the NOTICE file distributed with
-* this work for additional information regarding copyright ownership.
-* The ASF licenses this file to You under the Apache License, Version 2.0
-* (the "License"); you may not use this file except in compliance with
-* the License.  You may obtain a copy of the License at
-*
-*      http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
-
-
+/*
+ * Copyright (C) 2008 Google Inc. Licensed to the Apache Software Foundation
+ * (ASF) under one or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information regarding copyright
+ * ownership. The ASF licenses this file to You under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
