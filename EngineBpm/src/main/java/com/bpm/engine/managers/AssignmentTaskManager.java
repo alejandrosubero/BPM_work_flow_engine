@@ -9,9 +9,6 @@ import org.springframework.stereotype.Component;
 import com.bpm.engine.dto.SystemRequest;
 import com.bpm.engine.model.AssignedModel;
 import com.bpm.engine.model.BpmAssignedModel;
-import com.bpm.engine.model.InstanceTaskModel;
-import com.bpm.engine.model.TaskAssignedModel;
-import com.bpm.engine.model.TaskModel;
 import com.bpm.engine.service.AssignedService;
 import com.bpm.engine.service.BpmAssignedService;
 
@@ -41,27 +38,6 @@ public class AssignmentTaskManager {
 	 * @param instanceProccesId
 	 * @return
 	 */
-	public List<BpmAssignedModel> getAssigned(String taskModelCode, SystemRequest systemRequest, Long instanceProccesId, InstanceTaskModel taskModel,Long idProcess) {
-		List<BpmAssignedModel> taskAssignedModelList = new ArrayList<>();
-		try {			
-
-			if (systemRequest.checkAssigned(taskModelCode)) {
-				// this part is for users direct assigned router = 0		
-				taskAssignedModelList.addAll(this.getUserDirectAssigned(systemRequest.getAssigned().get(taskModelCode),  taskModelCode, instanceProccesId, idProcess));
-			} else {
-					// this part is for user create the instance Process router = 1
-				taskAssignedModelList.addAll(getUseTheUserWasCreateInstanceProcess(systemRequest.getCodeEmployee(), taskModelCode,instanceProccesId,idProcess));
-			}
-			
-		} catch (Exception e){
-			e.printStackTrace();
-			return taskAssignedModelList;
-		}
-		return taskAssignedModelList;
-	}
-	
-	
-	
 	public List<BpmAssignedModel> getAssigned(String taskModelCode, SystemRequest systemRequest, Long instanceProccesId, Long idProcess) {
 		List<BpmAssignedModel> taskAssignedModelList = new ArrayList<>();
 		try {			
