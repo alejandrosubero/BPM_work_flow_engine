@@ -1,7 +1,6 @@
 package com.bpm.engine.notification;
 
 import com.bpm.engine.entitys.Assigned;
-import com.bpm.engine.entitys.InstanceTask;
 import com.bpm.engine.interfaces.IBaseModel;
 import com.bpm.engine.model.*;
 import com.bpm.engine.notification.componet.TemplateFilling;
@@ -40,46 +39,38 @@ public class NotificationManager implements IBaseModel {
 
     private Integer count = 0;
 
-    public void taskNotification(InstanceTaskModel instanceTask, String errorStatus) {
+    public void taskNotification(InstanceAbstractionModel instanceTask, String errorStatus) {
 
         InstanceDataInfoModel instanceDataInfo = new InstanceDataInfoModel();
         MailSenderModel mailSenderModel = new MailSenderModel();
         EmailsModel emailsModel = new EmailsModel();
         String mailSend = null;
 
-        instanceDataInfo.setInstanceID(instanceTask.getIdInstanceTask());
-        instanceDataInfo.setInstanceTitle(instanceTask.getTask().getTitle());
+        instanceDataInfo.setInstanceID(instanceTask.getIdInstance());
+        instanceDataInfo.setInstanceTitle(instanceTask.getTitle());
         instanceDataInfo.setInstanceName(instanceTask.getName());
-        instanceDataInfo.setInstanceCode(instanceTask.getTask().getCode());
+        instanceDataInfo.setInstanceCode(instanceTask.getCodeReferent());
         instanceDataInfo.setProcess(false);
-        instanceDataInfo.setType(instanceTask.getTask().getType().getType());
+        instanceDataInfo.setType(instanceTask.getType().getType());
 
         if (errorStatus == null) {
-            instanceDataInfo.setState(instanceTask.getState());
+            instanceDataInfo.setState(instanceTask.getStatus());
         } else {
             instanceDataInfo.setState(errorStatus);
         }
 
         String urlMailSystem = parametersServices.findBykey(Constants.MAIL_CODE_SYSTEM).getValue();
 
-        if (instanceTask.getAssignes() != null && instanceTask.getAssignes().size() > 0) {
-            List<AssignedModel> assignesList = assignedService.findByTaskAssignedModel(instanceTask.getAssignes());
-            if(assignesList != null && assignesList.size() > 0){
-                for (AssignedModel assignedModel : assignesList) {
-                    mailSend = this.buildMail(instanceDataInfo, assignedModel, errorStatus);
-                    ResponseEntity<String> response = templateService.sendPostRequest(urlMailSystem, mailSend);
-                    this.handlerResponse(response, instanceTask);
-                }
+        if (instanceTask.getUserWorked()!= null || instanceTask.getUserCreateInstance() != null ) {
+        	
+            AssignedModel assignedModel = assignedService.findByCodeEmployeeAndActive(instanceTask.getUserWorked(), true);
+            
+            if(assignedModel != null){
+               mailSend = this.buildMail(instanceDataInfo, assignedModel, errorStatus);
+               ResponseEntity<String> response = templateService.sendPostRequest(urlMailSystem, mailSend);
+               this.handlerResponse(response, instanceTask);
             }
-
-        } else {
-            //TODO: IMPLENET WHAT HAPPEN IF THE INSTANCEATASK DON'T HAD ASSIGNED. ERROR.
-            if (instanceTask.getAssignes() != null && instanceTask.getAssignes().size() == 0) {
-//                mailSend = this.buildMail(instanceDataInfo, instanceTask.getassignes().get(0), errorStatus);
-//                ResponseEntity<String> response = templateService.sendPostRequest(urlMailSystem, mailSend);
-//                this.handlerResponse(response, instanceTask);
-            }
-        }
+        } 
     }
 
     private String buildMail(InstanceDataInfoModel instanceDataInfo, AssignedModel assigned, String errorStatus) {
@@ -122,7 +113,7 @@ public class NotificationManager implements IBaseModel {
         return mailSenderModelString;
     }
 
-    private void handlerResponse(ResponseEntity<String> responseEntity, InstanceTaskModel instanceTask){
+    private void handlerResponse(ResponseEntity<String> responseEntity, InstanceAbstractionModel instanceTask){
         if (!responseEntity.getStatusCode().is2xxSuccessful()) {
             if (count == 0) {
                 this.taskNotification(instanceTask, null);
