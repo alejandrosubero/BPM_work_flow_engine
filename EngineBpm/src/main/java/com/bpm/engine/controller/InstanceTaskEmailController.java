@@ -38,7 +38,6 @@ import com.bpm.engine.model.InstanceTaskEmailModel;
 public class InstanceTaskEmailController {
 
 
-
 		@Autowired
 		InstanceTaskEmailService instancetaskemailService;
 
