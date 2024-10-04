@@ -1,8 +1,17 @@
 package com.bpm.engine.notification;
 
-import com.bpm.engine.entitys.Assigned;
+import java.util.Arrays;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
 import com.bpm.engine.interfaces.IBaseModel;
-import com.bpm.engine.model.*;
+import com.bpm.engine.model.AssignedModel;
+import com.bpm.engine.model.InstanceAbstractionModel;
+import com.bpm.engine.model.InstanceDataInfoModel;
+import com.bpm.engine.model.TemplateFlexibleDataModel;
 import com.bpm.engine.notification.componet.TemplateFilling;
 import com.bpm.engine.notification.componet.TemplateFlexibleDataManager;
 import com.bpm.engine.notification.model.EmailsModel;
@@ -11,39 +20,39 @@ import com.bpm.engine.service.AssignedService;
 import com.bpm.engine.service.ParametersServices;
 import com.bpm.engine.serviceImplement.RestTemplateService;
 import com.bpm.engine.utility.Constants;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class NotificationManager implements IBaseModel {
 
-    @Autowired
+    
     private TemplateFilling templateFilling;
-    @Autowired
+   
     private TemplateFlexibleDataManager templateFlexibleDataManager;
-    @Autowired
+    
     private ParametersServices parametersServices;
-    @Autowired
+    
     private RestTemplateService templateService;
-
-    @Autowired
+   
     private AssignedService assignedService;
 
     private Integer count = 0;
 
-    public void taskNotification(InstanceAbstractionModel instanceTask, String errorStatus) {
+    
+    @Autowired
+    public NotificationManager(TemplateFilling templateFilling, TemplateFlexibleDataManager templateFlexibleDataManager,
+			ParametersServices parametersServices, RestTemplateService templateService,AssignedService assignedService) {
+		this.templateFilling = templateFilling;
+		this.templateFlexibleDataManager = templateFlexibleDataManager;
+		this.parametersServices = parametersServices;
+		this.templateService = templateService;
+		this.assignedService = assignedService;
+	}
+
+	public void taskNotification(InstanceAbstractionModel instanceTask, String errorStatus) {
 
         InstanceDataInfoModel instanceDataInfo = new InstanceDataInfoModel();
-        MailSenderModel mailSenderModel = new MailSenderModel();
-        EmailsModel emailsModel = new EmailsModel();
+
         String mailSend = null;
 
         instanceDataInfo.setInstanceID(instanceTask.getIdInstance());
@@ -72,47 +81,59 @@ public class NotificationManager implements IBaseModel {
             }
         } 
     }
+    
+    private EmailsModel generateEmailsModel(InstanceDataInfoModel instanceDataInfo, AssignedModel assigned, String errorStatus) {
+    	 EmailsModel emailsModel = new EmailsModel();
+    	 String template = null;
+    	    List<TemplateFlexibleDataModel> systemTemplateFlexibleData = this.templateFlexibleDataManager.getSystemTemplateFlexibleData(instanceDataInfo);
+            template = templateFilling.fillTemplate(Constants.SYSTEM_CODE_TEMPLATE, systemTemplateFlexibleData);
+            
+            if (template != null) {
+                emailsModel.setBody(template);
+            }
+            
+            String mailSystem = parametersServices.findBykey(Constants.MAIL_CODE_BPM_SYSTEM).getValue();
+            emailsModel.setFrom(mailSystem);
+
+            if (errorStatus == null) {
+                emailsModel.setTo(Arrays.asList(assigned.getMail()));
+            } else {
+                String mailErrorSystem = parametersServices.findBykey(Constants.MAIL_CODE_ERROR_NOTIFICATION).getValue();
+                emailsModel.setTo(Arrays.asList(mailErrorSystem));
+            }
+
+            String subject = Constants.SUBJECT;
+            subject = subject.replace("@idInstance@", instanceDataInfo.getInstanceID().toString());
+            subject = subject.replace("@title@", instanceDataInfo.getInstanceTitle());
+            emailsModel.setSubject(subject);
+
+            if (errorStatus != null) {
+                subject = this.stringEnsamble(Arrays.asList(subject, " IN ", errorStatus));
+            }
+            
+            return emailsModel;
+    }
+    
 
     private String buildMail(InstanceDataInfoModel instanceDataInfo, AssignedModel assigned, String errorStatus) {
 
         Gson gson = new Gson();
         MailSenderModel mailSenderModel = new MailSenderModel();
-        EmailsModel emailsModel = new EmailsModel();
-        String template = null;
         String mailSenderModelString = "";
 
         instanceDataInfo.setInstanceUserAssigned(assigned.getName());
         instanceDataInfo.setInstanceUserAssignedEmployeeCode(assigned.getCodeEmployee());
-        List<TemplateFlexibleDataModel> systemTemplateFlexibleData = this.templateFlexibleDataManager.getSystemTemplateFlexibleData(instanceDataInfo);
-        template = templateFilling.fillTemplate(Constants.SYSTEM_CODE_TEMPLATE, systemTemplateFlexibleData);
-        if (template != null) {
-            emailsModel.setBody(template);
-        }
-        String mailSystem = parametersServices.findBykey(Constants.MAIL_CODE_BPM_SYSTEM).getValue();
-        emailsModel.setFrom(mailSystem);
-
-        if (errorStatus == null) {
-            emailsModel.setTo(Arrays.asList(assigned.getMail()));
-        } else {
-            String mailErrorSystem = parametersServices.findBykey(Constants.MAIL_CODE_ERROR_NOTIFICATION).getValue();
-            emailsModel.setTo(Arrays.asList(mailErrorSystem));
-        }
-
-        String subject = Constants.SUBJECT;
-        subject = subject.replace("@idInstance@", instanceDataInfo.getInstanceID().toString());
-        subject = subject.replace("@title@", instanceDataInfo.getInstanceTitle());
-        emailsModel.setSubject(subject);
-
-        if (errorStatus != null) {
-            subject = this.stringEnsamble(Arrays.asList(subject, " IN ", errorStatus));
-        }
-
+        
+        EmailsModel emailsModel = generateEmailsModel(instanceDataInfo,assigned,errorStatus);
+        
         String mailJson = gson.toJson(emailsModel);
-        mailSenderModel = new MailSenderModel(template, mailJson);
+        
+        mailSenderModel = new MailSenderModel(emailsModel.getBody(), mailJson);
         mailSenderModelString = gson.toJson(mailSenderModel);
         return mailSenderModelString;
     }
 
+    
     private void handlerResponse(ResponseEntity<String> responseEntity, InstanceAbstractionModel instanceTask){
         if (!responseEntity.getStatusCode().is2xxSuccessful()) {
             if (count == 0) {
