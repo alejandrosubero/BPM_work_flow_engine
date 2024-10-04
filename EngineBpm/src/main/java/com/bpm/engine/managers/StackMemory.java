@@ -1,65 +1,105 @@
 package com.bpm.engine.managers;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.bpm.engine.model.InstanceAbstractionModel;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import java.util.Deque;
+import java.util.concurrent.*;
+
+// https://chatgpt.com/c/66fd9003-c050-8012-a22e-e02f9d4d1422
 
 
 
 @Component
 public class StackMemory {
+	
+    private ConcurrentLinkedDeque<String> deque = new ConcurrentLinkedDeque<>(); // Asegúrate de que esto sea ConcurrentLinkedDeque
+    private ThreadPoolExecutor executor; // Cambiar el tipo a ThreadPoolExecutor
+    private final int maxQueueSize;
 
-    private Queue<InstanceAbstractionModel> queueTask = new LinkedList<>();
-    private Queue<InstanceAbstractionModel> queuePriorityTask = new LinkedList<>();
-    
-    // this map is for reference the instance, that referent is for tell to the system the referencia is in process.... no tocar 
-    private Map<String,InstanceAbstractionModel> referenceWorking = new HashMap<>();
-    
-    
-
-    public StackMemory() {
+    public StackMemory( @Value("${deque.maxSize:10}") int maxQueueSize) {
+       
+        this.maxQueueSize = maxQueueSize; // Tamaño máximo de la cola
     }
 
-    public Boolean addTask(InstanceAbstractionModel instance, String type){
-     Boolean isSave = false;
-       if(instance != null){
-           try{
-               isSave = type.toLowerCase().equals("p")? queuePriorityTask.add(instance):queueTask.add(instance);
-           }catch (IllegalStateException ei){
-               isSave = false;
-               // TODO: need do something else for control the memory problem... and discribe the queues
-               ei.printStackTrace();
-           }
-       }
-       return isSave;
-    }
+    @PostConstruct
+    public void startProcessing() {
+        int corePoolSize = 2;
+        int maximumPoolSize = 4;
+        long keepAliveTime = 60L;
+        TimeUnit unit = TimeUnit.SECONDS;
 
+        executor = new ThreadPoolExecutor(
+                corePoolSize,
+                maximumPoolSize,
+                keepAliveTime,
+                unit,
+                new LinkedBlockingQueue<>()
+        );
 
-    public InstanceAbstractionModel getTask(String type){
-        if(type != null && type.toLowerCase().equals("p")){
-            return queuePriorityTask.poll();
-        }else {
-            return queueTask.poll();
+        // Lanzar hilos para procesar los elementos
+        for (int i = 0; i < corePoolSize; i++) {
+            executor.execute(this::processQueue);
         }
     }
 
-
-    public  Boolean isEmptyQueueTask(String type){
-        if(type != null && type.toLowerCase().equals("p")){
-            return queuePriorityTask.isEmpty();
-        }else {
-            return queueTask.isEmpty();
+    public void increasePoolSize(int newSize) {
+        // Aumentar el tamaño máximo del pool
+        if (newSize > executor.getMaximumPoolSize()) {
+            executor.setMaximumPoolSize(newSize);
         }
     }
 
-    public Integer getSizeQueueTask(String type){
-        Integer numberSize = type != null && type.toLowerCase().equals("p")? queuePriorityTask.size():queueTask.size();
-        return numberSize;
+    public void decreasePoolSize(int newSize) {
+        // Disminuir el tamaño máximo del pool
+        if (newSize < executor.getMaximumPoolSize()) {
+            executor.setMaximumPoolSize(newSize);
+        }
     }
 
+    public void processQueue() {
+        while (true) {
+            String element = deque.pollLast(); // Toma el último elemento de la Deque de manera no bloqueante
+            if (element != null) {
+                System.out.println(Thread.currentThread().getName() + " procesando: " + element);
+                try {
+                    Thread.sleep(1000); // Simular trabajo con el elemento
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            } else {
+                try {
+                    Thread.sleep(500); // Espera si la cola está vacía para no consumir CPU
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+    }
+
+    @PreDestroy
+    public void shutdown() throws InterruptedException {
+        executor.shutdown();
+        if (!executor.awaitTermination(5, TimeUnit.SECONDS)) {
+            executor.shutdownNow();
+        }
+    }
+
+    // Método para añadir un nuevo elemento a la Deque en tiempo real
+    public void addElement(String newElement) {
+        if (deque.size() < maxQueueSize) {
+            deque.add(newElement); // Se puede agregar sin bloqueo
+            System.out.println("Nuevo elemento agregado: " + newElement);
+            // Si la cola está cerca de alcanzar el límite, aumentar el tamaño del pool
+            if (executor.getQueue().size() >= (maxQueueSize - 1)) { // Al alcanzar el límite, aumentar el pool
+                increasePoolSize(4); // Aumentar el tamaño máximo del pool
+            }
+            // Notificar a los hilos que hay nuevos elementos para procesar
+        } else {
+            System.out.println("Backpressure: Se ha alcanzado el tamaño máximo de la cola");
+        }
+    }
 }
+
