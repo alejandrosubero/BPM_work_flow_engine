@@ -11,8 +11,7 @@ import org.springframework.stereotype.Component;
 import com.bpm.engine.dto.SystemRequest;
 import com.bpm.engine.model.BpmAssignedModel;
 import com.bpm.engine.model.ControlProcessReferentModel;
-import com.bpm.engine.model.InstanceProcessModel;
-import com.bpm.engine.model.InstanceTaskModel;
+import com.bpm.engine.model.InstanceAbstractionModel;
 import com.bpm.engine.model.TaskAssignedModel;
 import com.bpm.engine.service.ControlProcessReferentService;
 import com.bpm.engine.utility.Constants;
@@ -28,22 +27,22 @@ public class ControlProcessReferentManager {
 	 private AssignmentTaskManager assignmentTaskManager;
 	 
 	  
-	public ControlProcessReferentModel createFromInstanceProcess(InstanceProcessModel  instanceProcess) {
+	public ControlProcessReferentModel createFromInstanceProcess(InstanceAbstractionModel  instanceProcess) {
 		
 		 ControlProcessReferentModel instance = ControlProcessReferentModel.builder()
 				 .name(instanceProcess.getName())
-				 .code(instanceProcess.getprocess().getProcesCode())
+				 .code(instanceProcess.getCodeProcess())
 				 .title(instanceProcess.getTitle())
 				 .status(SystemSate.ACTIVE.toString())
-				 .type(Constants.TYPE_INSTANCE_PROCESS)
-				 .idReference(instanceProcess.getIdInstanceProcess())
+				 .type(instanceProcess.getInstanOf())
+				 .idReference(instanceProcess.getIdInstance())
 				 .dateCreate(new Date())
 				 .active(true)
 				 .build();
 		 
 		 		List<BpmAssignedModel> assigneds = new ArrayList<>();
 		 		
-		 		assigneds.add(assignmentTaskManager.getOneUserDirectAssigned(instanceProcess.getCreateBy(), instanceProcess.getIdInstanceProcess(),instanceProcess.getprocess().getId_process()));
+		 		assigneds.add(assignmentTaskManager.getOneUserDirectAssigned(instanceProcess.getUserCreateInstance(), instanceProcess.getIdInstance(),instanceProcess.getIdProcess()));
 		 		
 		       instance.setAssignes(assigneds);
 		 
@@ -51,19 +50,20 @@ public class ControlProcessReferentManager {
 		 return controlProcessReferentService.saveOrUpdateInternalControlProcess(instance);
 	}
 	
-	public ControlProcessReferentModel createFromInstanceTask(InstanceTaskModel taskModel, SystemRequest systemRequest, Long instanceProccesId) {
+	public ControlProcessReferentModel createFromInstanceTask(InstanceAbstractionModel taskModel, SystemRequest systemRequest, Long instanceProccesId) {
 		
 			 ControlProcessReferentModel instance = ControlProcessReferentModel.builder()
 					 .name(taskModel.getName())
-					 .code(taskModel.getCodeTask())
-					 .title(taskModel.getTask().getTitle())
+					 .code(taskModel.getCodeReferent())
+					 .title(taskModel.getTitle())
 					 .status(SystemSate.ACTIVE.toString())
-					 .type(Constants.TYPE_INSTANCE_TASK)
-					 .idReference(taskModel.getIdInstanceTask())
+					 .type(taskModel.getInstanOf())
+					 .idReference(taskModel.getIdRefenet())
 					 .dateCreate(new Date())
 					 .active(true)
 					 .build();
-			 instance.setAssignes(assignmentTaskManager.getAssigned(taskModel.getCodeTask(),  systemRequest, instanceProccesId, taskModel, instanceProccesId));
+			 
+			 instance.setAssignes(assignmentTaskManager.getAssigned(taskModel.getCodeReferent(),  systemRequest, taskModel.getIdInstanceOfProcess(), taskModel.getIdProcess()));
 			  
 				return controlProcessReferentService.saveOrUpdateInternalControlProcess(instance);
 
