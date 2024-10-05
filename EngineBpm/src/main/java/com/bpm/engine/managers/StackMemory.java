@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.bpm.engine.model.InstanceAbstractionModel;
+import com.google.gson.Gson;
 
 // https://chatgpt.com/c/66fd9003-c050-8012-a22e-e02f9d4d1422
 
@@ -26,6 +27,7 @@ public class StackMemory {
 
 	private ConcurrentLinkedDeque<InstanceAbstractionModel> queuePriorityTask = new ConcurrentLinkedDeque<>();
 	private ConcurrentLinkedDeque<InstanceAbstractionModel> deque = new ConcurrentLinkedDeque<>();
+	
 	private ThreadPoolExecutor executor;
 	
 	private final int maxQueueSize;
@@ -39,10 +41,15 @@ public class StackMemory {
 	private AtomicBoolean maxQueueSizeFat = new AtomicBoolean(false);
 	private AtomicBoolean maximumPoolSizeFat = new AtomicBoolean(false);
 	private Integer newMaxQueueSize = null;
+	private Integer maxreturnOfError = 3;
+	private Integer returnOfError = 0;
+	
+	private StackMemoryReferentManager referentManager;
 
-	public StackMemory(@Value("${deque.maxSize:15}") int maxQueueSize) {
+	public StackMemory(@Value("${deque.maxSize:15}") int maxQueueSize, StackMemoryReferentManager referentManager) {
 		this.maxQueueSize = maxQueueSize;
-		  this.workQueue = new ArrayBlockingQueue<>(maxQueueSize);
+		this.workQueue = new ArrayBlockingQueue<>(maxQueueSize);
+		this.referentManager = referentManager;
 	}
 
 	@PostConstruct
@@ -67,40 +74,68 @@ public class StackMemory {
 	public void processQueue() {
 
 		while (this.status2.get()) {
-			
+
 			InstanceAbstractionModel element = null;
 			
+			try {
 				 element = !queuePriorityTask.isEmpty()? queuePriorityTask.pollLast():deque.pollLast();
-				 
-	
-			if (element != null) {
 				
-				System.out.println(Thread.currentThread().getName() + " procesando: " + element);
+				 if (element != null) {
+					 this.referentManager.putInstanceInReferentBook(element);
+					 System.out.println(Thread.currentThread().getName() + " procesando: " + element);
 
-			 // Simular trabajo con el elemento
+					 		// Simular trabajo con el elemento // ............
 
-			
-			} else {
-				
-				try {
-					this.status2.compareAndSet(true, false);
-					this.impruvedThreadPoolExecutor();
+					this.referentManager.removeInstanceOfReferentBook(element.getIdInstance());
 					
-				} catch (Exception e) {
-					Thread.currentThread().interrupt();
-					e.printStackTrace();
-					logger.error(e);
+				} else {
+					
+					try {
+						this.status2.compareAndSet(true, false);
+						this.impruvedThreadPoolExecutor();
+						
+					} catch (Exception e) {
+						Thread.currentThread().interrupt();
+						e.printStackTrace();
+						logger.error(e);
+					}
 				}
-			}
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+				logger.error(e);
+				this.managerError(element);
+			}			
 		}
+	}
+	
+	
+	private void managerError(InstanceAbstractionModel element) {
+		
+		InstanceAbstractionModel intanceInError = this.referentManager.getInstance(element.getIdInstance());
+		this.referentManager.removeInstanceOfReferentBook(intanceInError.getIdInstance());
+		
+		if(returnOfError <= maxreturnOfError) {
+			returnOfError++;
+			this.addElement(intanceInError, "p");
+			// TODO: notificar el error al sistema de error Indeicado que fue manejado y task_reset...
+		}else{
+			returnOfError = 0;
+			Gson gson = new Gson();
+			String jsonObject = gson.toJson(intanceInError);
+			
+			//TODO: REALIZA EL ENVIO AL SISTEMA DE NOTIFICACION DE ERROR Y ANEXZA EL OBJETO EN JSON.
+		}
+		
 	}
 	
 
 	public Boolean addElement(InstanceAbstractionModel newElement, String type) {
 
 		Boolean isSave = false;
-
-		if (newElement != null) {
+// TODO: Al no cumplir y retornar false, hay que ver como retorna un mensaje tambien para indicar por que fallo separando el null 
+		// del elemento en el pool de trabajo
+		if (newElement != null && this.referentManager.instanceIsWorking(newElement.getIdInstance())) {
 
 			try {
 				 isSave = type != null && type.toLowerCase().equals("p")? queuePriorityTask.add(newElement):deque.add(newElement);
@@ -136,6 +171,7 @@ public class StackMemory {
 		return isSave;
 	}
 
+	
 	private void queueSize() {
 
 		if (executor.getQueue().size() > (maxQueueSize * 0.6) && executor.getQueue().size() < (maxQueueSize * 0.95)) {
@@ -219,16 +255,5 @@ public class StackMemory {
 		}
 		
 		
-//		public void increasePoolSizeD(int newSize) {
-//		if (newSize > executor.getCorePoolSize()) {
-//			executor.setMaximumPoolSize(newSize);
-//		}
-//	}
-//
-//	public void decreasePoolSizeD(int newSize) {
-//		if (newSize < executor.getMaximumPoolSize()) {
-//			executor.setMaximumPoolSize(newSize);
-//		}
-//	}
 
 }

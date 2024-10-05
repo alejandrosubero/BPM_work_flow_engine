@@ -76,8 +76,7 @@ public class EmployeeController {
 
 	// http://localhost:1112/wfe/employee/approve/{employeeNumber}/{positionCode}
 	@GetMapping("/approve/{employeeNumber}/{positionCode}")
-	private ResponseEntity<EntityRespone> findApprover(@PathVariable("employeeNumber") String employeeNumber,
-			@PathVariable("positionCode") String positionCode) {
+	private ResponseEntity<EntityRespone> findApprover(@PathVariable("employeeNumber") String employeeNumber, @PathVariable("positionCode") String positionCode) {
 
 		if (employeeNumber == null || employeeNumber.isEmpty() || positionCode == null || positionCode.isEmpty()) {
 			return ResponseEntity.badRequest().body(

@@ -57,7 +57,7 @@ public class EmployeeManager implements IAssigned {
           if(employee != null && employee.getId() != null){
         	  positionCode = employee.getPosition().getCode();
           }
-    	return approver( employeeNumber,  positionCode,  employee);
+    	return this.approver( employeeNumber,  positionCode,  employee);
     }
     
     
@@ -69,7 +69,7 @@ public class EmployeeManager implements IAssigned {
           	employee = empleadoService.findByNumeroEmpleado(employeeNumber);        	
           }
 
-          return approver( employeeNumber,  positionCode,  employee);
+          return this.approver( employeeNumber,  positionCode,  employee);
     }
     
     

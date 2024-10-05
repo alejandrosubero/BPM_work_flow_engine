@@ -61,7 +61,7 @@ public class EmployeeReliefController {
 		 }
 		}
 
-		 @GetMapping("/Getemployeerelief/{employeerelief}")
+		 @GetMapping("/get/employee/relief/{employeerelief}")
 		private  ResponseEntity<EntityRespone> findByEmployeeRelief(@PathVariable("employeerelief") String  employeerelief) {
 		String busca = (String) employeereliefValidationService.validation(employeerelief);
 		try {

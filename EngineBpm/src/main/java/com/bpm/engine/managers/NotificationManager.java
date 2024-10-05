@@ -12,8 +12,7 @@ import com.bpm.engine.notification.services.NotificationService;
 public class NotificationManager {
 
 	private static NotificationService service; 
-	private ConcurrentHashMap<Long, InstanceAbstractionModel> concurrentHashMap = new ConcurrentHashMap<Long, InstanceAbstractionModel>();
-		
+	
 	@Autowired
 	public NotificationManager(NotificationService service) {
 		this.service = service;
@@ -24,22 +23,7 @@ public class NotificationManager {
 	}
 
 	
-	public void putInstanve(InstanceAbstractionModel instance) {
-		this.concurrentHashMap.put(instance.getIdInstance(), instance);
-	}
-	
-	
-	public InstanceAbstractionModel getInstance(Long instanceId) {
-		return this.concurrentHashMap.get(instanceId);
-	}
-	
-	public Boolean keyExist(Long instanceId) {
-		return this.concurrentHashMap.contains(instanceId);
-	}
-	
-	public Boolean removeInstance(Long instanceId) {
-		return this.concurrentHashMap.remove(instanceId) != null;
-	}
+
 	
 	
 }
