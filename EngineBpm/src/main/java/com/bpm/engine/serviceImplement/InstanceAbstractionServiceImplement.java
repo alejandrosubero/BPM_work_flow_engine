@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -235,6 +236,12 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 		}
 		
 	}
+	
+	
+	
+
+	
+	
 
 	
 	//TODO: ES NECESARIO CREAR EL TETS UNITARIO PARA ESTE METODO
@@ -341,9 +348,7 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 
 	@Override
 	public List<InstanceAbstractionModel> finBySearch(String keyword) {
-		
 		List<InstanceAbstraction> list =repository.finBySearch2(keyword);
-		
 		return mapper.entityListToPojoList(list);
 	}
 
@@ -357,22 +362,16 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 		
 		try {
 			if(user != null) {
-				
 				listInstance  = new ArrayList<>();
 				List<InstanceAbstraction> list = new ArrayList<>();
-				
 				List<Long> ids = repository.findIdInstanceProcessFromUserWorked(user);
 				
 				if(!ids.isEmpty()) {
 					list.addAll(repository.findByIdInstanceIn(ids));
 				}
-				
 				list.addAll(repository.findByUserCreateInstanceAndIdInstanceOfProcessIsNull(user));
-				
 				listInstance = mapper.entityListToPojoList(list);
-			
 			}
-			
 		}catch( DataAccessException e) {
 			 logger.error("Error in find a InstanceAbstraction by user: ", e);
 			e.printStackTrace();	
@@ -385,10 +384,66 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 		}finally {
 			return listInstance;
 		}
-	
 	}
 
 
+
+	@Override
+	public Boolean changeUserWorked(String userWorked, String newUserWorked) {
+		List<InstanceAbstraction> instancelist = null;
+		List<Long> instancesid = new ArrayList<>();
+		
+		instancelist = repository.findByUserWorkedAndActive(userWorked, true);
+		 Boolean check = false;
+		 
+		if(instancelist != null && !instancelist.isEmpty()) {
+			 instancelist.parallelStream().forEach(instance -> {
+				 this.updateUserWorked(newUserWorked, instance.getIdInstance()); 
+				 instancesid.add(instance.getIdInstance());
+			 });
+		}
+		 //TODO: a un no se implementa la respuesta o la verificacion de la respuesta...
+		 return instancesid.stream().allMatch(id -> repository.checkInstanceExistsByuserCreate(newUserWorked, id) != null);
+	}
+
+	
+	@Override
+	public Boolean changeUserCreateInstance(String userCreateInstance, String newUserCreateInstance) {
+		List<InstanceAbstraction> instancelist = null;
+		List<Long> instancesid = new ArrayList<>();
+		
+		instancelist = repository.findByUserCreateInstanceAndActive(userCreateInstance, true);
+		 Boolean check = false;
+		 
+		if(instancelist != null && !instancelist.isEmpty()) {
+			 instancelist.parallelStream().forEach(instance -> {
+				 this.updateUserCreateInstance(newUserCreateInstance, instance.getIdInstance()); 
+				 instancesid.add(instance.getIdInstance());
+			 });
+		}
+		 //TODO: a un no se implementa la respuesta o la verificacion de la respuesta...
+		return instancesid.stream().allMatch(id -> repository.checkInstanceExistsByuserCreate(newUserCreateInstance, id) != null);
+	}
+
+
+
+	@Override
+	public void updateUserCreateInstance(String userCreateInstance, Long idInstance) {
+		try {
+			if(userCreateInstance !=null && !userCreateInstance.equals("") && idInstance !=null) {
+				this.repository.updateUserCreateInstance(userCreateInstance, idInstance);
+			}
+		} catch ( DataAccessException e) {
+			 logger.error("Error at update a InstanceAbstraction field: ", e);
+			e.printStackTrace();
+		}catch(IllegalArgumentException e) {
+			logger.error("the one or all parameters are null");
+			e.printStackTrace();	
+		}
+	}
+
+//TODO: CONECTAR LOS ERRORES AL SISTEMA DE NOTIFICACION DE ERRORES...
+	
 
 
 

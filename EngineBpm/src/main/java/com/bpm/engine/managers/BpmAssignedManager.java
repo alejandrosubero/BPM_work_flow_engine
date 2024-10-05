@@ -68,4 +68,10 @@ public class BpmAssignedManager {
     
     
     
+    public List<BpmAssignedModel> findByCodeEmployeeAndActive(String codeEmployee, Boolean active) {
+    	return bpmAssignedService.findByCodeEmployeeAndActive( codeEmployee,active); 
+    }
+    
+    
+    
 }

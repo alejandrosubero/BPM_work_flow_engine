@@ -24,7 +24,9 @@ public interface InstanceAbstractionRepository extends CrudRepository<InstanceAb
 	public List<InstanceAbstraction> findByIdInstanceOfProcess(Long idInstanceOfProcess);
 	public List<InstanceAbstraction> findByIdInstanceIn(List<Long> idInstances);
 	public List<InstanceAbstraction> findByUserCreateInstanceAndIdInstanceOfProcessIsNull(String userCreateInstance);
-	
+	public List<InstanceAbstraction> findByUserCreateInstanceAndIdInstanceOfProcessIsNullAndActive(String userCreateInstance, Boolean active);
+	public List<InstanceAbstraction> findByUserWorkedAndActive(String userWorked, Boolean active);
+	public List<InstanceAbstraction> findByUserCreateInstanceAndActive(String userCreateInstance, Boolean active);
 
 	 @Transactional
 	 @Modifying
@@ -51,6 +53,12 @@ public interface InstanceAbstractionRepository extends CrudRepository<InstanceAb
 	
 	@Transactional
     @Modifying
+    @Query("update InstanceAbstraction u set u.userCreateInstance = ?1 where u.idInstance = ?2")
+    void updateUserCreateInstance(String userCreateInstance, Long idInstance);
+	
+	
+	@Transactional
+    @Modifying
     @Query("update InstanceAbstraction u set u.instances = ?1 where u.idInstance = ?2")
     void updateInstances(List<InstanceAbstraction> instances, Long idInstance);
 	
@@ -70,13 +78,12 @@ public interface InstanceAbstractionRepository extends CrudRepository<InstanceAb
 	@Query("SELECT ia FROM InstanceAbstraction ia WHERE ia.idInstanceOfProcess IN (:idInstanceOfProcess)")
 	public List<InstanceAbstraction> findInstancesByIdInstanceOfProcess(@Param("idInstanceOfProcess") List<Integer> idInstanceOfProcess);
 	 
-//	 @Modifying
-//	 @Query(value = "SELECT * FROM BPM_INSTANCE_ABSTRACTION WHERE  BPM_INSTANCE_ABSTRACTION. USER_CREATE_INSTANCE LIKE '%:keyword%' OR BPM_INSTANCE_ABSTRACTION.USER_WORKED  LIKE '%:keyword%'", nativeQuery = true)
-//	 public List<InstanceAbstraction> finBySearch(@Param("keyword") String keyword);
-	
-//	@Query(value = "SELECT p.idInstanceOfProcess FROM InstanceAbstraction p WHERE  p.userWorked = ?1and p.active = true")
-//	public List<Long> findIdInstanceProcessFromUserWorked(String userWorked);
-	
+	 @Query("SELECT 1 FROM InstanceAbstraction a WHERE a.userWorked = :userWorked AND a.idInstance = :idInstance")
+	 public Integer checkInstanceExists(@Param("userWorked") String userWorked, @Param("idInstance") Long idInstance);
+	 
+	 @Query("SELECT 1 FROM InstanceAbstraction a WHERE a.userCreateInstance = :userCreateInstance AND a.idInstance = :idInstance")
+	 public Integer checkInstanceExistsByuserCreate(@Param("userCreateInstance") String userCreateInstance, @Param("idInstance") Long idInstance);
+	 
 }
 
 

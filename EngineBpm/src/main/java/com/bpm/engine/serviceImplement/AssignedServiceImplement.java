@@ -113,6 +113,7 @@ public class AssignedServiceImplement implements AssignedService {
             logger.error("Error happen during the direct saved of assigned.. employ code: "+ assigned.getCodeEmployee());
             logger.error(e);
             e.printStackTrace();
+          //TODO: registrar en el sistema de notificacion error and set logger
             return null;
         }
        return null;

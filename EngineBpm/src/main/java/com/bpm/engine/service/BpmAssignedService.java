@@ -39,6 +39,8 @@ public interface BpmAssignedService {
     
     public List<BpmAssignedModel> findByProccesIdAndCodeEmployeeAndActive (Long proccesId, String codeEmployee);
     
+    public List<BpmAssignedModel> findByCodeEmployeeAndActive (String codeEmployee, Boolean active);
+    
     
     
 }

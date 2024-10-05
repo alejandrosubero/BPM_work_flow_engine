@@ -23,6 +23,16 @@ public interface InstanceAbstractionService {
     void updateStatus(String status, Long idInstance);
     void updateActive(Boolean active, Long idInstance);
     void updateUserWorked(String userWorked, Long idInstance);
+    void updateUserCreateInstance(String userCreateInstance, Long idInstance);
+    
     void updateInstances(List<InstanceAbstraction> instances, Long idInstance);
     void updateUserWorked(Long idParent, Long idInstance);
+    
+//	public List<InstanceAbstraction> findByUserWorkedAndActive(String userWorked, Boolean active);
+//	public List<InstanceAbstraction> findByUserCreateInstanceAndActive(String userCreateInstance, Boolean active);
+	
+	public Boolean changeUserWorked(String userWorked, String newUserWorked);
+	public Boolean changeUserCreateInstance(String userCreateInstance, String newUserCreateInstance);
+	
+	
 }

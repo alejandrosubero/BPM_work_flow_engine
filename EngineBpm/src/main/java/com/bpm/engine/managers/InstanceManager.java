@@ -42,11 +42,7 @@ public class InstanceManager {
 	 
 	 	
 	 
-	 public List<InstanceAbstractionModel> getInstancesOfUser(String user) { 
-		
-//			 List<Long> idProcessModelList = bpmAssignedModelList.stream().map(BpmAssignedModel::getProccesId)
-//		                .collect(Collectors.toList());
-		
+	 public List<InstanceAbstractionModel> getInstancesOfUser(String user) { 	
 		return instanceAbstractionService.findByUser(user);
 	 }
 	 
@@ -205,7 +201,8 @@ public class InstanceManager {
 	
 }
 
-
+//List<Long> idProcessModelList = bpmAssignedModelList.stream().map(BpmAssignedModel::getProccesId)
+//.collect(Collectors.toList());
 
 
 

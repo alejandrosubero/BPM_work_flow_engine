@@ -21,7 +21,7 @@ public class BpmAssignedServiceImplement implements BpmAssignedService {
 
 	
 	@PersistenceContext
-    private EntityManager entityManager;
+//    private EntityManager entityManager;
 	
     @Autowired
     private BpmAssignedRepository repository;
@@ -93,20 +93,14 @@ public class BpmAssignedServiceImplement implements BpmAssignedService {
 
 
     @Override
-   
-    public BpmAssignedModel instanceBpmAssigned(Long idAssigned, String taskCode, Long instanciaProccesId){
-    	
+    public BpmAssignedModel instanceBpmAssigned(Long idAssigned, String taskCode, Long instanciaProccesId){ 	
     	BpmAssignedModel model = new BpmAssignedModel(idAssigned, taskCode, instanciaProccesId);
     	BpmAssigned entity = mapper.pojoToEntity(model);
     	BpmAssigned entitySave = repository.save(entity);
-//    	BpmAssigned entitySave = entityManager.merge(entity);
         return mapper.entityToPojo(entitySave);
     }
 
-//    @Transactional
-//    public void saveBpmAssigned(BpmAssigned bpmAssigned) {
-//        bpmAssigned = entityManager.merge(bpmAssigned);
-//    }
+
     
 	@Override
 	public List<BpmAssignedModel> findByTaskCodeAndInstanciaProccesIdNull(String taskCode, Boolean active) {
@@ -161,6 +155,16 @@ public class BpmAssignedServiceImplement implements BpmAssignedService {
 		
 		try {
 			return mapper.entityListToPojoList(repository.findByCodeEmployeeAndActive(codeEmployee, true));	
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<BpmAssignedModel> findByCodeEmployeeAndActive(String codeEmployee, Boolean active) {
+		try {
+			return mapper.entityListToPojoList(repository.findByCodeEmployeeAndActive(codeEmployee,active));
 		}catch (Exception e) {
 			e.printStackTrace();
 			return null;

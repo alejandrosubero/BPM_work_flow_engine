@@ -264,10 +264,15 @@ public class AssignmentTaskManager {
 		
 	}
 	
+	
 	public AssignedModel getAssignedModel(String codeEmployee) {
 		return assignedService.findByCodeEmployeeAndActive(codeEmployee, true);
 	}
 	
+	
+	public AssignedModel saveAssigned(AssignedModel assigned) {
+		return this.assignedService.save(assigned);
+	}
 	
 	
 	public void saveAndCreteBpmAssigned(String taskCode, AssignedModel assigned, Long instanceProccesId) {
