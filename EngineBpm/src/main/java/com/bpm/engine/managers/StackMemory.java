@@ -29,20 +29,20 @@ public class StackMemory {
 	private ConcurrentLinkedDeque<InstanceAbstractionModel> deque = new ConcurrentLinkedDeque<>();
 	
 	private ThreadPoolExecutor executor;
-	
 	private final int maxQueueSize;
 	private final BlockingQueue<Runnable> workQueue;
-	private int corePoolSize = 2;
-	private int maximumPoolSize = 4;
-	private long keepAliveTime = 60L;
-	private TimeUnit unit = TimeUnit.SECONDS;
+	private Integer newMaxQueueSize = null;
 	
+	private TimeUnit unit = TimeUnit.SECONDS;
 	private AtomicBoolean status2 = new AtomicBoolean(true);
 	private AtomicBoolean maxQueueSizeFat = new AtomicBoolean(false);
 	private AtomicBoolean maximumPoolSizeFat = new AtomicBoolean(false);
-	private Integer newMaxQueueSize = null;
+	
 	private Integer maxreturnOfError = 3;
 	private Integer returnOfError = 0;
+	private int corePoolSize = 2;
+	private int maximumPoolSize = 4;
+	private long keepAliveTime = 60L;
 	
 	private StackMemoryReferentManager referentManager;
 
@@ -56,12 +56,8 @@ public class StackMemory {
 	public void startProcessing() {
 		
 		 executor = new ThreadPoolExecutor(
-	                corePoolSize,
-	                maximumPoolSize,
-	                keepAliveTime,
-	                unit,
-	                workQueue,
-	                new ThreadPoolExecutor.CallerRunsPolicy()
+	                corePoolSize, maximumPoolSize, keepAliveTime,
+	                unit,  workQueue, new ThreadPoolExecutor.CallerRunsPolicy()
 	        );
 		
 		for (int i = 0; i < corePoolSize; i++) {
@@ -71,16 +67,19 @@ public class StackMemory {
 
 
 
+	@SuppressWarnings("unused")
 	public void processQueue() {
 
 		while (this.status2.get()) {
 
 			InstanceAbstractionModel element = null;
-			
+			logger.info(Thread.currentThread().getName() + "In processQueue... ");
 			try {
 				 element = !queuePriorityTask.isEmpty()? queuePriorityTask.pollLast():deque.pollLast();
 				
+				
 				 if (element != null) {
+					 this.referentManager.removeInstanceOfConcurrentDequeMap(element.getIdInstance());
 					 this.referentManager.putInstanceInReferentBook(element);
 					 System.out.println(Thread.currentThread().getName() + " procesando: " + element);
 
@@ -89,22 +88,16 @@ public class StackMemory {
 					this.referentManager.removeInstanceOfReferentBook(element.getIdInstance());
 					
 				} else {
-					
-					try {
 						this.status2.compareAndSet(true, false);
 						this.impruvedThreadPoolExecutor();
-						
-					} catch (Exception e) {
-						Thread.currentThread().interrupt();
-						e.printStackTrace();
-						logger.error(e);
-					}
+						logger.info(Thread.currentThread().getName() + "In processQueue status active :: "+ this.status2.get() );
 				}
 				
 			}catch(Exception e) {
 				e.printStackTrace();
 				logger.error(e);
 				this.managerError(element);
+				Thread.currentThread().interrupt();
 			}			
 		}
 	}
@@ -133,12 +126,20 @@ public class StackMemory {
 	public Boolean addElement(InstanceAbstractionModel newElement, String type) {
 
 		Boolean isSave = false;
+		
+		if (newElement != null ) {
+			
 // TODO: Al no cumplir y retornar false, hay que ver como retorna un mensaje tambien para indicar por que fallo separando el null 
 		// del elemento en el pool de trabajo
-		if (newElement != null && this.referentManager.instanceIsWorking(newElement.getIdInstance())) {
+			
+			Boolean isPresentInDeque = this.referentManager.getDeque(newElement.getIdInstance()).equals(newElement);
+			Boolean isWorkingInPool = this.referentManager.instanceIsWorking(newElement.getIdInstance());
+			
+		if (!isPresentInDeque && !isWorkingInPool) {
 
 			try {
 				 isSave = type != null && type.toLowerCase().equals("p")? queuePriorityTask.add(newElement):deque.add(newElement);
+				 this.referentManager.putInConcurrentDequeMap(newElement);
 				 
 				if (isSave) {
 					logger.info("New Element was add");
@@ -151,7 +152,7 @@ public class StackMemory {
 					logger.error("Fail to add New Element in the deque...");
 				}
 				
-				this.queueSize();
+				this.threadPoolSize();
 				
 				if (deque.size() < maxQueueSize) {
 					if (executor.getQueue().size() < maxQueueSize) {
@@ -167,12 +168,13 @@ public class StackMemory {
 				ei.printStackTrace();
 			}
 		}
+	}
 
 		return isSave;
 	}
 
 	
-	private void queueSize() {
+	private void threadPoolSize() {
 
 		if (executor.getQueue().size() > (maxQueueSize * 0.6) && executor.getQueue().size() < (maxQueueSize * 0.95)) {
 			increasePoolSize(maximumPoolSize);

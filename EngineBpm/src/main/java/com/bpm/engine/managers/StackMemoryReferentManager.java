@@ -17,6 +17,26 @@ public class StackMemoryReferentManager {
 
 	
 	private  ConcurrentHashMap<Long, InstanceAbstractionModel> concurrentHashMap = new ConcurrentHashMap<Long, InstanceAbstractionModel>();
+	private  ConcurrentHashMap<Long, InstanceAbstractionModel> inConcurrentLinkedDeque = new ConcurrentHashMap<Long, InstanceAbstractionModel>();
+	
+	
+	public  void putInConcurrentDequeMap(InstanceAbstractionModel instance) {
+		this.inConcurrentLinkedDeque.put(instance.getIdInstance(), instance);
+	}
+	
+	
+	public  InstanceAbstractionModel getDeque(Long instanceId) {
+		return this.inConcurrentLinkedDeque.get(instanceId);
+	}
+	
+	public  Boolean instanceInConcurrentDeque(Long instanceId) {
+		return this.inConcurrentLinkedDeque.contains(instanceId);
+	}
+	
+	public  Boolean removeInstanceOfConcurrentDequeMap(Long instanceId) {
+		return this.inConcurrentLinkedDeque.remove(instanceId) != null;
+	}
+	
 	
 	public  void putInstanceInReferentBook(InstanceAbstractionModel instance) {
 		this.concurrentHashMap.put(instance.getIdInstance(), instance);
