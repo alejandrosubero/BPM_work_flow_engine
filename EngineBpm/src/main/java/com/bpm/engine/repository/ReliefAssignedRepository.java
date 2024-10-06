@@ -22,6 +22,7 @@ public interface ReliefAssignedRepository extends CrudRepository<ReliefAssigned,
 	public List<ReliefAssigned> findByPermanentAndActive(Boolean permanent, Boolean Active);
 	public List<ReliefAssigned> findByTemporaryAndReturnCommandAndActive(Boolean temporary,Boolean returnCommand,Boolean Active);
 	public List<ReliefAssigned> findByReturnCommandAndActive(Boolean returnCommand,Boolean Active);
+	public List<ReliefAssigned> findByUserReliefCodeLike(String userReliefCode);
 	
 	
 	@Transactional
