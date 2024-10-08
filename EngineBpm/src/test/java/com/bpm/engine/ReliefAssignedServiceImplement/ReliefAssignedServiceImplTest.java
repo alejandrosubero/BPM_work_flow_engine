@@ -35,7 +35,7 @@ class ReliefAssignedServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+    	 MockitoAnnotations.openMocks(this); 
         reliefAssigned = ReliefAssigned.builder().idRelief(1L).userCode("USER1").build();
         reliefAssignedModel = ReliefAssignedModel.builder().idRelief(1L).userCode("USER1").build();
     }
@@ -61,6 +61,8 @@ class ReliefAssignedServiceImplTest {
         assertNotNull(result);
         assertEquals(reliefAssignedModel.getIdRelief(), result.getIdRelief());
     }
+    
+    
 
     @Test
     void testUpdateTimeActive() {
