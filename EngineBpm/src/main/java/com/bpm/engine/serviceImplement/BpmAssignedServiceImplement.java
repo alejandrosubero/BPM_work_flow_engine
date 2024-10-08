@@ -19,9 +19,8 @@ import com.bpm.engine.service.BpmAssignedService;
 @Service
 public class BpmAssignedServiceImplement implements BpmAssignedService {
 
-	
-	@PersistenceContext
-//    private EntityManager entityManager;
+
+
 	
     @Autowired
     private BpmAssignedRepository repository;

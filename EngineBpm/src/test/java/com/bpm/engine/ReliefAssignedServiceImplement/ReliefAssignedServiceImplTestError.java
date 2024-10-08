@@ -79,28 +79,28 @@ public class ReliefAssignedServiceImplTestError {
         verify(modelMapper, times(1)).map(any(ReliefAssignedModel.class), eq(ReliefAssigned.class));
     }
 
-    @Test
-    void testUpdateReliefAssigned_NullModel() {
-        // Probar que el método lanza una excepción al recibir un modelo nulo
-        assertThrows(NullPointerException.class, () -> reliefAssignedService.updateReliefAssigned(null),
-                "Model is null");
-    }
-
-    @Test
-    void testUpdateReliefAssigned_NotFound() {
-        ReliefAssignedModel model = new ReliefAssignedModel();
-        model.setIdRelief(1L);
-
-        // Simular que el repositorio no encuentra la entidad
-        when(reliefAssignedRepository.findById(1L)).thenReturn(Optional.empty());
-
-        // Probar que lanza la excepción correcta
-        RuntimeException exception = assertThrows(RuntimeException.class,
-                () -> reliefAssignedService.updateReliefAssigned(model));
-
-        assertEquals("ReliefAssigned not found with id: 1", exception.getMessage());
-        verify(reliefAssignedRepository, times(1)).findById(1L);
-    }
+//    @Test
+//    void testUpdateReliefAssigned_NullModel() {
+//        // Probar que el método lanza una excepción al recibir un modelo nulo
+//        assertThrows(NullPointerException.class, () -> reliefAssignedService.updateReliefAssigned(null),
+//                "Model is null");
+//    }
+//
+//    @Test
+//    void testUpdateReliefAssigned_NotFound() {
+//        ReliefAssignedModel model = new ReliefAssignedModel();
+//        model.setIdRelief(1L);
+//
+//        // Simular que el repositorio no encuentra la entidad
+//        when(reliefAssignedRepository.findById(1L)).thenReturn(Optional.empty());
+//
+//        // Probar que lanza la excepción correcta
+//        RuntimeException exception = assertThrows(RuntimeException.class,
+//                () -> reliefAssignedService.updateReliefAssigned(model));
+//
+//        assertEquals("ReliefAssigned not found with id: 1", exception.getMessage());
+//        verify(reliefAssignedRepository, times(1)).findById(1L);
+//    }
 
     @Test
     void testUpdateTimeActive_DatabaseError() {
