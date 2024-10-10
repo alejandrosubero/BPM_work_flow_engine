@@ -20,15 +20,13 @@ public class InstanceProcessManagerDTO {
 	
 	 private static final Logger logger = LogManager.getLogger(InstanceProcessManagerDTO.class);
 	
-	 private ProcessManager processManager;
-	 private InstanceProcessManager instanceProcessManager;
+	 private ProcessAndInstanceFacade services;
 	 private ProcessDTOMapper processDTOMapper ;
 	  
 	    
 	@Autowired
-	public InstanceProcessManagerDTO(ProcessManager processManager, InstanceProcessManager instanceProcessManager,ProcessDTOMapper processDTOMapper) {
-		this.processManager = processManager;
-		this.instanceProcessManager = instanceProcessManager;
+	public InstanceProcessManagerDTO(ProcessAndInstanceFacade services,ProcessDTOMapper processDTOMapper) {
+		this.services = services;
 		this.processDTOMapper = processDTOMapper;
 	}
 
@@ -46,20 +44,14 @@ public class InstanceProcessManagerDTO {
 			e.printStackTrace();
 		}
 		  
-		List<InstanceAbstractionModel> instancesProcessOfUser = instanceProcessManager.getInstancesProcessDTO(systemRequest);
-		List<ProcessModel> processOfUser = processManager.getProcessOfUser(systemRequest.getCodeEmployee());
+		List<InstanceAbstractionModel> instancesProcessOfUser =  services.instanceManager().getInstancesOfUser(systemRequest.getCodeEmployee());
+		List<ProcessModel> processOfUser = services.processManager().getProcessOfUser(systemRequest.getCodeEmployee());
 		  
-		
 		processOfUser.parallelStream().forEach(procesModel -> processList.add(new ProcessDTO(procesModel)));
 		
 		instancesProcessOfUser.parallelStream().forEach(InstanceAbstractionModel-> processList.add(processDTOMapper.instanceAbstractionModelToDTO(InstanceAbstractionModel)));
-		
 
 		  return processList;
 	  }
 
-
-
-	
-	
 }

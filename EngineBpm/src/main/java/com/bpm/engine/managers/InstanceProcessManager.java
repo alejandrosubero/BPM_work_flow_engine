@@ -20,67 +20,54 @@ public class InstanceProcessManager {
 	private static final Logger logger = LogManager.getLogger(InstanceProcessManager.class);
 	
 
-    private InstanceManager instanceManager;
-    private ProcessManager processManager;
+  private ProcessAndInstanceFacade services;
+  
     
    
     @Autowired
-    public InstanceProcessManager(InstanceManager instanceManager, ProcessManager processManager) {
- 		this.instanceManager = instanceManager;
- 		this.processManager = processManager;
- 	}
-    
-    
-    
-    
-    public List<InstanceAbstractionModel> getInstancesProcessDTO(SystemRequest systemRequest) {
-    	
-    	List<InstanceAbstractionModel> listInstancesProcessDTO = instanceManager.getInstancesOfUser(systemRequest.getCodeEmployee());
-    	
-    	return listInstancesProcessDTO;
+	public InstanceProcessManager(ProcessAndInstanceFacade services) {
+		this.services = services;
+	}
+        
+  
+
+	public EntityRespone createProcess(ProcessModel processModel) {
+    	return services.processManager().createProcess(processModel);
     }
     
     
    
-
-	public EntityRespone createProcess(ProcessModel processModel) {
-    	return processManager.createProcess(processModel);
-    }
-    
-    
-    
-    
    public InstanceAbstractionModel createInstanceProcess2 (SystemRequest systemRequest) {
 		
 	   logger.info("Started create Instance Process ...");
 	   
-        ProcessModel process = processManager.findByProcesCode(systemRequest.getProcessCode());
+        ProcessModel process = services.processManager().findByProcesCode(systemRequest.getProcessCode());
       
         if(process == null) {
         	logger.error("Fail to find a process......");
         	return null;
         }
         
-        InstanceAbstractionModel instanceProcess = instanceManager.createFromProcess(process, systemRequest.getCodeEmployee());
+        InstanceAbstractionModel instanceProcess = services.instanceManager().createFromProcess(process, systemRequest.getCodeEmployee());
        
         process.getstages().parallelStream().forEach(stage->{
-        	InstanceAbstractionModel instanceStageParen = instanceManager.createFromStage(instanceProcess,stage);
+        	InstanceAbstractionModel instanceStageParen = services.instanceManager().createFromStage(instanceProcess,stage);
         	
         	if(stage.gettasks() != null && !stage.gettasks().isEmpty()) {
         		
         		instanceStageParen.addAllInstanceAbstractionModel(
-   					 instanceManager.createFromListOfTask(instanceStageParen, stage.gettasks(), systemRequest)
+        				services.instanceManager().createFromListOfTask(instanceStageParen, stage.gettasks(), systemRequest)
    					 );
         	}
         	
         	if(stage.getstages() !=null && !stage.getstages().isEmpty()) {
         	
         		stage.getstages().parallelStream().forEach(stageInternal->{
-        			InstanceAbstractionModel instanceStageInternal = instanceManager.createFromStage(instanceStageParen,stageInternal);
+        			InstanceAbstractionModel instanceStageInternal = services.instanceManager().createFromStage(instanceStageParen,stageInternal);
         			
         			if(stageInternal.gettasks() != null && !stageInternal.gettasks().isEmpty()) {
         				instanceStageInternal.addAllInstanceAbstractionModel(
-        					 instanceManager.createFromListOfTask(instanceStageInternal, stageInternal.gettasks(), systemRequest)
+        						services.instanceManager().createFromListOfTask(instanceStageInternal, stageInternal.gettasks(), systemRequest)
         					 );
         				instanceStageParen.addInstanceAbstractionModel(instanceStageInternal);
         			}
@@ -88,7 +75,7 @@ public class InstanceProcessManager {
         	}
         	instanceProcess.addInstanceAbstractionModel(instanceStageParen);
         });
-        InstanceAbstractionModel finalResponse = instanceManager.saveCompliteInstance(instanceProcess);
+        InstanceAbstractionModel finalResponse = services.instanceManager().saveCompliteInstance(instanceProcess);
         
 		return  finalResponse;
 
