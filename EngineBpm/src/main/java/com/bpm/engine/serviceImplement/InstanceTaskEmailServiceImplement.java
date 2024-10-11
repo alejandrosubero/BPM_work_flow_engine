@@ -29,8 +29,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import com.bpm.engine.entitys.InstanceTaskEmail;
-import com.bpm.engine.model.InstanceTaskEmailModel;
-import com.bpm.engine.mapper.InstanceTaskEmailMapper	;
+import com.bpm.engine.mappers.InstanceTaskEmailMapper;
+import com.bpm.engine.models.InstanceTaskEmailModel;
 
 
 

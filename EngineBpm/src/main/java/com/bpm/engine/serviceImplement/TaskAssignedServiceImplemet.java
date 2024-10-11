@@ -1,8 +1,8 @@
 package com.bpm.engine.serviceImplement;
 
 import com.bpm.engine.entitys.TaskAssigned;
-import com.bpm.engine.mapper.TaskAssignedMapper;
-import com.bpm.engine.model.TaskAssignedModel;
+import com.bpm.engine.mappers.TaskAssignedMapper;
+import com.bpm.engine.models.TaskAssignedModel;
 import com.bpm.engine.repository.TaskAssignedRepository;
 import com.bpm.engine.service.TaskAssignedService;
 

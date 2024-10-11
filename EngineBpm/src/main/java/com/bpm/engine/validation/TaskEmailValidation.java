@@ -17,9 +17,11 @@ import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;import java.util.Date;
 
-import com.bpm.engine.entitys.TaskEmail;import java.util.regex.Pattern;
+import com.bpm.engine.entitys.TaskEmail;
+import com.bpm.engine.models.TaskEmailModel;
+
+import java.util.regex.Pattern;
 import org.springframework.stereotype.Service;
-import com.bpm.engine.model.TaskEmailModel;import com.bpm.engine.model.TaskEmailModel;
 
 
     @Service

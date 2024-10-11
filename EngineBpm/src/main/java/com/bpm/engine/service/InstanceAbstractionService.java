@@ -4,7 +4,7 @@ import java.util.List;
 
 
 import com.bpm.engine.entitys.InstanceAbstraction;
-import com.bpm.engine.model.InstanceAbstractionModel;
+import com.bpm.engine.models.InstanceAbstractionModel;
 
 public interface InstanceAbstractionService {
 	

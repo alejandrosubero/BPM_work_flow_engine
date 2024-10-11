@@ -1,7 +1,5 @@
 package com.bpm.engine.managers;
 
-import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.bpm.engine.dto.EntityRespone;
 import com.bpm.engine.dto.SystemRequest;
-import com.bpm.engine.model.InstanceAbstractionModel;
-import com.bpm.engine.model.ProcessModel;
-import com.bpm.engine.service.ProcessService;
+import com.bpm.engine.models.InstanceAbstractionModel;
+import com.bpm.engine.models.ProcessModel;
 
 
 @Service

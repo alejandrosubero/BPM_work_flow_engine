@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bpm.engine.entitys.BpmAssigned;
-import com.bpm.engine.mapper.BpmAssignedMapper;
-import com.bpm.engine.model.BpmAssignedModel;
+import com.bpm.engine.mappers.BpmAssignedMapper;
+import com.bpm.engine.models.BpmAssignedModel;
 import com.bpm.engine.repository.BpmAssignedRepository;
 import com.bpm.engine.service.BpmAssignedService;
 

@@ -2,7 +2,7 @@ package com.bpm.engine.service;
 
 import java.util.List;
 
-import com.bpm.engine.model.RulerModel;
+import com.bpm.engine.models.RulerModel;
 
 public interface RulerService {
 

@@ -15,10 +15,11 @@ Create on Sat Sep 30 10:44:39 EDT 2023
 
 package com.bpm.engine.controller;
 import com.bpm.engine.entitys.SystemResponse;
+import com.bpm.engine.mappers.MapperEntityRespone;
+import com.bpm.engine.mappers.SystemResponseMapper;
+import com.bpm.engine.models.SystemResponseModel;
 import com.bpm.engine.validation.SystemResponseValidation;
-import com.bpm.engine.mapper.SystemResponseMapper;
 import com.bpm.engine.service.SystemResponseService;
-import com.bpm.engine.mapper.MapperEntityRespone;
 import com.bpm.engine.dto.EntityRespone;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,6 @@ import java.util.ArrayList;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import com.bpm.engine.model.SystemResponseModel;
 
 
 @RestController

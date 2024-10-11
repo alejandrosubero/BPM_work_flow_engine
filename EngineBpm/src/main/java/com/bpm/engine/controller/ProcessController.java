@@ -16,9 +16,7 @@ package com.bpm.engine.controller;
 
 import com.bpm.engine.entitys.Process;
 import com.bpm.engine.validation.ProcessValidation;
-import com.bpm.engine.mapper.ProcessMapper;
 import com.bpm.engine.service.ProcessService;
-import com.bpm.engine.mapper.MapperEntityRespone;
 import com.bpm.engine.dto.EntityRespone;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +28,15 @@ import java.util.ArrayList;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import com.bpm.engine.model.ProcessModel;
-import com.bpm.engine.model.ProcessModel;
+
 import com.bpm.engine.entitys.Stage;
 import com.bpm.engine.managers.ProcessManager;
+import com.bpm.engine.mappers.MapperEntityRespone;
+import com.bpm.engine.mappers.ProcessMapper;
+import com.bpm.engine.mappers.StageMapper;
+import com.bpm.engine.models.ProcessModel;
+import com.bpm.engine.models.StageModel;
 import com.bpm.engine.validation.StageValidation;
-import com.bpm.engine.mapper.StageMapper;
-import com.bpm.engine.model.StageModel;
-import com.bpm.engine.model.StageModel;
 
 
 @RestController

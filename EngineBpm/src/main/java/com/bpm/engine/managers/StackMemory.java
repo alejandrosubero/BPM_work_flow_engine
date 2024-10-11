@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.bpm.engine.model.InstanceAbstractionModel;
+import com.bpm.engine.models.InstanceAbstractionModel;
 import com.google.gson.Gson;
 
 // https://chatgpt.com/c/66fd9003-c050-8012-a22e-e02f9d4d1422

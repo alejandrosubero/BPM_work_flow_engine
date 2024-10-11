@@ -7,7 +7,7 @@ import java.util.Queue;
 
 import org.springframework.stereotype.Component;
 
-import com.bpm.engine.model.InstanceAbstractionModel;
+import com.bpm.engine.models.InstanceAbstractionModel;
 
 
 

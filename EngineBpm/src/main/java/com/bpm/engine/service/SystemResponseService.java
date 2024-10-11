@@ -16,7 +16,7 @@ package com.bpm.engine.service;
 import java.util.List;
 
 import com.bpm.engine.entitys.SystemResponse;
-import com.bpm.engine.model.SystemResponseModel;
+import com.bpm.engine.models.SystemResponseModel;
 
 public interface SystemResponseService {
 

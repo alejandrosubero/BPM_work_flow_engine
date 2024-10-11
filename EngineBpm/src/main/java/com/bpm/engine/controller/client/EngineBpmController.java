@@ -18,8 +18,8 @@ import com.bpm.engine.managers.ConectBpmToEmployeeService;
 import com.bpm.engine.managers.InstanceProcessManager;
 import com.bpm.engine.managers.InstanceProcessManagerDTO;
 import com.bpm.engine.managers.ProcessManager;
-import com.bpm.engine.mapper.MapperEntityRespone;
-import com.bpm.engine.model.ProcessModel;
+import com.bpm.engine.mappers.MapperEntityRespone;
+import com.bpm.engine.models.ProcessModel;
 
 @RestController
 @CrossOrigin(origins = "*")

@@ -18,9 +18,7 @@ import com.bpm.engine.dto.BpmAssignedDTO;
 import com.bpm.engine.entitys.Assigned;
 import com.bpm.engine.service.BpmAssignedService;
 import com.bpm.engine.validation.AssignedValidation;
-import com.bpm.engine.mapper.AssignedMapper;
 import com.bpm.engine.service.AssignedService;
-import com.bpm.engine.mapper.MapperEntityRespone;
 import com.bpm.engine.dto.EntityRespone;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,15 +30,16 @@ import java.util.ArrayList;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import com.bpm.engine.model.AssignedModel;
-import com.bpm.engine.model.BpmAssignedModel;
-import com.bpm.engine.model.AssignedModel;
+
 import com.bpm.engine.entitys.Role;
 import com.bpm.engine.managers.BpmAssignedManager;
+import com.bpm.engine.mappers.AssignedMapper;
+import com.bpm.engine.mappers.MapperEntityRespone;
+import com.bpm.engine.mappers.RoleMapper;
+import com.bpm.engine.models.AssignedModel;
+import com.bpm.engine.models.BpmAssignedModel;
+import com.bpm.engine.models.RoleModel;
 import com.bpm.engine.validation.RoleValidation;
-import com.bpm.engine.mapper.RoleMapper;
-import com.bpm.engine.model.RoleModel;
-import com.bpm.engine.model.RoleModel;
 
 
 @RestController

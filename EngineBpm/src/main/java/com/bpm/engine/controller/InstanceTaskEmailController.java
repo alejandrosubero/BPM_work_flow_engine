@@ -15,10 +15,11 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 
 package com.bpm.engine.controller;
 import com.bpm.engine.entitys.InstanceTaskEmail;
+import com.bpm.engine.mappers.InstanceTaskEmailMapper;
+import com.bpm.engine.mappers.MapperEntityRespone;
+import com.bpm.engine.models.InstanceTaskEmailModel;
 import com.bpm.engine.validation.InstanceTaskEmailValidation;
-import com.bpm.engine.mapper.InstanceTaskEmailMapper;
 import com.bpm.engine.service.InstanceTaskEmailService;
-import com.bpm.engine.mapper.MapperEntityRespone;
 import com.bpm.engine.dto.EntityRespone;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,6 @@ import java.util.ArrayList;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import com.bpm.engine.model.InstanceTaskEmailModel;
-import com.bpm.engine.model.InstanceTaskEmailModel;
 
 
 @RestController

@@ -1,7 +1,7 @@
 package com.bpm.engine.service;
 
 import com.bpm.engine.entitys.TaskAssigned;
-import com.bpm.engine.model.TaskAssignedModel;
+import com.bpm.engine.models.TaskAssignedModel;
 
 import java.util.List;
 

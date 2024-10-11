@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 
 import com.bpm.engine.dto.ProcessDTO;
 import com.bpm.engine.dto.SystemRequest;
-import com.bpm.engine.mapper.ProcessDTOMapper;
-import com.bpm.engine.model.InstanceAbstractionModel;
-import com.bpm.engine.model.ProcessModel;
+import com.bpm.engine.mappers.ProcessDTOMapper;
+import com.bpm.engine.models.InstanceAbstractionModel;
+import com.bpm.engine.models.ProcessModel;
 
 @Component
 public class InstanceProcessManagerDTO {

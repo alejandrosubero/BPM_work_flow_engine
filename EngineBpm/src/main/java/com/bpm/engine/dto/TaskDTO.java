@@ -1,9 +1,9 @@
 package com.bpm.engine.dto;
 
-import com.bpm.engine.model.RoleModel;
-import com.bpm.engine.model.RulerModel;
-import com.bpm.engine.model.TaskModel;
-import com.bpm.engine.model.TaskTypeModel;
+import com.bpm.engine.models.RoleModel;
+import com.bpm.engine.models.RulerModel;
+import com.bpm.engine.models.TaskModel;
+import com.bpm.engine.models.TaskTypeModel;
 import com.bpm.engine.utility.InstanOf;
 
 import lombok.AllArgsConstructor;

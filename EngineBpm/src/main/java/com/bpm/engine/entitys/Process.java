@@ -21,8 +21,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import com.bpm.engine.entitys.Stage;
-import com.bpm.engine.model.ProcessModel;
-import com.bpm.engine.model.RoleModel;
+import com.bpm.engine.models.ProcessModel;
+import com.bpm.engine.models.RoleModel;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

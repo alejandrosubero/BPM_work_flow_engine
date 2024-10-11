@@ -1,7 +1,7 @@
 package com.bpm.engine.serviceImplement;
 
-import com.bpm.engine.mapper.RulerMapper;
-import com.bpm.engine.model.RulerModel;
+import com.bpm.engine.mappers.RulerMapper;
+import com.bpm.engine.models.RulerModel;
 import com.bpm.engine.repository.RulerRepository;
 import com.bpm.engine.service.RulerService;
 

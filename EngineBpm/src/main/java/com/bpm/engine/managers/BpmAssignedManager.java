@@ -1,9 +1,9 @@
 package com.bpm.engine.managers;
 
 import com.bpm.engine.dto.BpmAssignedDTO;
-import com.bpm.engine.mapper.AssignedMapper;
-import com.bpm.engine.model.AssignedModel;
-import com.bpm.engine.model.BpmAssignedModel;
+import com.bpm.engine.mappers.AssignedMapper;
+import com.bpm.engine.models.AssignedModel;
+import com.bpm.engine.models.BpmAssignedModel;
 import com.bpm.engine.service.AssignedService;
 import com.bpm.engine.service.BpmAssignedService;
 

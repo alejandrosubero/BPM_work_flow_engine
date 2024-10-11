@@ -27,8 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import com.bpm.engine.entitys.SystemResponse;
-import com.bpm.engine.model.SystemResponseModel;
-import com.bpm.engine.mapper.SystemResponseMapper;
+import com.bpm.engine.mappers.SystemResponseMapper;
+import com.bpm.engine.models.SystemResponseModel;
 
 @Service
 public class SystemResponseServiceImplement implements SystemResponseService {

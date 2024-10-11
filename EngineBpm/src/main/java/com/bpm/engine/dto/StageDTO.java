@@ -1,8 +1,8 @@
 package com.bpm.engine.dto;
 
-import com.bpm.engine.model.RoleModel;
-import com.bpm.engine.model.StageModel;
-import com.bpm.engine.model.TaskModel;
+import com.bpm.engine.models.RoleModel;
+import com.bpm.engine.models.StageModel;
+import com.bpm.engine.models.TaskModel;
 import com.bpm.engine.utility.InstanOf;
 
 import lombok.AllArgsConstructor;

@@ -28,8 +28,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import com.bpm.engine.entitys.TaskType;
-import com.bpm.engine.model.TaskTypeModel;
-import com.bpm.engine.mapper.TaskTypeMapper;
+import com.bpm.engine.mappers.TaskTypeMapper;
+import com.bpm.engine.models.TaskTypeModel;
 
 @Service
 public class TaskTypeServiceImplement implements TaskTypeService {

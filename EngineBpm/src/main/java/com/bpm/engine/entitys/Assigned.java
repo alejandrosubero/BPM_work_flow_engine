@@ -21,7 +21,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import com.bpm.engine.entitys.Role;
-import com.bpm.engine.model.AssignedModel;
+import com.bpm.engine.models.AssignedModel;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

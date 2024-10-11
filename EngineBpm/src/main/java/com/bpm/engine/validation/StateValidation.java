@@ -17,9 +17,11 @@ import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;import java.util.Date;
 
-import com.bpm.engine.entitys.State;import java.util.regex.Pattern;
+import com.bpm.engine.entitys.State;
+import com.bpm.engine.models.StateModel;
+
+import java.util.regex.Pattern;
 import org.springframework.stereotype.Service;
-import com.bpm.engine.model.StateModel;import com.bpm.engine.model.StateModel;
 
 
     @Service

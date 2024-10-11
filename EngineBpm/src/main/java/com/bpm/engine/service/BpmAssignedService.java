@@ -3,7 +3,7 @@ package com.bpm.engine.service;
 import java.util.List;
 
 import com.bpm.engine.entitys.BpmAssigned;
-import com.bpm.engine.model.BpmAssignedModel;
+import com.bpm.engine.models.BpmAssignedModel;
 
 public interface BpmAssignedService {
 

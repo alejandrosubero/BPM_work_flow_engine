@@ -2,8 +2,8 @@ package com.bpm.engine.serviceImplement;
 
 
 import com.bpm.engine.entitys.Parameters;
-import com.bpm.engine.mapper.ParametersMapper;
-import com.bpm.engine.model.ParametersModel;
+import com.bpm.engine.mappers.ParametersMapper;
+import com.bpm.engine.models.ParametersModel;
 import com.bpm.engine.repository.ParametersRepository;
 import com.bpm.engine.service.ParametersServices;
 import org.springframework.beans.factory.annotation.Autowired;

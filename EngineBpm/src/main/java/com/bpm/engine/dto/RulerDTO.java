@@ -2,7 +2,7 @@ package com.bpm.engine.dto;
 
 import java.io.Serializable;
 
-import com.bpm.engine.model.RulerModel;
+import com.bpm.engine.models.RulerModel;
 
 public class RulerDTO implements Serializable {
 	

@@ -16,9 +16,7 @@ package com.bpm.engine.controller;
 
 import com.bpm.engine.entitys.Task;
 import com.bpm.engine.validation.TaskValidation;
-import com.bpm.engine.mapper.TaskMapper;
 import com.bpm.engine.service.TaskService;
-import com.bpm.engine.mapper.MapperEntityRespone;
 import com.bpm.engine.dto.EntityRespone;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +28,14 @@ import java.util.ArrayList;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import com.bpm.engine.model.TaskModel;
-import com.bpm.engine.model.TaskModel;
+
 import com.bpm.engine.entitys.TaskType;
+import com.bpm.engine.mappers.MapperEntityRespone;
+import com.bpm.engine.mappers.TaskMapper;
+import com.bpm.engine.mappers.TaskTypeMapper;
+import com.bpm.engine.models.TaskModel;
+import com.bpm.engine.models.TaskTypeModel;
 import com.bpm.engine.validation.TaskTypeValidation;
-import com.bpm.engine.mapper.TaskTypeMapper;
-import com.bpm.engine.model.TaskTypeModel;
-import com.bpm.engine.model.TaskTypeModel;
 
 
 @RestController

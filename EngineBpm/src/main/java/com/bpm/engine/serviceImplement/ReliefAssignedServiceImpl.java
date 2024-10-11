@@ -1,11 +1,11 @@
 package com.bpm.engine.serviceImplement;
 
 import com.bpm.engine.entitys.ReliefAssigned;
-import com.bpm.engine.model.ReliefAssignedModel;
+import com.bpm.engine.mappers.ReliefAssignedMapper;
+import com.bpm.engine.models.ReliefAssignedModel;
 import com.bpm.engine.repository.ReliefAssignedRepository;
 import com.bpm.engine.service.ReliefAssignedService;
 
-import com.bpm.engine.mapper.ReliefAssignedMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

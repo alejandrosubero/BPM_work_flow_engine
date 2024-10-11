@@ -8,10 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.bpm.engine.interfaces.IBaseModel;
-import com.bpm.engine.model.AssignedModel;
-import com.bpm.engine.model.InstanceAbstractionModel;
-import com.bpm.engine.model.InstanceDataInfoModel;
-import com.bpm.engine.model.TemplateFlexibleDataModel;
+import com.bpm.engine.models.AssignedModel;
+import com.bpm.engine.models.InstanceAbstractionModel;
+import com.bpm.engine.models.InstanceDataInfoModel;
+import com.bpm.engine.models.TemplateFlexibleDataModel;
 import com.bpm.engine.notification.componet.TemplateFilling;
 import com.bpm.engine.notification.componet.TemplateFlexibleDataManager;
 import com.bpm.engine.notification.model.EmailsModel;

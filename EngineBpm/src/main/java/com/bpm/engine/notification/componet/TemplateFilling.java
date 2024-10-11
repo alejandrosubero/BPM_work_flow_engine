@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.bpm.engine.model.TemplateFlexibleDataModel;
+import com.bpm.engine.models.TemplateFlexibleDataModel;
 import com.bpm.engine.service.TemplateService;
 
 @Component

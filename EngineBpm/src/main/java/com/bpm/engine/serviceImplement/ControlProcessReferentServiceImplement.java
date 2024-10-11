@@ -31,8 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import com.bpm.engine.entitys.ControlProcessReferent;
-import com.bpm.engine.model.ControlProcessReferentModel;
-import com.bpm.engine.mapper.ControlProcessReferentMapper;
+import com.bpm.engine.mappers.ControlProcessReferentMapper;
+import com.bpm.engine.models.ControlProcessReferentModel;
 
 
 @Service

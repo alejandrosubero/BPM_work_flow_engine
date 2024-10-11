@@ -4,7 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Service;
 
-import com.bpm.engine.model.InstanceAbstractionModel;
+import com.bpm.engine.models.InstanceAbstractionModel;
 
 
 

@@ -14,7 +14,6 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 
 package com.bpm.engine.serviceImplement;
 
-import com.bpm.engine.model.TaskAssignedModel;
 import com.bpm.engine.service.AssignedService;
 import com.bpm.engine.repository.AssignedRepository;
 
@@ -33,10 +32,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import com.bpm.engine.entitys.Assigned;
-import com.bpm.engine.model.AssignedModel;
-import com.bpm.engine.mapper.AssignedMapper;
-
 import com.bpm.engine.entitys.Role;
+import com.bpm.engine.mappers.AssignedMapper;
+import com.bpm.engine.models.AssignedModel;
+import com.bpm.engine.models.TaskAssignedModel;
 
 
 @Service

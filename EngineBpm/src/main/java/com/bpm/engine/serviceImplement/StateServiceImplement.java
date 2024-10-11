@@ -27,8 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import com.bpm.engine.entitys.State;
-import com.bpm.engine.model.StateModel;
-import com.bpm.engine.mapper.StateMapper;
+import com.bpm.engine.mappers.StateMapper;
+import com.bpm.engine.models.StateModel;
 
 @Service
 public class StateServiceImplement implements StateService {

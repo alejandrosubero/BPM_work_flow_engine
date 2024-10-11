@@ -13,8 +13,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.bpm.engine.entitys.InstanceAbstraction;
-import com.bpm.engine.mapper.InstanceAbstractionMapper;
-import com.bpm.engine.model.InstanceAbstractionModel;
+import com.bpm.engine.mappers.InstanceAbstractionMapper;
+import com.bpm.engine.models.InstanceAbstractionModel;
 import com.bpm.engine.repository.InstanceAbstractionRepository;
 import com.bpm.engine.service.InstanceAbstractionService;
 

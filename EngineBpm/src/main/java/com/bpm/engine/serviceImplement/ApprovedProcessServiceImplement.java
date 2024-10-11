@@ -1,8 +1,8 @@
 package com.bpm.engine.serviceImplement;
 
 
-import com.bpm.engine.mapper.ApprovedProcessMapper;
-import com.bpm.engine.model.ApprovedProcessModel;
+import com.bpm.engine.mappers.ApprovedProcessMapper;
+import com.bpm.engine.models.ApprovedProcessModel;
 import com.bpm.engine.repository.ApprovedProcessRepository;
 import com.bpm.engine.service.ApprovedProcessService;
 

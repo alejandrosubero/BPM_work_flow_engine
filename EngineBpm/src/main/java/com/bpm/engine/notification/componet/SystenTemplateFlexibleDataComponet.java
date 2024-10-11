@@ -1,7 +1,7 @@
 package com.bpm.engine.notification.componet;
 
-import com.bpm.engine.model.InstanceDataInfoModel;
-import com.bpm.engine.model.TemplateFlexibleDataModel;
+import com.bpm.engine.models.InstanceDataInfoModel;
+import com.bpm.engine.models.TemplateFlexibleDataModel;
 import com.bpm.engine.utility.Constants;
 import com.bpm.engine.utility.SystemSate;
 import org.springframework.stereotype.Component;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.bpm.engine.model.TemplateFlexibleDataModel.instanceTemplateFlexibleData;
 import static com.bpm.engine.utility.SystemSate.ASSIGNED;
+import static com.bpm.engine.models.TemplateFlexibleDataModel.instanceTemplateFlexibleData;
 import static com.bpm.engine.utility.SystemSate.*;
 
 @Component

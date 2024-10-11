@@ -27,8 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import com.bpm.engine.entitys.Role;
-import com.bpm.engine.model.RoleModel;
-import com.bpm.engine.mapper.RoleMapper;
+import com.bpm.engine.mappers.RoleMapper;
+import com.bpm.engine.models.RoleModel;
 
 @Service
 public class RoleServiceImplement implements RoleService {

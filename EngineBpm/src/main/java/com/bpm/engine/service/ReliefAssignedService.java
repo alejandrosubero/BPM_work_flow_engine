@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.bpm.engine.entitys.ReliefAssigned;
-import com.bpm.engine.model.ReliefAssignedModel;
+import com.bpm.engine.models.ReliefAssignedModel;
 
 public interface ReliefAssignedService {
 

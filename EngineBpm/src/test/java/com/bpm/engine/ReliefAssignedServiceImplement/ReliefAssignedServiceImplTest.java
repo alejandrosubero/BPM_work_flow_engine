@@ -15,7 +15,8 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 
 import com.bpm.engine.entitys.ReliefAssigned;
-import com.bpm.engine.model.ReliefAssignedModel;
+import com.bpm.engine.mappers.ReliefAssignedMapper;
+import com.bpm.engine.models.ReliefAssignedModel;
 import com.bpm.engine.repository.ReliefAssignedRepository;
 import com.bpm.engine.serviceImplement.ReliefAssignedServiceImpl;
 
@@ -28,7 +29,7 @@ class ReliefAssignedServiceImplTest {
     private ReliefAssignedRepository reliefAssignedRepository;
 
     @Mock
-    private ModelMapper modelMapper;
+    private ReliefAssignedMapper mapper;
 
     private ReliefAssigned reliefAssigned;
     private ReliefAssignedModel reliefAssignedModel;
@@ -36,27 +37,65 @@ class ReliefAssignedServiceImplTest {
     @BeforeEach
     void setUp() {
     	 MockitoAnnotations.openMocks(this); 
-        reliefAssigned = ReliefAssigned.builder().idRelief(1L).userCode("USER1").build();
-        reliefAssignedModel = ReliefAssignedModel.builder().idRelief(1L).userCode("USER1").build();
+        reliefAssigned = getReliefAssigned() ;
+        reliefAssignedModel = getReliefAssignedModel();
     }
-
+   
+    
+    public ReliefAssigned getReliefAssigned() {
+    	
+    	return ReliefAssigned.builder()
+    			.idRelief(1L)
+    			.userCode("4456")
+    			.userReliefCode("2349")
+    			.userCreateCode("3975")
+    			.temporary(true)
+    			.active(true)
+    			.returnCommand(true)
+    			.time(30)
+    			.timeActive(30)
+    			.build();
+    }
+    
+    
+    public ReliefAssignedModel getReliefAssignedModel() {
+    	
+    	return ReliefAssignedModel.builder()
+    			.idRelief(1L)
+    			.userCode("4456")
+    			.userReliefCode("2349")
+    			.userCreateCode("3975")
+    			.temporary(true)
+    			.active(true)
+    			.returnCommand(true)
+    			.time(30)
+    			.timeActive(30)
+    			.build();
+    }
+    
+    
+    private void whenMock() {
+    	when(mapper.toEntity(reliefAssignedModel)).thenReturn(reliefAssigned);
+    	when(mapper.toModel(reliefAssigned)).thenReturn(reliefAssignedModel);
+    }
+    
     @Test
     void testCreateReliefAssigned() {
-        when(modelMapper.map(reliefAssignedModel, ReliefAssigned.class)).thenReturn(reliefAssigned);
+    
+    	this.whenMock();
         when(reliefAssignedRepository.save(reliefAssigned)).thenReturn(reliefAssigned);
-        when(modelMapper.map(reliefAssigned, ReliefAssignedModel.class)).thenReturn(reliefAssignedModel);
-
         ReliefAssignedModel result = reliefAssignedService.createReliefAssigned(reliefAssignedModel);
         assertNotNull(result);
         assertEquals(reliefAssignedModel.getIdRelief(), result.getIdRelief());
+        
     }
 
+    
     @Test
     void testUpdateReliefAssigned() {
+    	this.whenMock();
         when(reliefAssignedRepository.findById(1L)).thenReturn(Optional.of(reliefAssigned));
         when(reliefAssignedRepository.save(reliefAssigned)).thenReturn(reliefAssigned);
-        when(modelMapper.map(reliefAssigned, ReliefAssignedModel.class)).thenReturn(reliefAssignedModel);
-
         ReliefAssignedModel result = reliefAssignedService.updateReliefAssigned(reliefAssignedModel);
         assertNotNull(result);
         assertEquals(reliefAssignedModel.getIdRelief(), result.getIdRelief());

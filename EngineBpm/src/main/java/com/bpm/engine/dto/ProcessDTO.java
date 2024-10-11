@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bpm.engine.model.ProcessModel;
-import com.bpm.engine.model.StageModel;
+import com.bpm.engine.models.ProcessModel;
+import com.bpm.engine.models.StageModel;
 import com.bpm.engine.utility.InstanOf;
 
 import lombok.AllArgsConstructor;

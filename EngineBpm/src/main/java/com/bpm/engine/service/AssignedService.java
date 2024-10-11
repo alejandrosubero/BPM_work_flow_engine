@@ -21,9 +21,9 @@ import java.util.Optional;
 import org.springframework.data.repository.query.Param;
 
 import com.bpm.engine.entitys.Assigned;
-import com.bpm.engine.model.AssignedModel;
 import com.bpm.engine.entitys.Role;
-import com.bpm.engine.model.TaskAssignedModel;
+import com.bpm.engine.models.AssignedModel;
+import com.bpm.engine.models.TaskAssignedModel;
 
 
 public interface AssignedService {

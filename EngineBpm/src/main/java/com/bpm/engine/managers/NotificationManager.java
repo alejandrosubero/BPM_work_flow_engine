@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.bpm.engine.model.InstanceAbstractionModel;
+import com.bpm.engine.models.InstanceAbstractionModel;
 import com.bpm.engine.notification.services.NotificationService;
 
 @Component

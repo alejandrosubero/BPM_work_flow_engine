@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.bpm.engine.dto.SystemRequest;
-import com.bpm.engine.model.AssignedModel;
-import com.bpm.engine.model.BpmAssignedModel;
-import com.bpm.engine.model.InstanceAbstractionModel;
-import com.bpm.engine.model.ProcessModel;
-import com.bpm.engine.model.StageModel;
-import com.bpm.engine.model.TaskModel;
+import com.bpm.engine.models.AssignedModel;
+import com.bpm.engine.models.BpmAssignedModel;
+import com.bpm.engine.models.InstanceAbstractionModel;
+import com.bpm.engine.models.ProcessModel;
+import com.bpm.engine.models.StageModel;
+import com.bpm.engine.models.TaskModel;
 import com.bpm.engine.service.InstanceAbstractionService;
 import com.bpm.engine.utility.InstanOf;
 import com.bpm.engine.utility.SystemSate;

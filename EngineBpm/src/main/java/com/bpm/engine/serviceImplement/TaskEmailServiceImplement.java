@@ -27,8 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import com.bpm.engine.entitys.TaskEmail;
-import com.bpm.engine.model.TaskEmailModel;
-import com.bpm.engine.mapper.TaskEmailMapper;
+import com.bpm.engine.mappers.TaskEmailMapper;
+import com.bpm.engine.models.TaskEmailModel;
 
 @Service
 public class TaskEmailServiceImplement implements TaskEmailService {

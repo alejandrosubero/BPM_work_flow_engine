@@ -15,7 +15,7 @@ package com.bpm.engine.entitys;
 
 import javax.persistence.*;
 
-import com.bpm.engine.model.BpmAssignedModel;
+import com.bpm.engine.models.BpmAssignedModel;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

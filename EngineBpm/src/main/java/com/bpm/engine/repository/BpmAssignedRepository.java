@@ -1,7 +1,8 @@
 package com.bpm.engine.repository;
 
 import com.bpm.engine.entitys.BpmAssigned;
-import com.bpm.engine.model.BpmAssignedModel;
+import com.bpm.engine.models.BpmAssignedModel;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

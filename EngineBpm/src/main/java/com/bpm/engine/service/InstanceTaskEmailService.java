@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import com.bpm.engine.entitys.InstanceTaskEmail;
-import com.bpm.engine.model.InstanceTaskEmailModel;
+import com.bpm.engine.models.InstanceTaskEmailModel;
 
 public interface InstanceTaskEmailService {
 

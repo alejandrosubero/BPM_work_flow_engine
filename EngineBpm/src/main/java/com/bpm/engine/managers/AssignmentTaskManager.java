@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bpm.engine.dto.SystemRequest;
-import com.bpm.engine.model.AssignedModel;
-import com.bpm.engine.model.BpmAssignedModel;
+import com.bpm.engine.models.AssignedModel;
+import com.bpm.engine.models.BpmAssignedModel;
 import com.bpm.engine.service.AssignedService;
 import com.bpm.engine.service.BpmAssignedService;
 
@@ -185,11 +185,6 @@ public class AssignmentTaskManager {
 		return bpmAssigned;
 	}
 
-	
-	
-	
-	
-	
 	
 	
 	

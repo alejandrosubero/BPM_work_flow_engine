@@ -31,10 +31,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import com.bpm.engine.entitys.Task;
-import com.bpm.engine.model.TaskModel;
-import com.bpm.engine.mapper.TaskMapper;
-
 import com.bpm.engine.entitys.TaskType;
+import com.bpm.engine.mappers.TaskMapper;
+import com.bpm.engine.models.TaskModel;
 
 
 @Service

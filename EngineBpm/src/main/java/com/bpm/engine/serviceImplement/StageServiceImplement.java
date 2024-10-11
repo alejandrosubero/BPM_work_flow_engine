@@ -27,16 +27,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import com.bpm.engine.entitys.Stage;
-import com.bpm.engine.model.StageModel;
-import com.bpm.engine.mapper.StageMapper;
-
 import com.bpm.engine.entitys.Role;
-
-import com.bpm.engine.model.RoleModel;
-
 import com.bpm.engine.entitys.Task;
-
-import com.bpm.engine.model.TaskModel;
+import com.bpm.engine.mappers.StageMapper;
+import com.bpm.engine.models.RoleModel;
+import com.bpm.engine.models.StageModel;
+import com.bpm.engine.models.TaskModel;
 
 @Service
 public class StageServiceImplement implements StageService {

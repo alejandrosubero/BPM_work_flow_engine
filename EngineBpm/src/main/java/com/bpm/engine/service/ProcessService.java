@@ -19,7 +19,7 @@ import java.util.List;
 
 import com.bpm.engine.entitys.Process;
 import com.bpm.engine.entitys.Stage;
-import com.bpm.engine.model.ProcessModel;
+import com.bpm.engine.models.ProcessModel;
 
 
 public interface ProcessService {

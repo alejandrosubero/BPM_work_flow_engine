@@ -2,8 +2,8 @@ package com.bpm.engine.serviceImplement;
 
 import com.bpm.engine.utility.Constants;
 import com.bpm.engine.entitys.Template;
-import com.bpm.engine.mapper.TemplateMapper;
-import com.bpm.engine.model.TemplateModel;
+import com.bpm.engine.mappers.TemplateMapper;
+import com.bpm.engine.models.TemplateModel;
 import com.bpm.engine.repository.TemplateRepository;
 import com.bpm.engine.service.TemplateService;
 //import org.apache.commons.logging.Log;

@@ -2,7 +2,7 @@ package com.bpm.engine.dto;
 
 import java.io.Serializable;
 
-import com.bpm.engine.model.RoleModel;
+import com.bpm.engine.models.RoleModel;
 import com.google.gson.annotations.SerializedName;
 
 public class RoleDTO implements Serializable {

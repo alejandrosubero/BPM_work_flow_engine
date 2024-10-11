@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import com.bpm.engine.dto.AssignedDTO;
 import com.bpm.engine.dto.EntityRespone;
 import com.bpm.engine.interfaces.IBaseModel;
-import com.bpm.engine.model.AssignedModel;
+import com.bpm.engine.models.AssignedModel;
 import com.bpm.engine.serviceImplement.ResponseAssignedDTOService;
 import com.bpm.engine.serviceImplement.RestTemplateService;
 import com.fasterxml.jackson.databind.ObjectMapper;

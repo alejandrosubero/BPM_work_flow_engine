@@ -15,10 +15,11 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 
 package com.bpm.engine.controller;
 import com.bpm.engine.entitys.State;
+import com.bpm.engine.mappers.MapperEntityRespone;
+import com.bpm.engine.mappers.StateMapper;
+import com.bpm.engine.models.StateModel;
 import com.bpm.engine.validation.StateValidation;
-import com.bpm.engine.mapper.StateMapper;
 import com.bpm.engine.service.StateService;
-import com.bpm.engine.mapper.MapperEntityRespone;
 import com.bpm.engine.dto.EntityRespone;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,6 @@ import java.util.ArrayList;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import com.bpm.engine.model.StateModel;
-import com.bpm.engine.model.StateModel;
 
 
 @RestController

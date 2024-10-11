@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bpm.engine.dto.SystemRequest;
-import com.bpm.engine.model.BpmAssignedModel;
-import com.bpm.engine.model.ControlProcessReferentModel;
-import com.bpm.engine.model.InstanceAbstractionModel;
-import com.bpm.engine.model.TaskAssignedModel;
+import com.bpm.engine.models.BpmAssignedModel;
+import com.bpm.engine.models.ControlProcessReferentModel;
+import com.bpm.engine.models.InstanceAbstractionModel;
+import com.bpm.engine.models.TaskAssignedModel;
 import com.bpm.engine.service.ControlProcessReferentService;
 import com.bpm.engine.utility.Constants;
 import com.bpm.engine.utility.SystemSate;

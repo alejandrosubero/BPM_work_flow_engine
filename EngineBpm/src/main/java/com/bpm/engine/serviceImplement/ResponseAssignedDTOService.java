@@ -2,8 +2,8 @@ package com.bpm.engine.serviceImplement;
 
 import com.bpm.engine.dto.AssignedDTO;
 import com.bpm.engine.dto.ResponseAssignedDTO;
-import com.bpm.engine.model.AssignedModel;
-import com.bpm.engine.model.RoleModel;
+import com.bpm.engine.models.AssignedModel;
+import com.bpm.engine.models.RoleModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
