@@ -14,14 +14,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BpmAssignedManager {
+	
     private AssignedService assignedService;
-    private AssignedMapper assignedMapper;
     private BpmAssignedService bpmAssignedService;
 
     @Autowired
-    public BpmAssignedManager(AssignedService assignedService, AssignedMapper assignedMapper, BpmAssignedService bpmAssignedService) {
+    public BpmAssignedManager(AssignedService assignedService, BpmAssignedService bpmAssignedService) {
         this.assignedService = assignedService;
-        this.assignedMapper = assignedMapper;
         this.bpmAssignedService = bpmAssignedService;
     }
 
@@ -29,27 +28,25 @@ public class BpmAssignedManager {
 
         AssignedModel assigned = null;
         Boolean response = false;
+        
         try {
 
-            if (assignedBPM.getAssigned() != null) {
+            if (assignedBPM.getAssigned() != null && assignedBPM.getAssigned().getId() != null && assignedBPM.getAssigned().getCodeEmployee() !=null) {
 
                 assigned = assignedService.findByCodeEmployeeAndActive(assignedBPM.getAssigned().getCodeEmployee(), true);
 
-                if (assignedBPM.getAssigned().getId() != null && assigned != null &&
-                        assignedBPM.getAssigned().getId() == assigned.getId() &&
-                        !assigned.equals(assignedBPM.getAssigned())
-                ) {
-                    assignedService.saveOrUpdateAssigned(
-                            assignedMapper.pojoToEntity(assignedBPM.getAssigned()));
+                if (assignedBPM.getAssigned().getId() != null && assigned != null && assignedBPM.getAssigned().getId() == assigned.getId() && !assigned.equals(assignedBPM.getAssigned())) {
+                    assignedService.save(assignedBPM.getAssigned());
                     assigned = assignedBPM.getAssigned();
                 }
 
                 Long idassigned = assigned.getId();
 
                 assignedBPM.getCodeTaskOrProces().stream().forEach(codeTask ->
-                        bpmAssignedService.saveOrUpdateBpmAssigned(
-                                new BpmAssignedModel(idassigned, codeTask))
-                );
+                        bpmAssignedService.saveOrUpdateBpmAssigned( new BpmAssignedModel(idassigned, codeTask)));
+                
+                
+//                response =  assignedBPM.getCodeTaskOrProces().stream().allMatch(codeTask -> bpmAssignedService.saveOrUpdateBpmAssigned(new BpmAssignedModel(idassigned, codeTask)));
                 response = true;
             }
 
