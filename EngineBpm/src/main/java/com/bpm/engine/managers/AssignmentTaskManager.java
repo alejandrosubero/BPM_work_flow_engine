@@ -3,17 +3,22 @@ package com.bpm.engine.managers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import com.bpm.engine.dto.SystemRequest;
 import com.bpm.engine.models.AssignedModel;
 import com.bpm.engine.models.BpmAssignedModel;
+import com.bpm.engine.models.RoleModel;
 import com.bpm.engine.service.AssignedService;
 import com.bpm.engine.service.BpmAssignedService;
 
 @Component
 public class AssignmentTaskManager {
+	 private static final Logger logger = LogManager.getLogger(AssignmentTaskManager.class);
 	
 	private BpmAssignedService bpmAssignedService;
 	private AssignedService assignedService;
@@ -131,15 +136,15 @@ public class AssignmentTaskManager {
 		List<BpmAssignedModel> assignesFromRouter = new ArrayList<>();
 		AssignedModel assigned = null;
 		AssignedModel employee = getAssignedModel(codeEmployee);
+		String codeRole = null;
 		
 		if (router == 1) {
-				
-			if (employee != null && employee.getemployeeRole().getCodeRole() != null) {
-				assigned = this.conectBpmToEmployeeService.getAssigned(codeEmployee, employee.getemployeeRole().getCodeRole());
-			} else {
-				assigned = this.conectBpmToEmployeeService.getAssigned(codeEmployee);
-			}
 			
+			if (employee.getemployeeRole() != null && employee.getemployeeRole().getCodeRole() != null) {
+				codeRole = employee.getemployeeRole().getCodeRole();
+			}
+			assigned = this.getAssignedFromExternalService(codeEmployee,codeRole);
+		
 			if(assigned != null) {
 				assignesFromRouter.add(this.getTaskAsigned(assigned, taskCode, null,idProcess));
 			}
@@ -148,20 +153,16 @@ public class AssignmentTaskManager {
 		if (router == 0) {
 			
 			if (employee == null) {
-				assigned = conectBpmToEmployeeService.getEmployeeAssignedFromEmployeeService(codeEmployee);
+				assigned = this.getEmployeeFromExternalService(codeEmployee);
 			} else {
 				assigned = employee;
 			}
-			
 			if(assigned != null) {
 				assignesFromRouter.add(this.getTaskAsigned(assigned, taskCode, instanceProccesId,idProcess));  
 			}
 		}
 		return assignesFromRouter;
 	}
-	
-	
-
 	
 	
 	
@@ -197,7 +198,7 @@ public class AssignmentTaskManager {
 	     assigned = getAssignedModel(codeEmployee);
 		
 		if (assigned == null) {
-			assigned = conectBpmToEmployeeService.getEmployeeAssignedFromEmployeeService(codeEmployee);
+			assigned = this.getEmployeeFromExternalService(codeEmployee);
 		}
 			
 		if(assigned != null) {
@@ -287,4 +288,112 @@ public class AssignmentTaskManager {
 	}
 	
 
+	@SuppressWarnings("finally")
+	public AssignedModel changeRoleAssigned(String codeEmployee, RoleModel newRole) {
+		
+		AssignedModel assignedResponse = null;
+		AssignedModel updateAssigned = null;
+		
+		try {
+			 updateAssigned = this.getAssignedModel(codeEmployee);
+			
+			if(updateAssigned != null ) {
+				
+				if(newRole != null) {
+					assignedResponse =  this.setNewRole(updateAssigned,newRole);
+				} else {
+					AssignedModel assigned = this.getEmployeeFromExternalService(codeEmployee);
+					if(assigned != null) {
+						assignedResponse = this.setNewRole(updateAssigned,assigned.getemployeeRole());
+					}
+				}
+			}
+		}catch( DataAccessException e) {
+			 logger.error("Error change Role Assigned: ", e);
+			e.printStackTrace();	
+		}catch(IllegalArgumentException e) {
+			logger.error("the one or all parameters are null");
+			e.printStackTrace();
+		}finally {
+			return assignedResponse;
+		}
+	}
+	
+	
+	@SuppressWarnings("finally")
+	private AssignedModel setNewRole(AssignedModel updateAssigned,  RoleModel newRole) {
+		AssignedModel assignedResponse = null;
+	
+		try {
+			if(updateAssigned != null && newRole != null) {
+				updateAssigned.setemployeeRole(newRole);
+				assignedResponse = this.saveAssigned(updateAssigned);
+			}
+			
+			
+		}catch( DataAccessException e) {
+			 logger.error("Error change Role Assigned: ", e);
+			e.printStackTrace();	
+		}catch(IllegalArgumentException e) {
+			logger.error("the one or all parameters are null");
+			e.printStackTrace();
+		}finally {
+			return assignedResponse;
+		}
+		
+	}
+	
+	
+	
+	private AssignedModel getAssignedFromExternalService(String codeEmployee, String codeRole) {
+		
+		AssignedModel assigned = null;
+		
+		try {
+			
+			if (codeEmployee != null && codeRole != null) {
+				assigned = this.conectBpmToEmployeeService.getAssigned(codeEmployee, codeRole);
+			} else {
+				
+				if (codeRole != null)
+					assigned = this.conectBpmToEmployeeService.getAssigned(codeEmployee);
+			}
+			
+		}catch( DataAccessException e) {
+			 logger.error("Error change Role Assigned: ", e);
+			e.printStackTrace();	
+		}catch(IllegalArgumentException e) {
+			logger.error("the one or all parameters are null");
+			e.printStackTrace();
+		}
+		
+		return assigned;
+	}
+	
+	
+	private AssignedModel getEmployeeFromExternalService(String codeEmployee) {
+		AssignedModel assigned = null;
+
+	try {
+		if (codeEmployee == null) {
+			assigned = conectBpmToEmployeeService.getEmployeeFromEmployeeService(codeEmployee);
+		}
+			
+		}catch( DataAccessException e) {
+			 logger.error("Error change Role Assigned: ", e);
+			e.printStackTrace();	
+		}catch(IllegalArgumentException e) {
+			logger.error("the one or all parameters are null");
+			e.printStackTrace();
+		}
+		return assigned;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }

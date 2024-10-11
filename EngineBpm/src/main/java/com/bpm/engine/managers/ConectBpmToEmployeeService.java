@@ -87,9 +87,8 @@ public class ConectBpmToEmployeeService implements IBaseModel {
     }
 
 
-    public AssignedModel getEmployeeAssignedFromEmployeeService(String employeeNumber){
-        return this.decodeHttpEntity(templateService.sendGetRequest(
-                new HashMap<String, String>() {{put("employeeNumber", employeeNumber);}},
+    public AssignedModel getEmployeeFromEmployeeService(String employeeNumber){
+        return this.decodeHttpEntity(templateService.sendGetRequest( new HashMap<String, String>() {{put("employeeNumber", employeeNumber);}},
                 stringEnsamble(Arrays.asList(employeeServiceUrl, employeeService))));
     }
 

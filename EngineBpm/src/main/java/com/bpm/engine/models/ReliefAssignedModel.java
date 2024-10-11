@@ -1,7 +1,5 @@
 package com.bpm.engine.models;
 
-import javax.persistence.Entity;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
