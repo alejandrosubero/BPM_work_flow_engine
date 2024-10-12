@@ -50,7 +50,6 @@ public class AssignedController {
    
     private AssignedService assignedService;
     private AssignedValidation assignedValidationService;
-    private AssignedMapper assignedMapper;
     private MapperEntityRespone mapperEntityRespone;
     private RoleValidation roleValidationService;
     private RoleMapper roleMapper;
@@ -61,13 +60,12 @@ public class AssignedController {
 	
 	@Autowired
     public AssignedController(AssignedService assignedService, AssignedValidation assignedValidationService,
-			AssignedMapper assignedMapper, MapperEntityRespone mapperEntityRespone,
+			 MapperEntityRespone mapperEntityRespone,
 			RoleValidation roleValidationService, RoleMapper roleMapper, BpmAssignedManager bpmAssignedManager,
 			BpmAssignedService bpmAssignedService) {
 		super();
 		this.assignedService = assignedService;
 		this.assignedValidationService = assignedValidationService;
-		this.assignedMapper = assignedMapper;
 		this.mapperEntityRespone = mapperEntityRespone;
 		this.roleValidationService = roleValidationService;
 		this.roleMapper = roleMapper;
@@ -87,7 +85,7 @@ public class AssignedController {
 
     @PostMapping("/saveOrUpdate")
     private boolean saveOrUpdateAssigned(@RequestBody AssignedModel assigned) {
-        return assignedService.saveOrUpdateAssigned(assignedMapper.pojoToEntity(assignedValidationService.valida(assigned)));
+        return assignedService.saveOrUpdateAssigned(assignedValidationService.valida(assigned));
     }
 
 

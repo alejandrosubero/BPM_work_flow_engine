@@ -15,7 +15,17 @@ package com.bpm.engine.models;
 
 import java.util.Objects;
 
+import com.bpm.engine.entitys.Role;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class RoleModel {
 
     private Long idRole;
@@ -26,77 +36,38 @@ public class RoleModel {
 
     private String codeRole;
 
-    public RoleModel() {
-    }
+ 
 
-    
-    
-    
+  
     public RoleModel(String description, String name, String codeRole) {
         this.description = description;
         this.name = name;
         this.codeRole = codeRole;
     }
-    
-    
-    
 
-    public RoleModel(Long idRole, String description, String name, String codeRole) {
-	    
-    	if(idRole != null) {
-		this.idRole = idRole;
-    	}
-		this.description = description;
-		this.name = name;
-		this.codeRole = codeRole;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RoleModel other = (RoleModel) obj;
+		return Objects.equals(codeRole, other.codeRole) && Objects.equals(description, other.description)
+				&& Objects.equals(idRole, other.idRole) && Objects.equals(name, other.name);
 	}
 
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(codeRole, description, idRole, name);
+	}
     
-   
+        
     
-    
-	public Long getIdRole() {
-        return idRole;
-    }
 
-    public void setIdRole(Long idRole) {
-        this.idRole = idRole;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCodeRole() {
-        return codeRole;
-    }
-
-    public void setCodeRole(String codeRole) {
-        this.codeRole = codeRole;
-    }
-
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RoleModel rolemodel = (RoleModel) o;
-        return Objects.equals(idRole, rolemodel.idRole) ||
-                Objects.equals(description, rolemodel.description) ||
-                Objects.equals(name, rolemodel.name) ||
-                Objects.equals(codeRole, rolemodel.codeRole);
-
-    }
 }
  /*
  Copyright (C) 2008 Google Inc.

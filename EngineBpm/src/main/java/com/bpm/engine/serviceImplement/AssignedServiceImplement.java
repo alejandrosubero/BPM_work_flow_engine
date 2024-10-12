@@ -58,6 +58,12 @@ public class AssignedServiceImplement implements AssignedService {
 
 
     @Override
+    public AssignedModel findById(Long id) {
+        return assignedMapper.entityToPojo(assignedrepository.findById(id).get());
+    }
+    
+    
+    @Override
     public AssignedModel findByName(String name) {
 
         logger.info("Starting getAssigned");
@@ -120,10 +126,10 @@ public class AssignedServiceImplement implements AssignedService {
 
 
     @Override
-    public boolean saveAssigned(Assigned assigned) {
+    public boolean saveAssigned(AssignedModel assigned) {
         logger.info("Save Proyect");
         try {
-            assignedrepository.save(assigned);
+            assignedrepository.save(assignedMapper.pojoToEntity(assigned));
             return true;
         } catch (DataAccessException e) {
             logger.error(" ERROR : " + e);
@@ -133,11 +139,11 @@ public class AssignedServiceImplement implements AssignedService {
 
 
     @Override
-    public boolean updateAssigned(Assigned assigned) {
+    public boolean updateAssigned(AssignedModel assigned) {
         logger.info("Update ENTITY");
         boolean clave = false;
         Assigned empre = assignedrepository.findById(assigned.getId()).get();
-        empre = assigned;
+//        empre = assigned;
 
         try {
             assignedrepository.save(empre);
@@ -152,18 +158,12 @@ public class AssignedServiceImplement implements AssignedService {
 
 
     @Override
-    public AssignedModel findById(Long id) {
-        return assignedMapper.entityToPojo(assignedrepository.findById(id).get());
-    }
-
-
-    @Override
-    public boolean saveOrUpdateAssigned(Assigned assigned) {
+    public boolean saveOrUpdateAssigned(AssignedModel assigned) {
         logger.info("Update Proyect");
         boolean clave = false;
-        Optional<Assigned> fileOptional2 = assignedrepository.findById(assigned.getId());
+        Optional<Assigned> fileOptional2 = this.assignedrepository.findById(assigned.getId());
         if (fileOptional2.isPresent()) {
-            clave = this.updateAssigned(assigned);
+        	  this.assignedrepository.save(assignedMapper.pojoToEntity(assigned));
             logger.info(" is update");
         } else {
             clave = this.saveAssigned(assigned);
@@ -203,18 +203,10 @@ public class AssignedServiceImplement implements AssignedService {
                         assignedrepository.findByEmployeeRole(role)).stream()
                 .filter(assignedModel -> assignedModel.getemployeeRole().equals(role))
                 .collect(Collectors.toList());
-
-//        List<AssignedModel> listaAssigned = new ArrayList<AssignedModel>();
-//        List<AssignedModel> listaAssignedEntitys =  assignedMapper.entityListToPojoList(assignedrepository.findByEmployeeRole(role));
-//        for (AssignedModel assigned : this.getAllAssigned()) {
-//            if (assigned.getemployeeRole().equals(role)) {
-//                listaAssigned.add(assigned);
-//            }
-//        }
-
         return listaAssigned;
     }
 
+    
     @SuppressWarnings("finally")
 	@Override
     public AssignedModel findByCodeEmployeeAndActive(String codeEmployee, Boolean active) {
@@ -245,12 +237,11 @@ public class AssignedServiceImplement implements AssignedService {
         List<AssignedModel> listTaskAssignedModel = new ArrayList<>();
         try {
             taskAssignedList.stream().forEach(taskAssignedModel ->
-                    listTaskAssignedModel.add(
-                            assignedMapper.entityToPojo(
-                                    assignedrepository.findById(
-                                            bpmAssignedService.findByIdBpmAssigned(
+                    listTaskAssignedModel.add( assignedMapper.entityToPojo(
+                                    assignedrepository.findById(bpmAssignedService.findByIdBpmAssigned(
                                                     taskAssignedModel.getIdBpmAssigned()).getIdAssigned()).get()))
             );
+            
         }catch (Exception e){
             e.printStackTrace();
            // TODO: START A NOTIFICATION FOR ERROR

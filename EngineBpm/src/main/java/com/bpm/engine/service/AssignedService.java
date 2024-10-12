@@ -28,15 +28,15 @@ import com.bpm.engine.models.TaskAssignedModel;
 
 public interface AssignedService {
 
-    public boolean saveAssigned(Assigned assigned);
+    public boolean saveAssigned(AssignedModel assigned);
 
     public List<AssignedModel> getAllAssigned();
 
-    public boolean updateAssigned(Assigned assigned);
+    public boolean updateAssigned(AssignedModel AssignedModel);
 
-    public boolean saveOrUpdateAssigned(Assigned assigned);
+    public boolean saveOrUpdateAssigned(AssignedModel AssignedModel);
     
-    public AssignedModel save(AssignedModel assigned);
+    public AssignedModel save(AssignedModel AssignedModel);
 
     public AssignedModel findByName(String name);
 

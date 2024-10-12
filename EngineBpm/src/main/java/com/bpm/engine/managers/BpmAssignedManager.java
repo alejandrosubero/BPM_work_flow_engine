@@ -42,11 +42,10 @@ public class BpmAssignedManager {
 
                 Long idassigned = assigned.getId();
 
-                assignedBPM.getCodeTaskOrProces().stream().forEach(codeTask ->
-                        bpmAssignedService.saveOrUpdateBpmAssigned( new BpmAssignedModel(idassigned, codeTask)));
+//                assignedBPM.getCodeTaskOrProces().stream().forEach(codeTask ->
+//                        bpmAssignedService.saveOrUpdateBpmAssigned( new BpmAssignedModel(idassigned, codeTask)));
                 
-                
-//                response =  assignedBPM.getCodeTaskOrProces().stream().allMatch(codeTask -> bpmAssignedService.saveOrUpdateBpmAssigned(new BpmAssignedModel(idassigned, codeTask)));
+                response =  assignedBPM.getCodeTaskOrProces().stream().allMatch(codeTask -> bpmAssignedService.saveOrUpdateBpmAssigned(new BpmAssignedModel(idassigned, codeTask)));
                 response = true;
             }
 
