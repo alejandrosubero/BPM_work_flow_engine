@@ -25,7 +25,7 @@ public interface BpmAssignedService {
 
     public List<BpmAssignedModel> findByTaskCodeContaining(String taskCode);
 
-    public boolean saveOrUpdateBpmAssigned(BpmAssignedModel assigned);
+    public BpmAssignedModel saveOrUpdateBpmAssigned(BpmAssignedModel assigned);
 
     public List<BpmAssignedModel> findByInstanciaProccesId(Long instanciaProccesId);
 

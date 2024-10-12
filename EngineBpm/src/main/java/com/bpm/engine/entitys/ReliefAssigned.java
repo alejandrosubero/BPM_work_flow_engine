@@ -1,7 +1,5 @@
 package com.bpm.engine.entitys;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -56,6 +54,7 @@ public class ReliefAssigned {
 	 	@Column(name = "time_active", updatable = true, nullable = true, length = 200)
 	 	private Integer timeActive;
 	 	
-	
+		@Column(name = "unsuscribe", updatable = true, nullable = true, length = 200)
+		private Boolean unsuscribe;
 	 	
 }

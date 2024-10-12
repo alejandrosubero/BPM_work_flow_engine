@@ -41,7 +41,6 @@ import com.bpm.engine.models.TaskAssignedModel;
 @Service
 public class AssignedServiceImplement implements AssignedService {
 
-//    protected static final Log logger = LogFactory.getLog(AssignedServiceImplement.class);
 	 private static final Logger logger = LogManager.getLogger(AssignedServiceImplement.class);
 	 
     @Autowired
@@ -49,9 +48,6 @@ public class AssignedServiceImplement implements AssignedService {
 
     @Autowired
     private AssignedMapper assignedMapper;
-
-    @Autowired
-    private TaskAssignedService taskAssignedService;
 
     @Autowired
     private BpmAssignedService bpmAssignedService;
@@ -79,6 +75,7 @@ public class AssignedServiceImplement implements AssignedService {
         return assignedMapper.entityToPojo(assignedEntity);
     }
 
+    
     @Override
     public AssignedModel findByCodeEmployee(String codeEmployee) {
         logger.info("Starting find Assigned By Code Employee ");
@@ -105,24 +102,6 @@ public class AssignedServiceImplement implements AssignedService {
         return listaAssigned;
     }
 
-    @Override
-    public AssignedModel save(AssignedModel assigned) {
-        Assigned response = null;
-        try {
-            logger.info("Save a new assigned direct");
-            response = assignedrepository.save(this.assignedMapper.pojoToEntity(assigned));
-            if(response!= null){
-                return this.assignedMapper.entityToPojo(response);
-            }
-        }catch (Exception e){
-            logger.error("Error happen during the direct saved of assigned.. employ code: "+ assigned.getCodeEmployee());
-            logger.error(e);
-            e.printStackTrace();
-          //TODO: registrar en el sistema de notificacion error and set logger
-            return null;
-        }
-       return null;
-    }
 
 
     @Override
@@ -138,41 +117,47 @@ public class AssignedServiceImplement implements AssignedService {
     }
 
 
-    @Override
-    public boolean updateAssigned(AssignedModel assigned) {
-        logger.info("Update ENTITY");
-        boolean clave = false;
-        Assigned empre = assignedrepository.findById(assigned.getId()).get();
-//        empre = assigned;
 
+    @Override
+    public AssignedModel saveOrUpdateAssigned(AssignedModel assigned) {
+    	logger.info("Update Proyect");
+        AssignedModel clave = null;
+        if(assigned!=null) {
+            Optional<Assigned> fileOptional2 = this.assignedrepository.findById(assigned.getId());
+            if (fileOptional2.isPresent()) {
+            	AssignedModel fileDataBase = assignedMapper.entityToPojo(fileOptional2.get());
+            	logger.info(" Update this model...");
+            	fileDataBase.updateThis(assigned);
+            	 clave =  saveAndFormat(fileDataBase);
+                logger.info(" save update model ...");
+            } else {
+                clave =  saveAndFormat(assigned);
+                logger.info(" model is save");
+            }
+        }
+        return clave;
+    }
+
+
+    private AssignedModel saveAndFormat(AssignedModel model) {
+	   logger.info("save And Format...... ");
+	   
+	   AssignedModel entityResponse = null;
         try {
-            assignedrepository.save(empre);
-            clave = true;
+        	entityResponse = assignedMapper.entityToPojo(assignedrepository.save(assignedMapper.pojoToEntity(model)));
         } catch (DataAccessException e) {
             logger.error(" ERROR : " + e);
-            clave = false;
+            logger.error("Error happen during the direct saved of assigned... ");
+            e.printStackTrace();
+            //TODO: registrar en el sistema de notificacion error and set logger
+            return entityResponse;
         }
-
-        return clave;
+    			
+    	return entityResponse;
     }
-
-
-    @Override
-    public boolean saveOrUpdateAssigned(AssignedModel assigned) {
-        logger.info("Update Proyect");
-        boolean clave = false;
-        Optional<Assigned> fileOptional2 = this.assignedrepository.findById(assigned.getId());
-        if (fileOptional2.isPresent()) {
-        	  this.assignedrepository.save(assignedMapper.pojoToEntity(assigned));
-            logger.info(" is update");
-        } else {
-            clave = this.saveAssigned(assigned);
-            logger.info(" is save");
-        }
-        return clave;
-    }
-
-
+    
+    
+    
 
 
     @Override

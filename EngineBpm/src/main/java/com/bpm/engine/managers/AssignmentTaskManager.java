@@ -20,15 +20,15 @@ import com.bpm.engine.service.BpmAssignedService;
 public class AssignmentTaskManager {
 	 private static final Logger logger = LogManager.getLogger(AssignmentTaskManager.class);
 	
-	private BpmAssignedService bpmAssignedService;
+	private BpmAssignedManager bpmAssignedManager;
 	private AssignedService assignedService;
 	private ConectBpmToEmployeeService conectBpmToEmployeeService;
 	
 	
 	@Autowired
-	public AssignmentTaskManager(BpmAssignedService bpmAssignedService, AssignedService assignedService, ConectBpmToEmployeeService conectBpmToEmployeeService) {
+	public AssignmentTaskManager(BpmAssignedManager bpmAssignedManager, AssignedService assignedService, ConectBpmToEmployeeService conectBpmToEmployeeService) {
 	
-		this.bpmAssignedService = bpmAssignedService;
+		this.bpmAssignedManager = bpmAssignedManager;
 		this.assignedService = assignedService;
 		this.conectBpmToEmployeeService = conectBpmToEmployeeService;
 	}
@@ -174,7 +174,7 @@ public class AssignmentTaskManager {
 	public  List<BpmAssignedModel> getAssignedFromBpmAssigned(String taskCode) { 
 		List<BpmAssignedModel> bpmAssigned = new ArrayList<>();
 		try {
-			List<BpmAssignedModel> temporaryList = bpmAssignedService.findByTaskCodeAndInstanciaProccesIdNull(taskCode,true);
+			List<BpmAssignedModel> temporaryList =  bpmAssignedManager.service().findByTaskCodeAndInstanciaProccesIdNull(taskCode,true);
 			if (temporaryList != null && !temporaryList.isEmpty()) {
 				bpmAssigned.addAll(temporaryList);
 			}
@@ -186,9 +186,7 @@ public class AssignmentTaskManager {
 		return bpmAssigned;
 	}
 
-	
-	
-	
+
 	
 	public BpmAssignedModel getOneAssigned(String taskCode, String codeEmployee, Long instanceProccesId, Long idProcess,Integer router) {
 		
@@ -222,17 +220,17 @@ public class AssignmentTaskManager {
 			if(assigned.getId() == null && assigned.getCodeEmployee() != null) {
 				 if (!assignedService.checkCodeEmployeeExists(assigned.getCodeEmployee())) {
 						assigned.setActive(true);
-						assignedInSisten = assignedService.save(assigned);
+						assignedInSisten = this.saveAssigned(assigned);
 					}
 			} else {
 				assignedInSisten = assigned;
 			}
 			
 					
-			  bpmAssignedModel =  bpmAssignedService.findByCodeEmployeeAndTaskCode(assigned.getCodeEmployee(), taskCode); 
+			  bpmAssignedModel =  bpmAssignedManager.service().findByCodeEmployeeAndTaskCode(assigned.getCodeEmployee(), taskCode); 
 			
 			 if(bpmAssignedModel == null) {
-//				
+				
 				 if(instanceProccesId != null) {
 				  bpmAssignedModel =  BpmAssignedModel.builder()
 									  .taskCode(taskCode).codeEmployee(assignedInSisten.getCodeEmployee())
@@ -247,9 +245,8 @@ public class AssignmentTaskManager {
 			 }
 			 
 			if(assignedInSisten.getId() != null && bpmAssignedModel != null && bpmAssignedModel.getIdBpmAssigned() == null) {
-				bpmAssignedService.saveOrUpdateBpmAssigned(bpmAssignedModel);
+				 bpmAssignedManager.service().saveOrUpdateBpmAssigned(bpmAssignedModel);
 			}
-			
 			return bpmAssignedModel;
 			
 		}catch(Exception e) {
@@ -257,28 +254,15 @@ public class AssignmentTaskManager {
 			//TODO: registrar en el sistema de notificacion error and set logger
 			return bpmAssignedModel;
 		}
-		
 	}
 	
-	
-	public AssignedModel getAssignedModel(String codeEmployee) {
-		return assignedService.findByCodeEmployeeAndActive(codeEmployee, true);
-	}
-	
-	
-	public AssignedModel saveAssigned(AssignedModel assigned) {
-		return this.assignedService.save(assigned);
-	}
 	
 	
 	public void saveAndCreteBpmAssigned(String taskCode, AssignedModel assigned, Long instanceProccesId) {
 		
 		try {
 			if(assigned != null) {
-				AssignedModel assignedSave = this.assignedService.save(assigned);
-				if(assignedSave.getId() != null) {
-					bpmAssignedService.saveOrUpdateBpmAssigned(new BpmAssignedModel(assignedSave.getId(), taskCode, instanceProccesId));
-				}
+				bpmAssignedManager.saveAndCreteNewBpmAssigned(taskCode, this.saveAssigned(assigned), instanceProccesId);
 			}
 	
 		}catch (Exception e) {
@@ -287,62 +271,44 @@ public class AssignmentTaskManager {
 		}
 	}
 	
+	
 
 	@SuppressWarnings("finally")
 	public AssignedModel changeRoleAssigned(String codeEmployee, RoleModel newRole) {
 		
 		AssignedModel assignedResponse = null;
-		AssignedModel updateAssigned = null;
 		
 		try {
-			 updateAssigned = this.getAssignedModel(codeEmployee);
+			AssignedModel updateAssigned = this.getAssignedModel(codeEmployee);
 			
 			if(updateAssigned != null ) {
 				
 				if(newRole != null) {
-					assignedResponse =  this.setNewRole(updateAssigned,newRole);
+					updateAssigned.getemployeeRole().updatethis(newRole);
+					this.saveAssigned(updateAssigned);
+				
 				} else {
 					AssignedModel assigned = this.getEmployeeFromExternalService(codeEmployee);
 					if(assigned != null) {
-						assignedResponse = this.setNewRole(updateAssigned,assigned.getemployeeRole());
+						updateAssigned.getemployeeRole().updatethis(assigned.getemployeeRole());
+						this.saveAssigned(updateAssigned);
 					}
 				}
 			}
+			
 		}catch( DataAccessException e) {
 			 logger.error("Error change Role Assigned: ", e);
 			e.printStackTrace();	
+			 //TODO: registrar en el sistema de notificacion error and set logger
 		}catch(IllegalArgumentException e) {
 			logger.error("the one or all parameters are null");
 			e.printStackTrace();
+			 //TODO: registrar en el sistema de notificacion error and set logger
 		}finally {
 			return assignedResponse;
 		}
 	}
-	
-	
-	@SuppressWarnings("finally")
-	private AssignedModel setNewRole(AssignedModel updateAssigned,  RoleModel newRole) {
-		AssignedModel assignedResponse = null;
-	
-		try {
-			if(updateAssigned != null && newRole != null) {
-				updateAssigned.setemployeeRole(newRole);
-				assignedResponse = this.saveAssigned(updateAssigned);
-			}
-			
-			
-		}catch( DataAccessException e) {
-			 logger.error("Error change Role Assigned: ", e);
-			e.printStackTrace();	
-		}catch(IllegalArgumentException e) {
-			logger.error("the one or all parameters are null");
-			e.printStackTrace();
-		}finally {
-			return assignedResponse;
-		}
 		
-	}
-	
 	
 	
 	private AssignedModel getAssignedFromExternalService(String codeEmployee, String codeRole) {
@@ -390,9 +356,39 @@ public class AssignmentTaskManager {
 	}
 	
 	
+	public AssignedModel getAssignedModel(String codeEmployee) {
+		return assignedService.findByCodeEmployeeAndActive(codeEmployee, true);
+	}
 	
 	
+	public AssignedModel saveAssigned(AssignedModel assigned) {
+		return this.assignedService.saveOrUpdateAssigned(assigned);
+	}
 	
+	
+	public AssignedModel getAssignedOrCreateAssignedInBpmSystem(String codeEmployee) {
+		AssignedModel assignedFromDataBase = null;
+		try {
+			if (codeEmployee == null) {
+				
+			 assignedFromDataBase = this.getAssignedModel(codeEmployee);
+				
+				if(assignedFromDataBase == null) {
+					AssignedModel assignedFromExternalService =	getEmployeeFromExternalService(codeEmployee);
+					assignedFromDataBase = saveAssigned(assignedFromExternalService);	
+				}
+			}
+				
+			}catch( DataAccessException e) {
+				 logger.error("Error change Role Assigned: ", e);
+				e.printStackTrace();	
+			}catch(IllegalArgumentException e) {
+				logger.error("the one or all parameters are null");
+				e.printStackTrace();
+			}
+		
+		return assignedFromDataBase;
+	}
 	
 	
 	

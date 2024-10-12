@@ -32,11 +32,10 @@ public interface AssignedService {
 
     public List<AssignedModel> getAllAssigned();
 
-    public boolean updateAssigned(AssignedModel AssignedModel);
 
-    public boolean saveOrUpdateAssigned(AssignedModel AssignedModel);
+    public AssignedModel saveOrUpdateAssigned(AssignedModel AssignedModel);
     
-    public AssignedModel save(AssignedModel AssignedModel);
+//    public AssignedModel save(AssignedModel AssignedModel);
 
     public AssignedModel findByName(String name);
 

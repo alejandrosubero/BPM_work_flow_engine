@@ -28,23 +28,19 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RoleModel {
 
-    private Long idRole;
+	private Long idRole;
 
-    private String description;
+	private String description;
 
-    private String name;
+	private String name;
 
-    private String codeRole;
+	private String codeRole;
 
- 
-
-  
-    public RoleModel(String description, String name, String codeRole) {
-        this.description = description;
-        this.name = name;
-        this.codeRole = codeRole;
-    }
-
+	public RoleModel(String description, String name, String codeRole) {
+		this.description = description;
+		this.name = name;
+		this.codeRole = codeRole;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -59,31 +55,41 @@ public class RoleModel {
 				&& Objects.equals(idRole, other.idRole) && Objects.equals(name, other.name);
 	}
 
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(codeRole, description, idRole, name);
 	}
-    
-        
-    
+
+	public void updatethis(RoleModel other) {
+
+		if (!Objects.equals(this.codeRole, other.codeRole)) {
+			this.codeRole= other.codeRole;
+		}
+		if (!Objects.equals(this.description, other.description)) {
+			this.description = other.description;
+		}
+		if (!Objects.equals(this.idRole, other.idRole)) {
+			this.idRole = other.idRole;
+		}
+		if (!Objects.equals(this.name, other.name)) {
+			this.name = other.name;
+		}
+	}
 
 }
- /*
- Copyright (C) 2008 Google Inc.
-* Licensed to the Apache Software Foundation (ASF) under one or more
-* contributor license agreements.  See the NOTICE file distributed with
-* this work for additional information regarding copyright ownership.
-* The ASF licenses this file to You under the Apache License, Version 2.0
-* (the "License"); you may not use this file except in compliance with
-* the License.  You may obtain a copy of the License at
-*
-*      http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
-
+/*
+ * Copyright (C) 2008 Google Inc. Licensed to the Apache Software Foundation
+ * (ASF) under one or more contributor license agreements. See the NOTICE file
+ * distributed with this work for additional information regarding copyright
+ * ownership. The ASF licenses this file to You under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */

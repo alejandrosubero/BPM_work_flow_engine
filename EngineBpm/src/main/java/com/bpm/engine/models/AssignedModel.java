@@ -17,6 +17,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.bpm.engine.entitys.ApprovedProcess;
+import com.bpm.engine.entitys.Assigned;
+import com.bpm.engine.entitys.Role;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class AssignedModel {
 
 	private Long id;
@@ -27,8 +40,7 @@ public class AssignedModel {
 	private List<ApprovedProcessModel> approvedProcess = new ArrayList<>();
 	private Boolean active;
 
-	public AssignedModel() {
-	}
+
 
 	public AssignedModel(String name, String codeEmployee, RoleModel employeeRole, String mail,
 			List<ApprovedProcessModel> approvedProcess) {

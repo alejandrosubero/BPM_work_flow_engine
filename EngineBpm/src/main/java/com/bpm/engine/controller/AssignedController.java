@@ -85,7 +85,7 @@ public class AssignedController {
 
     @PostMapping("/saveOrUpdate")
     private boolean saveOrUpdateAssigned(@RequestBody AssignedModel assigned) {
-        return assignedService.saveOrUpdateAssigned(assignedValidationService.valida(assigned));
+        return assignedService.saveOrUpdateAssigned(assignedValidationService.valida(assigned)) != null;
     }
 
 

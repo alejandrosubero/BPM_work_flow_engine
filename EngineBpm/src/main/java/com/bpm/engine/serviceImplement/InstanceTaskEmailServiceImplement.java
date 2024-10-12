@@ -38,7 +38,6 @@ import com.bpm.engine.models.InstanceTaskEmailModel;
 @Service
 public class InstanceTaskEmailServiceImplement implements InstanceTaskEmailService {
 
-//protected static final Log logger = LogFactory.getLog(InstanceTaskEmailServiceImplement.class);
 	private static final Logger logger = LogManager.getLogger(InstanceTaskEmailServiceImplement.class);
 	
 @Autowired
