@@ -3,10 +3,14 @@ package com.bpm.engine.repository;
 import com.bpm.engine.entitys.BpmAssigned;
 import com.bpm.engine.models.BpmAssignedModel;
 
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 @Repository
 public interface BpmAssignedRepository extends CrudRepository<BpmAssigned, Long>{
@@ -41,5 +45,17 @@ public interface BpmAssignedRepository extends CrudRepository<BpmAssigned, Long>
     public List<BpmAssigned> findByProccesIdAndCodeEmployeeAndActive (Long proccesId, String codeEmployee, Boolean active);
 
     public List<BpmAssigned> findByCodeEmployeeAndActive (String codeEmployee, Boolean active);
+    
+	@Transactional
+    @Modifying
+    @Query("update BpmAssigned u set u.active = ?1 where u.idBpmAssigned = ?2")
+    void updateBpmAssignedActive(Boolean active, Long idBpmAssigned);
 
 }
+
+
+
+
+
+
+

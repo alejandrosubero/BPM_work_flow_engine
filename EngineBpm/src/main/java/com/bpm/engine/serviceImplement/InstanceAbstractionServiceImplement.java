@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.bpm.engine.entitys.InstanceAbstraction;
 import com.bpm.engine.mappers.InstanceAbstractionMapper;
 import com.bpm.engine.models.InstanceAbstractionModel;
+import com.bpm.engine.models.ReliefAssignedModel;
 import com.bpm.engine.repository.InstanceAbstractionRepository;
 import com.bpm.engine.service.InstanceAbstractionService;
 
@@ -98,7 +99,7 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 	    }
 	    
 	    try {
-	        return this.mapper.entityListToPojoList(this.repository.findByUserWorked(userWorked));
+	        return this.mapper.entityListToPojoList(this.repository.findByUserWorkedAndActive(userWorked, true));
 	        
 	    } catch (DataAccessException e) {
 	    	 logger.error("Error at looking the InstanceAbstraction by userWorked: ", e);
@@ -107,6 +108,23 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 	}
 	
 	
+	@Override
+	public List<InstanceAbstractionModel> findByUserWorked(String userWorked, Boolean active) {
+		logger.info("Find By code Referent ");
+
+	    if (userWorked == null) {
+	    	logger.error("Code userWorked is null");
+	        return Collections.emptyList();
+	    }
+	    
+	    try {
+	        return this.mapper.entityListToPojoList(this.repository.findByUserWorkedAndActive(userWorked, active));
+	        
+	    } catch (DataAccessException e) {
+	    	 logger.error("Error at looking the InstanceAbstraction by userWorked: ", e);
+	        return Collections.emptyList();
+	    }
+	}
 
 	@Override
 	public List<InstanceAbstractionModel> findByUserCreateInstance(String userCreateInstance) {
@@ -394,15 +412,19 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 		List<Long> instancesid = new ArrayList<>();
 		
 		instancelist = repository.findByUserWorkedAndActive(userWorked, true);
-		 Boolean check = false;
-		 
+		
+		
+		if(instancelist == null || instancelist.isEmpty()) {
+			//TODO: CONECT TO NOTIFICATION SYSTEM BECAUS THE USER DON'T HAVE WORK ASSIGNED..
+			return true;
+		}
+				 
 		if(instancelist != null && !instancelist.isEmpty()) {
 			 instancelist.parallelStream().forEach(instance -> {
 				 this.updateUserWorked(newUserWorked, instance.getIdInstance()); 
 				 instancesid.add(instance.getIdInstance());
 			 });
 		}
-		 //TODO: a un no se implementa la respuesta o la verificacion de la respuesta...
 		 return instancesid.stream().allMatch(id -> repository.checkInstanceExistsByuserCreate(newUserWorked, id) != null);
 	}
 
@@ -413,7 +435,6 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 		List<Long> instancesid = new ArrayList<>();
 		
 		instancelist = repository.findByUserCreateInstanceAndActive(userCreateInstance, true);
-		 Boolean check = false;
 		 
 		if(instancelist != null && !instancelist.isEmpty()) {
 			 instancelist.parallelStream().forEach(instance -> {
@@ -421,12 +442,25 @@ public class InstanceAbstractionServiceImplement implements InstanceAbstractionS
 				 instancesid.add(instance.getIdInstance());
 			 });
 		}
-		 //TODO: a un no se implementa la respuesta o la verificacion de la respuesta...
 		return instancesid.stream().allMatch(id -> repository.checkInstanceExistsByuserCreate(newUserCreateInstance, id) != null);
 	}
 
+	@Override
+	public Boolean changeUserCreateInstance(ReliefAssignedModel reliefModel, List<Long> idInstances) {
 
+		if(idInstances != null && !idInstances.isEmpty()) {
+			idInstances.parallelStream().forEach(id -> {
+				 
+				if(repository.checkInstanceExistsByuserCreate(id) != null ){
+					 this.updateUserCreateInstance(reliefModel.getUserReliefCode(), id); 
+				}
+				 
+			 });
+		}
+		return idInstances.stream().allMatch(id -> repository.checkInstanceExistsByuserCreate(id) != null);
+	}
 
+	
 	@Override
 	public void updateUserCreateInstance(String userCreateInstance, Long idInstance) {
 		try {

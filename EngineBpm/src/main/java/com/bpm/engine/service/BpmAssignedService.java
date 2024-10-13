@@ -41,6 +41,6 @@ public interface BpmAssignedService {
     
     public List<BpmAssignedModel> findByCodeEmployeeAndActive (String codeEmployee, Boolean active);
     
-    
+    public void updateBpmAssignedActive(Boolean active, Long idBpmAssigned);
     
 }

@@ -84,6 +84,10 @@ public interface InstanceAbstractionRepository extends CrudRepository<InstanceAb
 	 @Query("SELECT 1 FROM InstanceAbstraction a WHERE a.userCreateInstance = :userCreateInstance AND a.idInstance = :idInstance")
 	 public Integer checkInstanceExistsByuserCreate(@Param("userCreateInstance") String userCreateInstance, @Param("idInstance") Long idInstance);
 	 
+	 
+	 @Query("SELECT 1 FROM InstanceAbstraction a WHERE a.idInstance = :idInstance")
+	 public Integer checkInstanceExistsByuserCreate( @Param("idInstance") Long idInstance);
+	 
 }
 
 

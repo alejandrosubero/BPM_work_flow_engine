@@ -179,6 +179,23 @@ public class BpmAssignedServiceImplement implements BpmAssignedService {
 			return null;
 		}
 	}
+
+	@Override
+	public void updateBpmAssignedActive(Boolean active, Long idBpmAssigned) {
+		try {
+			
+			repository.updateBpmAssignedActive(active, idBpmAssigned);
+			
+		} catch ( DataAccessException e) {
+			 logger.error("Error at update a BpmAssigned field: ", e);
+			e.printStackTrace();
+			
+		}catch(IllegalArgumentException e) {
+			logger.error("the one or all parameters are null");
+			e.printStackTrace();
+		}
+		
+	}
 	
 
 }

@@ -208,8 +208,7 @@ public class AssignmentTaskManager {
 		
 		return assignesFromRouter;
 	}
-	
-	
+		
 	
 	public BpmAssignedModel getTaskAsigned(AssignedModel assigned, String taskCode, Long instanceProccesId, Long idProcess) {
 		

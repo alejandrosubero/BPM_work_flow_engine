@@ -34,38 +34,39 @@ public class BpmAssignedManager {
 	}
 
 
+	public Boolean desactiveBpmAssigned(String codeEmployee ) {
+		
+		List<BpmAssignedModel> bpmAssignedByEmployeeCode = bpmAssignedService.findByCodeEmployeeActive(codeEmployee);
+		
+		bpmAssignedByEmployeeCode.parallelStream().forEach(bpmAssignedModel -> bpmAssignedModel.setActive(false));
+		
+		return bpmAssignedByEmployeeCode.stream().allMatch(bpmAssignedModel -> bpmAssignedService.saveOrUpdateBpmAssigned(bpmAssignedModel) != null);
+		
+		
+	}
+	
 
 	public Boolean replaceUserAssignedForUserReliefInBpmAssigned(String codeEmployee, String codeEmployeeRelief, Long idAssignedRelief) {
 	
 		List<BpmAssignedModel> bpmAssignedByEmployeeCode = bpmAssignedService.findByCodeEmployeeActive(codeEmployee);
+	
 		
-		if (bpmAssignedByEmployeeCode != null && !bpmAssignedByEmployeeCode.isEmpty()) {
-			List<SystemReferentModel> referentEmployee = new ArrayList<>();
+		if (bpmAssignedByEmployeeCode != null && !bpmAssignedByEmployeeCode.isEmpty() && codeEmployeeRelief != null && idAssignedRelief != null) {
 			List<BpmAssignedModel> bpmAssignedEmployeeRelief = new ArrayList<>();
 			
 			bpmAssignedByEmployeeCode.parallelStream().forEach(bpmAssignedModel -> {
-				referentEmployee.add(SystemReferentModel.builder()
-				.referent0(codeEmployeeRelief)
-				.referentLong0(idAssignedRelief)
-				.referent1(bpmAssignedModel.getTaskCode())
-				.referentLong1(bpmAssignedModel.getInstanciaProccesId())
-				.referentLong2(bpmAssignedModel.getProccesId())
-				.build());
+		
+				bpmAssignedEmployeeRelief.add(new BpmAssignedModel(
+						idAssignedRelief,bpmAssignedModel.getTaskCode(), 
+						bpmAssignedModel.getInstanciaProccesId(), 
+						codeEmployeeRelief, bpmAssignedModel.getProccesId()));
 				
 				bpmAssignedModel.setActive(false);
 			});
 			
-			referentEmployee.parallelStream().forEach(systemReferentModel -> 
-							bpmAssignedEmployeeRelief.add(new BpmAssignedModel(
-									systemReferentModel.getReferentLong0(),
-									systemReferentModel.getReferent1(), 
-									systemReferentModel.getReferentLong1(), 
-									systemReferentModel.getReferent0() ,
-									systemReferentModel.getReferentLong2())
-						));
-				
-			
 			return bpmAssignedEmployeeRelief.stream().allMatch(bpmAssignedModel -> bpmAssignedService.saveOrUpdateBpmAssigned(bpmAssignedModel) != null);
+		} else {
+			
 		}
 		return false;
 	}
@@ -151,3 +152,24 @@ public class BpmAssignedManager {
 	}
 
 }
+
+//List<SystemReferentModel> referentEmployee = new ArrayList<>();
+//referentEmployee.add(SystemReferentModel.builder()
+//		.referent0(codeEmployeeRelief)
+//		.referentLong0(idAssignedRelief)
+//		.referent1(bpmAssignedModel.getTaskCode())
+//		.referentLong1(bpmAssignedModel.getInstanciaProccesId())
+//		.referentLong2(bpmAssignedModel.getProccesId())
+//		.build());
+
+
+//referentEmployee.parallelStream().forEach(systemReferentModel -> 
+//bpmAssignedEmployeeRelief.add(new BpmAssignedModel(
+//		systemReferentModel.getReferentLong0(),
+//		systemReferentModel.getReferent1(), 
+//		systemReferentModel.getReferentLong1(), 
+//		systemReferentModel.getReferent0() ,
+//		systemReferentModel.getReferentLong2())
+//));
+
+

@@ -34,8 +34,12 @@ public class InstanceManager {
 		this.assignmentTaskManager = assignmentTaskManager;
 	}
 
+	
+	protected InstanceAbstractionService getInstanceAbstractionService() {
+		return this.instanceAbstractionService;
+	}
 
-
+	
 	public InstanceAbstractionModel saveCompliteInstance(InstanceAbstractionModel instance) {
 		 return instanceAbstractionService.saveInitial(instance);
 	 }

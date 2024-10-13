@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.bpm.engine.entitys.InstanceAbstraction;
 import com.bpm.engine.models.InstanceAbstractionModel;
+import com.bpm.engine.models.ReliefAssignedModel;
 
 public interface InstanceAbstractionService {
 	
@@ -33,6 +34,6 @@ public interface InstanceAbstractionService {
 	
 	public Boolean changeUserWorked(String userWorked, String newUserWorked);
 	public Boolean changeUserCreateInstance(String userCreateInstance, String newUserCreateInstance);
-	
-	
+	public Boolean changeUserCreateInstance(ReliefAssignedModel reliefModel, List<Long> idInstances);
+	public List<InstanceAbstractionModel> findByUserWorked(String userWorked, Boolean active);
 }
