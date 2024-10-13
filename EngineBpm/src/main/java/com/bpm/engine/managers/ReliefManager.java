@@ -12,6 +12,7 @@ import com.bpm.engine.models.AssignedModel;
 import com.bpm.engine.models.BpmAssignedModel;
 import com.bpm.engine.models.InstanceAbstractionModel;
 import com.bpm.engine.models.ReliefAssignedModel;
+import com.bpm.engine.service.ReliefAssignedService;
 import com.bpm.engine.serviceImplement.InstanceTaskEmailServiceImplement;
 import com.bpm.engine.utility.InstanOf;
 
@@ -21,20 +22,22 @@ public class ReliefManager {
 
 	 private ProcessAndInstanceFacade services;
 
-	private InstanceProcessManagerDTO dtoProcessManagerDTO;
-
 	private AssignmentTaskManager assignmentTaskManager;
 	
 	private BpmAssignedManager bpmAssignedManager;
+	
+	private ReliefAssignedService reliefAssignedService;
 
 	@Autowired
-	public ReliefManager(ProcessAndInstanceFacade services, InstanceProcessManagerDTO dtoProcessManagerDTO, AssignmentTaskManager assignmentTaskManager, BpmAssignedManager bpmAssignedManager) {
-	
+	public ReliefManager(ProcessAndInstanceFacade services, AssignmentTaskManager assignmentTaskManager,
+			BpmAssignedManager bpmAssignedManager, ReliefAssignedService reliefAssignedService) {
+		super();
 		this.services = services;
-		this.dtoProcessManagerDTO = dtoProcessManagerDTO;
 		this.assignmentTaskManager = assignmentTaskManager;
 		this.bpmAssignedManager = bpmAssignedManager;
+		this.reliefAssignedService = reliefAssignedService;
 	}
+	
 	
 
 	
@@ -42,6 +45,8 @@ public class ReliefManager {
 	public Boolean changeBpmRole(ReliefAssignedModel reliefModel, Boolean delegateAll) {
 		
 		logger.info( "Started change Bpm role...");
+		
+		reliefAssignedService.createReliefAssigned(reliefModel);
 		
 		AssignedModel updateAssigned = assignmentTaskManager.changeRoleAssigned(reliefModel.getUserCode(), null);
 		
@@ -78,8 +83,10 @@ public class ReliefManager {
 	
 	
 	
-	
+
 	public Boolean changeBpmRole(ReliefAssignedModel reliefModel, List<Long> idInstances ) {
+		
+		reliefAssignedService.createReliefAssigned(reliefModel);
 		Boolean isChangeInstanceAbstraction =  false;
 		if(changeBpmRole(reliefModel, false)) {
 			if(!idInstances.isEmpty() && reliefModel.getUserReliefCode() != null) {

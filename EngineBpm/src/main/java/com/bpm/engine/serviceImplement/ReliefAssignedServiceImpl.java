@@ -25,13 +25,18 @@ public class ReliefAssignedServiceImpl implements ReliefAssignedService {
     @Override
     @Transactional
     public ReliefAssignedModel createReliefAssigned(ReliefAssignedModel model) {
-        try {
-            ReliefAssigned entity = reliefAssignedMapper.toEntity(model);
-            ReliefAssigned savedEntity = reliefAssignedRepository.save(entity);
-            return reliefAssignedMapper.toModel(savedEntity);
+    	ReliefAssigned savedEntity = null;
+    	try {
+        
+        	if(model != null) {
+        		   ReliefAssigned entity = reliefAssignedMapper.toEntity(model);
+                    savedEntity = reliefAssignedRepository.save(entity);
+        	}
+         
         } catch (Exception e) {
             throw new RuntimeException("Error creating ReliefAssigned", e);
         }
+        return reliefAssignedMapper.toModel(savedEntity);
     }
 
     @Override
@@ -44,12 +49,7 @@ public class ReliefAssignedServiceImpl implements ReliefAssignedService {
                 ReliefAssigned updatedEntity = reliefAssignedRepository.save(entity);
                 return reliefAssignedMapper.toModel(updatedEntity);
             } else {
-//            	
-//            }catch(IllegalArgumentException e) {
-//    			logger.error("the one or all parameters are null");
-//    			e.printStackTrace();
-//    			
-//    		}
+            		this.createReliefAssigned(model);
                 throw new RuntimeException("ReliefAssigned not found with id: " + model.getIdRelief());
             }
         } catch (Exception e) {
