@@ -2,6 +2,8 @@ package com.bpm.engine.relief.model;
 
 import java.util.Objects;
 
+import com.bpm.engine.relief.dto.ReliefDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -62,6 +64,45 @@ public class ReliefAssignedModel {
 	public int hashCode() {
 		return Objects.hash(active, delegateAll, idRelief, permanent, returnCommand, temporary, time, timeActive, type,
 				unsuscribe, userCode, userCreateCode, userReliefCode);
+	}
+
+	public ReliefAssignedModel(ReliefDTO dto) {
+	
+		 if( dto.getId() !=null)
+		this.idRelief = dto.getId();
+		 
+		 if(dto.getUserCode() !=null)
+		this.userCode = dto.getUserCode();
+		 
+		 if( dto.getUserCode() !=null)
+		this.userReliefCode = dto.getUserReliefCode();
+		 
+		 if(dto.getUserCreateCode() !=null)
+		this.userCreateCode = dto.getUserCreateCode();
+		 
+		 if(dto.getPermanent() !=null)
+		this.permanent = dto.getPermanent();
+		 
+		 if( dto.getTemporary() !=null)
+		this.temporary = dto.getTemporary();
+		 
+		 if(dto.getReturnCommand() !=null)
+		this.returnCommand = dto.getReturnCommand();
+	
+		this.active = true;
+		
+		 if(dto.getTime() !=null)
+		this.time = dto.getTime();
+		 
+		 if( dto.getUnsuscribe() != null)
+		this.unsuscribe = dto.getUnsuscribe();
+		 
+		 if( dto.getType() !=null)
+		this.type = dto.getType();
+		 
+		 if(dto.getDelegateAll() !=null)
+		this.delegateAll = dto.getDelegateAll();
+		 
 	}
 	
 

@@ -25,8 +25,8 @@ import org.springframework.dao.DataAccessException;
 import com.bpm.engine.relief.entity.ReliefAssigned;
 import com.bpm.engine.relief.mapper.ReliefAssignedMapper;
 import com.bpm.engine.relief.model.ReliefAssignedModel;
+import com.bpm.engine.relief.repository.ReliefAssignedRepository;
 import com.bpm.engine.relief.service.ReliefAssignedServiceImpl;
-import com.bpm.engine.repository.ReliefAssignedRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class ReliefAssignedServiceImplTestError {

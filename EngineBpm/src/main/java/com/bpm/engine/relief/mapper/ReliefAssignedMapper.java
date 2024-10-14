@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.bpm.engine.entitys.Process;
 import com.bpm.engine.models.ProcessModel;
+import com.bpm.engine.relief.dto.ReliefDTO;
 import com.bpm.engine.relief.entity.ReliefAssigned;
 import com.bpm.engine.relief.model.ReliefAssignedModel;
 
@@ -60,4 +61,12 @@ public class ReliefAssignedMapper {
 		return entitys;
 	}
 
+	
+	public ReliefAssignedModel toModel(ReliefDTO dto) {
+		return new ReliefAssignedModel(dto);
+
+	}
+	
+	
+	
 }

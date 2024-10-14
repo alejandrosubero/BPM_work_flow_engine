@@ -1,4 +1,4 @@
-package com.bpm.engine.relief;
+package com.bpm.engine.relief.dto;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,7 +19,7 @@ public class ReliefDTO implements Serializable{
 	private static final long serialVersionUID = 133334445567l;
 	
 	
-	private Long idRelief;
+	private Long id;
 
 	private String userCode;
 
@@ -33,11 +33,7 @@ public class ReliefDTO implements Serializable{
 
 	private Boolean returnCommand;
 
-	private Boolean active;
-
 	private Integer time;
-
-	private Integer timeActive;
 	
 	private Boolean unsuscribe;
 	

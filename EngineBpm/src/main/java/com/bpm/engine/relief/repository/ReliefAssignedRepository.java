@@ -1,4 +1,4 @@
-package com.bpm.engine.repository;
+package com.bpm.engine.relief.repository;
 
 import java.util.List;
 

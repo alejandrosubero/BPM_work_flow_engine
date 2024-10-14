@@ -1,4 +1,4 @@
-package com.bpm.engine.service;
+package com.bpm.engine.relief.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,7 +6,7 @@ import java.util.Optional;
 import com.bpm.engine.relief.entity.ReliefAssigned;
 import com.bpm.engine.relief.model.ReliefAssignedModel;
 
-public interface ReliefAssignedService {
+public interface IReliefAssignedService {
 
 
 	public void updateTimeActive(Integer timeActive, Long idRelief);

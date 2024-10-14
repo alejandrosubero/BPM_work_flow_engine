@@ -15,11 +15,11 @@ import com.bpm.engine.managers.ProcessAndInstanceFacade;
 import com.bpm.engine.models.AssignedModel;
 import com.bpm.engine.models.BpmAssignedModel;
 import com.bpm.engine.models.InstanceAbstractionModel;
-import com.bpm.engine.relief.ReliefDTO;
+import com.bpm.engine.relief.dto.ReliefDTO;
 import com.bpm.engine.relief.interfaces.IReliefStrategy;
+import com.bpm.engine.relief.mapper.ReliefAssignedMapper;
 import com.bpm.engine.relief.model.ReliefAssignedModel;
-import com.bpm.engine.service.ReliefAssignedService;
-
+import com.bpm.engine.relief.service.IReliefAssignedService;
 import com.bpm.engine.utility.InstanOf;
 
 
@@ -34,34 +34,45 @@ public class ChangeBpmRole implements IReliefStrategy {
 	
 	private BpmAssignedManager bpmAssignedManager;
 	
-	private ReliefAssignedService reliefAssignedService;
+	private ReliefAssignedMapper mapper;
 	
 
 	@Autowired
 	public ChangeBpmRole(ProcessAndInstanceFacade services, AssignmentTaskManager assignmentTaskManager,
-			BpmAssignedManager bpmAssignedManager, ReliefAssignedService reliefAssignedService) {
-		super();
+			BpmAssignedManager bpmAssignedManager, ReliefAssignedMapper mapper) {
 		this.services = services;
 		this.assignmentTaskManager = assignmentTaskManager;
 		this.bpmAssignedManager = bpmAssignedManager;
-		this.reliefAssignedService = reliefAssignedService;
+		this.mapper = mapper;
 	}
 	
 	
 	
 	@Override
 	public Boolean executeRelief(ReliefDTO reliefDTO) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Boolean response = false;
+		ReliefAssignedModel reliefModel = mapper.toModel(reliefDTO);
+		
+		if(reliefDTO.getIdInstances() !=null && !reliefDTO.getIdInstances().isEmpty()) {
+			reliefModel.setDelegateAll(false);
+			response = this.execute(reliefModel, reliefDTO.getIdInstances());
+		}else {
+			response = this.execute( reliefModel);
+		}
+		
+		return response;
 	}
 	
 	
 
-	public Boolean execute(ReliefAssignedModel reliefModel, Boolean delegateAll) {
+	
+
+	public Boolean execute(ReliefAssignedModel reliefModel) {
 		
 		logger.info( "Started change Bpm role...");
 		
-		reliefAssignedService.createReliefAssigned(reliefModel);
+		
 		
 		AssignedModel updateAssigned = assignmentTaskManager.changeRoleAssigned(reliefModel.getUserCode(), null);
 		
@@ -78,7 +89,7 @@ public class ChangeBpmRole implements IReliefStrategy {
 			
 			Boolean isChangeUserCreateInstance =  false;
 			
-			if(delegateAll) {
+			if(reliefModel.getDelegateAll()) {
 				isChangeUserCreateInstance =  this.services.instanceManager().getInstanceAbstractionService()
 						.changeUserCreateInstance(reliefModel.getUserCode(), reliefModel.getUserReliefCode());
 			
@@ -101,9 +112,9 @@ public class ChangeBpmRole implements IReliefStrategy {
 
 	public Boolean execute(ReliefAssignedModel reliefModel, List<Long> idInstances ) {
 		
-		reliefAssignedService.createReliefAssigned(reliefModel);
+	
 		Boolean isChangeInstanceAbstraction =  false;
-		if(execute(reliefModel, false)) {
+		if(execute(reliefModel)) {
 			if(!idInstances.isEmpty() && reliefModel.getUserReliefCode() != null) {
 				isChangeInstanceAbstraction = this.services.instanceManager().getInstanceAbstractionService()
 						.changeUserCreateInstance( reliefModel,idInstances);

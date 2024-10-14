@@ -9,16 +9,18 @@ import com.bpm.engine.relief.model.ReliefAssignedModel;
 
 
 @Component
-public class Unsuscribe implements IReliefStrategy{
+public class TemporaryChange implements IReliefStrategy{
 
+	
 	private ReliefAssignedMapper mapper;
 	
 	
 	@Override
 	public Boolean executeRelief(ReliefDTO reliefDTO) {
-		
+	
 		Boolean response = false;
 		ReliefAssignedModel reliefModel = mapper.toModel(reliefDTO);
+		
 		
 		
 		return response;

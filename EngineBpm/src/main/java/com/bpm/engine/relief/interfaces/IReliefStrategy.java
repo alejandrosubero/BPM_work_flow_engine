@@ -1,6 +1,6 @@
 package com.bpm.engine.relief.interfaces;
 
-import com.bpm.engine.relief.ReliefDTO;
+import com.bpm.engine.relief.dto.ReliefDTO;
 
 public interface IReliefStrategy {
 	

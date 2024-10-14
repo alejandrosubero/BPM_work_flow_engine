@@ -3,8 +3,7 @@ package com.bpm.engine.relief.service;
 import com.bpm.engine.relief.entity.ReliefAssigned;
 import com.bpm.engine.relief.mapper.ReliefAssignedMapper;
 import com.bpm.engine.relief.model.ReliefAssignedModel;
-import com.bpm.engine.repository.ReliefAssignedRepository;
-import com.bpm.engine.service.ReliefAssignedService;
+import com.bpm.engine.relief.repository.ReliefAssignedRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class ReliefAssignedServiceImpl implements ReliefAssignedService {
+public class ReliefAssignedServiceImpl implements IReliefAssignedService {
 
     @Autowired
     private ReliefAssignedRepository reliefAssignedRepository;
