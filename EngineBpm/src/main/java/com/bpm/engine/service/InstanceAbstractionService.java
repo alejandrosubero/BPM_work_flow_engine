@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.bpm.engine.entitys.InstanceAbstraction;
 import com.bpm.engine.models.InstanceAbstractionModel;
-import com.bpm.engine.models.ReliefAssignedModel;
+import com.bpm.engine.relief.model.ReliefAssignedModel;
 
 public interface InstanceAbstractionService {
 	

@@ -1,4 +1,4 @@
-package com.bpm.engine.entitys;
+package com.bpm.engine.relief.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -54,7 +54,13 @@ public class ReliefAssigned {
 	 	@Column(name = "time_active", updatable = true, nullable = true, length = 200)
 	 	private Integer timeActive;
 	 	
-		@Column(name = "unsuscribe", updatable = true, nullable = true, length = 200)
+		@Column(name = "unsuscribe", updatable = true, nullable = true, length = 10)
 		private Boolean unsuscribe;
+		
+		@Column(name = "unsuscribe", updatable = true, nullable = true, length = 10)
+		private Integer type;
+		
+		@Column(name = "unsuscribe", updatable = true, nullable = true, length = 10)
+		private Boolean delegateAll;
 	 	
 }

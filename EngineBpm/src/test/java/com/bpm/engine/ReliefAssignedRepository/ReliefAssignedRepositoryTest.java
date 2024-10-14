@@ -18,7 +18,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.bpm.engine.entitys.ReliefAssigned;
+import com.bpm.engine.relief.entity.ReliefAssigned;
 import com.bpm.engine.repository.ReliefAssignedRepository;
 
 @SpringBootTest

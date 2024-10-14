@@ -1,4 +1,4 @@
-package com.bpm.engine.serviceImplement;
+package com.bpm.engine.relief.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import com.bpm.engine.entitys.InstanceAbstraction;
 import com.bpm.engine.mappers.InstanceAbstractionMapper;
 import com.bpm.engine.models.InstanceAbstractionModel;
-import com.bpm.engine.models.ReliefAssignedModel;
+import com.bpm.engine.relief.model.ReliefAssignedModel;
 import com.bpm.engine.repository.InstanceAbstractionRepository;
 import com.bpm.engine.service.InstanceAbstractionService;
 

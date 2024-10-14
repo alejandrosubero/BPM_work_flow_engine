@@ -1,8 +1,8 @@
-package com.bpm.engine.serviceImplement;
+package com.bpm.engine.relief.service;
 
-import com.bpm.engine.entitys.ReliefAssigned;
-import com.bpm.engine.mappers.ReliefAssignedMapper;
-import com.bpm.engine.models.ReliefAssignedModel;
+import com.bpm.engine.relief.entity.ReliefAssigned;
+import com.bpm.engine.relief.mapper.ReliefAssignedMapper;
+import com.bpm.engine.relief.model.ReliefAssignedModel;
 import com.bpm.engine.repository.ReliefAssignedRepository;
 import com.bpm.engine.service.ReliefAssignedService;
 

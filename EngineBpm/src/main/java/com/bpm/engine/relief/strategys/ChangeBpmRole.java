@@ -1,24 +1,32 @@
-package com.bpm.engine.managers;
+package com.bpm.engine.relief.strategys;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Component;
 
+import com.bpm.engine.managers.AssignmentTaskManager;
+import com.bpm.engine.managers.BpmAssignedManager;
+import com.bpm.engine.managers.ProcessAndInstanceFacade;
 import com.bpm.engine.models.AssignedModel;
 import com.bpm.engine.models.BpmAssignedModel;
 import com.bpm.engine.models.InstanceAbstractionModel;
-import com.bpm.engine.models.ReliefAssignedModel;
+import com.bpm.engine.relief.ReliefDTO;
+import com.bpm.engine.relief.interfaces.IReliefStrategy;
+import com.bpm.engine.relief.model.ReliefAssignedModel;
 import com.bpm.engine.service.ReliefAssignedService;
-import com.bpm.engine.serviceImplement.InstanceTaskEmailServiceImplement;
+
 import com.bpm.engine.utility.InstanOf;
 
-public class ReliefManager {
+
+@Component
+public class ChangeBpmRole implements IReliefStrategy {
 	
-	private static final Logger logger = LogManager.getLogger(ReliefManager.class);
+	private static final Logger logger = LogManager.getLogger(ChangeBpmRole.class);
 
 	 private ProcessAndInstanceFacade services;
 
@@ -27,9 +35,10 @@ public class ReliefManager {
 	private BpmAssignedManager bpmAssignedManager;
 	
 	private ReliefAssignedService reliefAssignedService;
+	
 
 	@Autowired
-	public ReliefManager(ProcessAndInstanceFacade services, AssignmentTaskManager assignmentTaskManager,
+	public ChangeBpmRole(ProcessAndInstanceFacade services, AssignmentTaskManager assignmentTaskManager,
 			BpmAssignedManager bpmAssignedManager, ReliefAssignedService reliefAssignedService) {
 		super();
 		this.services = services;
@@ -39,10 +48,16 @@ public class ReliefManager {
 	}
 	
 	
+	
+	@Override
+	public Boolean executeRelief(ReliefDTO reliefDTO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 
-	
-	
-	public Boolean changeBpmRole(ReliefAssignedModel reliefModel, Boolean delegateAll) {
+	public Boolean execute(ReliefAssignedModel reliefModel, Boolean delegateAll) {
 		
 		logger.info( "Started change Bpm role...");
 		
@@ -76,7 +91,7 @@ public class ReliefManager {
 				return true;
 			}
 		}else {
-			return changeBpmRoleNoRelief(reliefModel);
+			return executeNoRelief(reliefModel);
 		}
 		return false;
 	}
@@ -84,11 +99,11 @@ public class ReliefManager {
 	
 	
 
-	public Boolean changeBpmRole(ReliefAssignedModel reliefModel, List<Long> idInstances ) {
+	public Boolean execute(ReliefAssignedModel reliefModel, List<Long> idInstances ) {
 		
 		reliefAssignedService.createReliefAssigned(reliefModel);
 		Boolean isChangeInstanceAbstraction =  false;
-		if(changeBpmRole(reliefModel, false)) {
+		if(execute(reliefModel, false)) {
 			if(!idInstances.isEmpty() && reliefModel.getUserReliefCode() != null) {
 				isChangeInstanceAbstraction = this.services.instanceManager().getInstanceAbstractionService()
 						.changeUserCreateInstance( reliefModel,idInstances);
@@ -99,7 +114,7 @@ public class ReliefManager {
 	
 	
 	
-	private Boolean changeBpmRoleNoRelief(ReliefAssignedModel reliefModel) {
+	private Boolean executeNoRelief(ReliefAssignedModel reliefModel) {
 		
 		try {
 			AssignedModel updateAssigned = assignmentTaskManager.changeRoleAssigned(reliefModel.getUserCode(), null);
@@ -140,14 +155,10 @@ public class ReliefManager {
 		}
 		return true;
 	}
-	
-	
 
-	public Boolean unsuscribe(ReliefAssignedModel reliefModel) {
-		return false;
-	}
 
-	private Boolean changePermissions(ReliefAssignedModel reliefModel) {
-		return false;
-	}
+
+
+
+	
 }

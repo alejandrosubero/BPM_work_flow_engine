@@ -3,8 +3,8 @@ package com.bpm.engine.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.bpm.engine.entitys.ReliefAssigned;
-import com.bpm.engine.models.ReliefAssignedModel;
+import com.bpm.engine.relief.entity.ReliefAssigned;
+import com.bpm.engine.relief.model.ReliefAssignedModel;
 
 public interface ReliefAssignedService {
 

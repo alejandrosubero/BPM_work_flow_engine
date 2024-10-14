@@ -14,11 +14,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 
-import com.bpm.engine.entitys.ReliefAssigned;
-import com.bpm.engine.mappers.ReliefAssignedMapper;
-import com.bpm.engine.models.ReliefAssignedModel;
+import com.bpm.engine.relief.entity.ReliefAssigned;
+import com.bpm.engine.relief.mapper.ReliefAssignedMapper;
+import com.bpm.engine.relief.model.ReliefAssignedModel;
+import com.bpm.engine.relief.service.ReliefAssignedServiceImpl;
 import com.bpm.engine.repository.ReliefAssignedRepository;
-import com.bpm.engine.serviceImplement.ReliefAssignedServiceImpl;
 
 class ReliefAssignedServiceImplTest {
 

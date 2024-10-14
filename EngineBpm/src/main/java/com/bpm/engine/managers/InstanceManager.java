@@ -35,7 +35,7 @@ public class InstanceManager {
 	}
 
 	
-	protected InstanceAbstractionService getInstanceAbstractionService() {
+	public InstanceAbstractionService getInstanceAbstractionService() {
 		return this.instanceAbstractionService;
 	}
 

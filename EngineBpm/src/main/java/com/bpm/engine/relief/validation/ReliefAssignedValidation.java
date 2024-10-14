@@ -1,4 +1,4 @@
-package com.bpm.engine.validation;
+package com.bpm.engine.relief.validation;
 
 import java.util.regex.Pattern;
 
@@ -6,8 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-
-import com.bpm.engine.models.ReliefAssignedModel;
+import com.bpm.engine.relief.model.ReliefAssignedModel;
 
 @Service
 public class ReliefAssignedValidation {

@@ -1,4 +1,4 @@
-package com.bpm.engine.mappers;
+package com.bpm.engine.relief.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bpm.engine.entitys.Process;
-import com.bpm.engine.entitys.ReliefAssigned;
 import com.bpm.engine.models.ProcessModel;
-import com.bpm.engine.models.ReliefAssignedModel;
+import com.bpm.engine.relief.entity.ReliefAssigned;
+import com.bpm.engine.relief.model.ReliefAssignedModel;
 
 @Component
 public class ReliefAssignedMapper {

@@ -1,4 +1,4 @@
-package com.bpm.engine.models;
+package com.bpm.engine.relief.model;
 
 import java.util.Objects;
 
@@ -35,6 +35,10 @@ public class ReliefAssignedModel {
 	private Integer timeActive;
 	
 	private Boolean unsuscribe;
+	
+	private Integer type;
+
+	private Boolean delegateAll;
 
 	@Override
 	public boolean equals(Object obj) {
@@ -45,19 +49,23 @@ public class ReliefAssignedModel {
 		if (getClass() != obj.getClass())
 			return false;
 		ReliefAssignedModel other = (ReliefAssignedModel) obj;
-		return Objects.equals(active, other.active) && Objects.equals(idRelief, other.idRelief)
-				&& Objects.equals(permanent, other.permanent) && Objects.equals(returnCommand, other.returnCommand)
-				&& Objects.equals(temporary, other.temporary) && Objects.equals(time, other.time)
-				&& Objects.equals(timeActive, other.timeActive) && Objects.equals(userCode, other.userCode)
-				&& Objects.equals(userCreateCode, other.userCreateCode)
+		return Objects.equals(active, other.active) && Objects.equals(delegateAll, other.delegateAll)
+				&& Objects.equals(idRelief, other.idRelief) && Objects.equals(permanent, other.permanent)
+				&& Objects.equals(returnCommand, other.returnCommand) && Objects.equals(temporary, other.temporary)
+				&& Objects.equals(time, other.time) && Objects.equals(timeActive, other.timeActive)
+				&& Objects.equals(type, other.type) && Objects.equals(unsuscribe, other.unsuscribe)
+				&& Objects.equals(userCode, other.userCode) && Objects.equals(userCreateCode, other.userCreateCode)
 				&& Objects.equals(userReliefCode, other.userReliefCode);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(active, idRelief, permanent, returnCommand, temporary, time, timeActive, userCode,
-				userCreateCode, userReliefCode);
+		return Objects.hash(active, delegateAll, idRelief, permanent, returnCommand, temporary, time, timeActive, type,
+				unsuscribe, userCode, userCreateCode, userReliefCode);
 	}
+	
+
+	
 
 	
 }

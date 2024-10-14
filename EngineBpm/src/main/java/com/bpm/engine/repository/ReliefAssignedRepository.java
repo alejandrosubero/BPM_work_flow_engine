@@ -10,7 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.bpm.engine.entitys.ReliefAssigned;
+import com.bpm.engine.relief.entity.ReliefAssigned;
 
 @Repository
 public interface ReliefAssignedRepository extends CrudRepository<ReliefAssigned, Long> {
