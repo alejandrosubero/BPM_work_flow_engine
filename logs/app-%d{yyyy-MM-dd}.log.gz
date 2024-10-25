@@ -1,0 +1,43 @@
+2024-09-17 05:25:37.763  INFO 13088 --- [restartedMain] com.bpm.engine.EngineBpmApplication      : Starting EngineBpmApplication on MSI with PID 13088 (C:\REPOSITORYES\BPM_work_flow_engine\EngineBpm\target\classes started by aleja in C:\REPOSITORYES\BPM_work_flow_engine\EngineBpm)
+2024-09-17 05:25:37.763  INFO 13088 --- [restartedMain] com.bpm.engine.EngineBpmApplication      : No active profile set, falling back to default profiles: default
+2024-09-17 05:25:38.094  INFO 13088 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-17 05:25:38.166  INFO 13088 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 72ms. Found 21 JPA repository interfaces.
+2024-09-17 05:25:38.284  INFO 13088 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 1111 (http)
+2024-09-17 05:25:38.284  INFO 13088 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-09-17 05:25:38.284  INFO 13088 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.33]
+2024-09-17 05:25:38.284  INFO 13088 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : Loaded APR based Apache Tomcat Native library [1.2.32] using APR version [1.7.0].
+2024-09-17 05:25:38.284  INFO 13088 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2024-09-17 05:25:38.285  INFO 13088 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2024-09-17 05:25:38.285  INFO 13088 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 1.1.1n  15 Mar 2022]
+2024-09-17 05:25:38.300  INFO 13088 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/bpm]    : Initializing Spring embedded WebApplicationContext
+2024-09-17 05:25:38.300  INFO 13088 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 535 ms
+2024-09-17 05:25:38.313  INFO 13088 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Starting...
+2024-09-17 05:25:38.315  INFO 13088 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Start completed.
+2024-09-17 05:25:38.315  INFO 13088 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2024-09-17 05:25:38.367  INFO 13088 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-17 05:25:38.372  INFO 13088 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2024-09-17 05:25:38.574  INFO 13088 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-09-17 05:25:38.574  INFO 13088 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-17 05:25:38.592  INFO 13088 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-09-17 05:25:39.040  WARN 13088 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-17 05:25:39.115  INFO 13088 --- [restartedMain] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2024-09-17 05:25:39.147  INFO 13088 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2024-09-17 05:25:39.226  INFO 13088 --- [restartedMain] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2024-09-17 05:25:39.226  INFO 13088 --- [restartedMain] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2024-09-17 05:25:39.231  INFO 13088 --- [restartedMain] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2024-09-17 05:25:39.268  INFO 13088 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 1111 (http) with context path '/bpm'
+2024-09-17 05:25:39.268  INFO 13088 --- [restartedMain] com.bpm.engine.EngineBpmApplication      : Started EngineBpmApplication in 1.525 seconds (JVM running for 190.118)
+2024-09-17 05:25:39.269  INFO 13088 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-09-17 05:25:39.269  INFO 13088 --- [restartedMain] com.bpm.engine.EngineBpmApplication      : the document  Swagger is in link: ==>  http://localhost:1111/bpm/swagger-ui.html
+2024-09-17 05:25:41.759  INFO 13088 --- [Thread-29] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2024-09-17 05:25:41.763  INFO 13088 --- [Thread-29] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-17 05:25:41.763  INFO 13088 --- [Thread-29] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2024-09-17 05:25:41.764 ERROR 13088 --- [Thread-29] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: drop table bpm_instanceprocess if exists
+2024-09-17 05:25:41.764 ERROR 13088 --- [Thread-29] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: drop table bpm_instancestage if exists
+2024-09-17 05:25:41.765 ERROR 13088 --- [Thread-29] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: drop table bpm_instancetask if exists
+2024-09-17 05:25:41.765 ERROR 13088 --- [Thread-29] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: drop table bpm_process if exists
+2024-09-17 05:25:41.765 ERROR 13088 --- [Thread-29] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: drop table bpm_stage if exists
+2024-09-17 05:25:45.834  WARN 13088 --- [Thread-29] o.s.b.f.support.DisposableBeanAdapter    : Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-200]
+2024-09-17 05:25:45.835  INFO 13088 --- [Thread-29] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown initiated...
+2024-09-17 05:25:45.836  INFO 13088 --- [Thread-29] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown completed.
+2024-09-17 05:25:45.940  INFO 13088 --- [restartedMain] com.bpm.engine.EngineBpmApplication      : the document  Swagger is in link: ==>  http://localhost:1111/bpm/swagger-ui.html
