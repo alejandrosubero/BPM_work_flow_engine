@@ -49,14 +49,6 @@ Thumbs.db
 *.mov
 *.wmv
 
-EngineBpm/C:/REPOSITORYES/BPM_work_flow_engine/logs/app.log.2024-09-26.0.gz
-EngineBpm/C:/REPOSITORYES/BPM_work_flow_engine/logs/app.log.2024-09-26.1.gz
-EngineBpm/C:/REPOSITORYES/BPM_work_flow_engine/logs/app.log.2024-09-27.0.gz
-EngineBpm/C:/REPOSITORYES/BPM_work_flow_engine/logs/app.log.2024-09-28.0.gz
-EngineBpm/C:/REPOSITORYES/BPM_work_flow_engine/logs/app.log.2024-09-29.0.gz
-EngineBpm/C:/REPOSITORYES/BPM_work_flow_engine/logs/app.log.2024-09-30.0.gz
-EngineBpm/C:/REPOSITORYES/BPM_work_flow_engine/logs/app.log.2024-10-04.0.gz
-EngineBpm/C:/REPOSITORYES/BPM_work_flow_engine/logs/app.lo.2024-10-05.0.gz
-EngineBpm/C:/REPOSITORYES/BPM_work_flow_engine/logs/app.log.2024-10-08.0.gz
-EngineBpm/C:/REPOSITORYES/BPM_work_flow_engine/logs/app.log.2024-10-09.0.gz
+*.gz
+
 
