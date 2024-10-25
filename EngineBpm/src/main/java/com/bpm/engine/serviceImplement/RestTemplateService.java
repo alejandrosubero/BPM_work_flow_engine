@@ -2,10 +2,14 @@ package com.bpm.engine.serviceImplement;
 
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import com.bpm.engine.dto.EntityRespone;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +19,8 @@ public class RestTemplateService {
 
     private final RestTemplate restTemplate;
 
+    private static final Logger logger = LogManager.getLogger(RestTemplateService.class);
+    
     @Autowired
     public RestTemplateService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -59,4 +65,27 @@ public class RestTemplateService {
         return response;
 
     }
+    
+    
+    public EntityRespone sendGetRequest2(Map<String, String> uriVariables, String url ) {
+        
+    	HttpEntity<EntityRespone> response = null;
+      
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+            HttpEntity<?> entity = new HttpEntity<>(headers);
+            
+            response = restTemplate.exchange(url, HttpMethod.GET,entity, EntityRespone.class, uriVariables);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return response.getBody();
+        }
+
+        return response.getBody();
+
+    }
+    
+    
 }

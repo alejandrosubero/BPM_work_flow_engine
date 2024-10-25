@@ -22,7 +22,7 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name = "state")
+@Table(name = "bpm_state")
 public class State {
 
     @Id

@@ -1,63 +1,173 @@
 {
-  "name": "we out",
-  "procesTitle": "we out system",
-  "userCreate": "hx39075",
-  "global": false,
-  "visible": true,
-  "roles": [
-    {
-      "codeRole": "w23a",
-      "description": "developer",
-      "name": "Developer"
-    }
-  ],
-  "stages": [
-    {
-      "name": "go_to_party",
-      "title": "Go to party",
-      "type": "human",
-      "roles": [
-        {
-          "codeRole": "w23a",
-          "description": "developer",
-          "name": "Developer"
-        },
-        {
-          "codeRole": "li#1",
-          "description": "project_Manager",
-          "name": "Project Manager"
-        }
-      ],
-      "stageNumber": 1,
-      "stages": [],
-      "tasks": [
-        {
-          "name": "Task_test_1",
-          "title": "Task Test 1",
-          "roles": [
-            {
-              "codeRole": "li#1",
-              "description": "project_Manager",
-              "name": "Project Manager"
-            }
-          ],
-          "rulers": [
-            {
-              "action": "go to end",
-              "condition": "APRUBE"
-            },
-            {
-              "action": "go to STAR",
-              "condition": "REJECTED"
-            }
-          ],
-          "urlService": ".....xxxx....",
-          "taskUrl": "htttp....iiiiuuu...",
-          "type": {
-            "type": "Human"
-          }
-        }
-      ]
-    }
-  ]
+	"name": "MANAGEMENT_out",
+	"procesTitle": "we out system",
+	"userCreate": "hx39075",
+	"global": false,
+	"visible": true,
+	"roles": [
+		{
+			"codeRole": "IT_DEVELOPER",
+			"description": "IT JAVA DEVELOP AREA",
+			"name": "JAVA_ANALYST"
+		}
+	],
+	"stages": [
+		{
+			"name": "MANAGEMENT",
+			"title": "MANAGEMENT",
+			"type": "human",
+			"roles": [
+				{
+					"codeRole": "IT_manager_BPM",
+					"description": "IT manager",
+					"name": "manager"
+				}
+			],
+			"stageNumber": 1,
+			"stages": [],
+			"tasks": [
+				{
+					"name": "Vacation",
+					"title": "Vacation",
+					"roles": [
+						{
+							"codeRole": "IT_manager_BPM",
+							"description": "IT manager",
+							"name": "manager"
+						}
+					],
+					"rulers": [
+						{
+							"action": 0,
+							"condition": "APPROVED"
+						},
+						{
+							"action": 2,
+							"condition": "REJECTED"
+						}
+					],
+					"urlService": "/star",
+					"taskUrl": "http://localhost:1111/bpm/engineBpm/start",
+					"type": {
+						"type": "Human"
+					},
+					"taskNumber":1,
+					"apprubeType":1,
+					"isParallel":false,
+					"parallelWithTaskNumber":0
+				}
+			]
+		},
+		{
+			"name": "NOTIFICATION",
+			"title": "NOTIFICATION_PROCESS",
+			"type": "Auto",
+			"roles": [],
+			"stageNumber": 2,
+			"stages": [],
+			"tasks": [
+				{
+					"name": "NOTIFICATION_SYSTEM",
+					"title": "NOTIFICATION_SYSTEM",
+					"type": {
+						"type": "Auto"
+					},
+					"roles": [],
+					"rulers": [
+						{
+							"action": 0,
+							"condition": "APPROVED"
+						}
+					],
+					"urlService": "NOTIFICATION_PROCESS_USER",
+					"taskUrl": "<PAY_LOAD>",
+					"taskNumber":1,
+					"apprubeType":4,
+					"isParallel":false,
+					"parallelWithTaskNumber":0
+				}
+			]
+		},
+		{
+			"name": "ACKNOWLEDGE_MANAGEMEN",
+			"title": "ACKNOWLEDGE_MANAGEMEN",
+			"type": "human",
+			"roles": [
+				{
+					"codeRole": "IT_manager_BPM",
+					"description": "IT manager",
+					"name": "manager"
+				},
+				{
+					"codeRole": "IT_leader",
+					"description": "IT leader Bpm",
+					"name": "leader"
+				}
+			],
+			"stageNumber": 3,
+			"stages": [],
+			"tasks": [
+				{
+					"name": "ACKNOWLEDGE__APPROVED",
+					"title": "ACKNOWLEDGE__APPROVED",
+					"roles": [
+						{
+							"codeRole": "IT_leader",
+							"description": "IT leader Bpm",
+							"name": "leader"
+						}
+					],
+					"rulers": [
+						{
+							"action": "0",
+							"condition": "APPROVED"
+						},
+						{
+							"action": "0",
+							"condition": "REJECTED"
+						}
+					],
+					"urlService": "/star",
+					"taskUrl": "http://localhost:1111/bpm/engineBpm/start",
+					"taskNumber":1,
+					"apprubeType":1,
+					"isParallel":false,
+					"parallelWithTaskNumber":0,
+					"type": {
+						"type": "Human"
+					}
+				}
+			]
+		},
+		{
+			"name": "END",
+			"title": "CLOSE_PROCESS",
+			"type": "Auto",
+			"roles": [],
+			"stageNumber": 0,
+			"stages": [],
+			"tasks": [
+				{
+				    "name": "CLOSE_PROCESS",
+				    "title": "CLOSE_PROCESS",
+				    "roles": [],
+				    "rulers": [
+				        {
+				           "action": 0,
+				           "condition": "APPROVED"
+				        }
+				    ],
+				    "urlService": "",
+				    "taskUrl": "",
+					"taskNumber":1,
+					"apprubeType":4,
+					"isParallel":false,
+					"parallelWithTaskNumber":0,
+				    "type": {
+				        "type": "Auto"
+				    }
+				}
+			]
+		}
+	]
 }

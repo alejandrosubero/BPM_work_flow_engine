@@ -21,10 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bpm.engine.entitys.Stage;
-import com.bpm.engine.model.StageModel;
 import com.bpm.engine.entitys.Stage;
 import com.bpm.engine.entitys.Role;
 import com.bpm.engine.entitys.Task;
+import com.bpm.engine.models.StageModel;
 
 
 public interface StageService {

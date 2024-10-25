@@ -18,22 +18,24 @@ package com.bpm.engine.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.repository.query.Param;
+
 import com.bpm.engine.entitys.Assigned;
-import com.bpm.engine.model.AssignedModel;
 import com.bpm.engine.entitys.Role;
-import com.bpm.engine.model.TaskAssignedModel;
+import com.bpm.engine.models.AssignedModel;
+import com.bpm.engine.models.TaskAssignedModel;
 
 
 public interface AssignedService {
 
-    public boolean saveAssigned(Assigned assigned);
+    public boolean saveAssigned(AssignedModel assigned);
 
     public List<AssignedModel> getAllAssigned();
 
-    public boolean updateAssigned(Assigned assigned);
 
-    public boolean saveOrUpdateAssigned(Assigned assigned);
-    public AssignedModel save(AssignedModel assigned);
+    public AssignedModel saveOrUpdateAssigned(AssignedModel AssignedModel);
+    
+//    public AssignedModel save(AssignedModel AssignedModel);
 
     public AssignedModel findByName(String name);
 
@@ -45,13 +47,13 @@ public interface AssignedService {
 
     public AssignedModel findById(Long id);
 
-
-
     public List<AssignedModel> findByRelacionRole(Role role);
 
     public AssignedModel findByCodeEmployeeAndActive(String codeEmployee, Boolean active);
 
     public List<AssignedModel> findByTaskAssignedModel(List<TaskAssignedModel> taskAssignedList);
+    
+    public Boolean checkCodeEmployeeExists(String codeEmployee);
 }
  /*
  Copyright (C) 2008 Google Inc.

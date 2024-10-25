@@ -16,14 +16,13 @@ package com.bpm.engine.validation;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bpm.engine.models.*;
 import com.bpm.engine.utility.Constants;
 
 import java.util.regex.Pattern;
 
-import com.bpm.engine.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.bpm.engine.model.ProcessModel;
 
 
 @Service
@@ -87,6 +86,11 @@ public class ProcessValidation {
                 return true;
             }
 
+            if (process.getGlobal() && process.getVisible() && process.getRoles().size() > 0) {
+                return true;
+            }
+
+
             if (process.getGlobal() && !process.getVisible() && process.getRoles().size() == 0) {
                 systemMenssageProsecess = "Fail during valid Visibility in process (0 Roles, !Visible)";
                 return false;
@@ -106,11 +110,11 @@ public class ProcessValidation {
                 systemMenssageProsecess = "Fail during valid Visibility in process (!Visible)";
                 return false;
             }
-
-            if (process.getGlobal() && process.getVisible() && process.getRoles().size() > 0) {
-                systemMenssageProsecess = "Fail during valid Visibility in process \"(The process cant' be Visible and Global in the same time)\" ";
-                return false;
-            }
+// TODO: ANALIZAR ESTE CASO POR QUE EXISTE
+//            if (process.getGlobal() && process.getVisible() && process.getRoles().size() > 0) {
+//                systemMenssageProsecess = "Fail during valid Visibility in process \"(The process cant' be Visible and Global in the same time)\" ";
+//                return false;
+//            }
 
         } else {
             systemMenssageProsecess = "Fail during valid Visibility general in process";

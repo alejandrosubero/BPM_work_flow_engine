@@ -1,7 +1,7 @@
 package com.bpm.engine.utility;
 
 public class Constants {
-
+	
     public static final String TYPE_PROCESS ="PROCESS";
     public static final String TYPE_STAGE="STAGE";
     public static final String TYPE_TASK ="TASK";

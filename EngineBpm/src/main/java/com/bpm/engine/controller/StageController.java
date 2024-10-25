@@ -16,9 +16,7 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 package com.bpm.engine.controller;
 import com.bpm.engine.entitys.Stage;
 import com.bpm.engine.validation.StageValidation;
-import com.bpm.engine.mapper.StageMapper;
 import com.bpm.engine.service.StageService;
-import com.bpm.engine.mapper.MapperEntityRespone;
 import com.bpm.engine.dto.EntityRespone;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,23 +26,20 @@ import java.util.ArrayList;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import com.bpm.engine.model.StageModel;
-import com.bpm.engine.model.StageModel;
+
 import com.bpm.engine.entitys.Stage;
 import com.bpm.engine.validation.StageValidation;
-import com.bpm.engine.mapper.StageMapper;
 import com.bpm.engine.entitys.Role;
 import com.bpm.engine.validation.RoleValidation;
-import com.bpm.engine.mapper.RoleMapper;
 import com.bpm.engine.entitys.Task;
+import com.bpm.engine.mappers.MapperEntityRespone;
+import com.bpm.engine.mappers.RoleMapper;
+import com.bpm.engine.mappers.StageMapper;
+import com.bpm.engine.mappers.TaskMapper;
+import com.bpm.engine.models.RoleModel;
+import com.bpm.engine.models.StageModel;
+import com.bpm.engine.models.TaskModel;
 import com.bpm.engine.validation.TaskValidation;
-import com.bpm.engine.mapper.TaskMapper;
-import com.bpm.engine.model.StageModel;
-import com.bpm.engine.model.RoleModel;
-import com.bpm.engine.model.TaskModel;
-import com.bpm.engine.model.StageModel;
-import com.bpm.engine.model.RoleModel;
-import com.bpm.engine.model.TaskModel;
 
 
 @RestController

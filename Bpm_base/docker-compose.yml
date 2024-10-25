@@ -1,0 +1,15 @@
+version: '3.9'
+services:
+  oracle-db2:
+    image: container-registry.oracle.com/database/free:latest
+    container_name: oracle-db2
+    ports:
+      - "1522:1521" 
+      - "5502:5500" 
+    environment:
+      ORACLE_SID: FREE2
+      ORACLE_PDB: PDB2
+      ORACLE_PWD: admin2
+      ORACLE_CHARACTERSET: AL32UTF8
+    volumes:
+      - D:\oracledoker\oracle2:/opt/oracle/oradata

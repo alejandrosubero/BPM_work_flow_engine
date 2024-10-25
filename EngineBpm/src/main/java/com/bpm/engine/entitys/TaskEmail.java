@@ -23,7 +23,7 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name = "taskemail")
+@Table(name = "bpm_task_email")
 public class TaskEmail{
 
 	@Id

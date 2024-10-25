@@ -15,7 +15,8 @@ package com.bpm.engine.validation ;
 
 import java.util.regex.Pattern;
 import org.springframework.stereotype.Service;
-import com.bpm.engine.model.ControlProcessReferentModel;
+
+import com.bpm.engine.models.ControlProcessReferentModel;
 
 
     @Service

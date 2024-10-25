@@ -1,7 +1,8 @@
 package com.bpm.engine.validation;
 
-import com.bpm.engine.model.ParametersModel;
 import org.springframework.stereotype.Service;
+
+import com.bpm.engine.models.ParametersModel;
 
 import java.util.regex.Pattern;
 

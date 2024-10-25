@@ -32,8 +32,6 @@ public interface StageRepository extends CrudRepository< Stage, Long> {
 		public List<Stage> findByDateCreateContaining(Date dateCreate);
 		public Optional<Stage> findByType(String type);
 		public List<Stage> findByTypeContaining(String type);
-
-
 }
  /*
  Copyright (C) 2008 Google Inc.

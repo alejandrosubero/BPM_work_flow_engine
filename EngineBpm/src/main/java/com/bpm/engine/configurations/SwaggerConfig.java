@@ -20,7 +20,7 @@ import springfox.documentation.service.Contact;
 		public Docket api() {
 			return new Docket(DocumentationType.SWAGGER_2)
 			.select()
-			.apis(RequestHandlerSelectors.basePackage("com.bpm.engine.controller"))
+			.apis(RequestHandlerSelectors.basePackage("com.bpm.engine.controller.client"))
 			.build().apiInfo(apiEndPointsInfo());
 		}
 

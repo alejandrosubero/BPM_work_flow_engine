@@ -1,18 +1,22 @@
 package com.bpm.engine.dto;
 
-import com.bpm.engine.model.RulerModel;
+import java.io.Serializable;
 
-public class RulerDTO {
+import com.bpm.engine.models.RulerModel;
+
+public class RulerDTO implements Serializable {
+	
+    private static final long serialVersionUID = 44L;
 
     private Long id;
     private String condition;
-    private String action;
+    private Integer action;
     private String CodeOFTask;
 
     public RulerDTO() {
     }
 
-    public RulerDTO(Long id, String condition, String action, String codeOFTask) {
+    public RulerDTO(Long id, String condition, Integer action, String codeOFTask) {
         this.id = id;
         this.condition = condition;
         this.action = action;
@@ -51,11 +55,11 @@ public class RulerDTO {
         this.condition = condition;
     }
 
-    public String getAction() {
+    public Integer getAction() {
         return action;
     }
 
-    public void setAction(String action) {
+    public void setAction(Integer action) {
         this.action = action;
     }
 

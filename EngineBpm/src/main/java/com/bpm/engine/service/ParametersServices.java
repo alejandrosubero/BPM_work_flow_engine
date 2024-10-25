@@ -1,7 +1,7 @@
 package com.bpm.engine.service;
 
 import com.bpm.engine.entitys.Parameters;
-import com.bpm.engine.model.ParametersModel;
+import com.bpm.engine.models.ParametersModel;
 
 public interface ParametersServices {
 

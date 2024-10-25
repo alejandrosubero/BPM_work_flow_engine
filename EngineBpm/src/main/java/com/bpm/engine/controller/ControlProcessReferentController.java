@@ -15,10 +15,12 @@ Create on Sat Sep 30 10:44:39 EDT 2023
 package com.bpm.engine.controller;
 
 import com.bpm.engine.validation.ControlProcessReferentValidation;
-import com.bpm.engine.mapper.ControlProcessReferentMapper;
 import com.bpm.engine.service.ControlProcessReferentService;
-import com.bpm.engine.mapper.MapperEntityRespone;
 import com.bpm.engine.dto.EntityRespone;
+import com.bpm.engine.mappers.ControlProcessReferentMapper;
+import com.bpm.engine.mappers.MapperEntityRespone;
+import com.bpm.engine.models.ControlProcessReferentModel;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,7 +29,6 @@ import java.util.Date;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import com.bpm.engine.model.ControlProcessReferentModel;
 
 
 @RestController

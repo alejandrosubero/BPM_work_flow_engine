@@ -17,9 +17,11 @@ import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;import java.util.Date;
 
-import com.bpm.engine.entitys.TaskType;import java.util.regex.Pattern;
+import com.bpm.engine.entitys.TaskType;
+import com.bpm.engine.models.TaskTypeModel;
+
+import java.util.regex.Pattern;
 import org.springframework.stereotype.Service;
-import com.bpm.engine.model.TaskTypeModel;import com.bpm.engine.model.TaskTypeModel;
 
 
     @Service

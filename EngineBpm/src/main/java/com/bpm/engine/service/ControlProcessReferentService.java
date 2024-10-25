@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.bpm.engine.entitys.ControlProcessReferent;
-import com.bpm.engine.model.ControlProcessReferentModel;
+import com.bpm.engine.models.ControlProcessReferentModel;
 
 
 public interface ControlProcessReferentService {

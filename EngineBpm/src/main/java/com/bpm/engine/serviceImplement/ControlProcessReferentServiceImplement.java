@@ -22,20 +22,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+//import org.apache.commons.logging.Log;
+//import org.apache.commons.logging.LogFactory;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import com.bpm.engine.entitys.ControlProcessReferent;
-import com.bpm.engine.model.ControlProcessReferentModel;
-import com.bpm.engine.mapper.ControlProcessReferentMapper;
+import com.bpm.engine.mappers.ControlProcessReferentMapper;
+import com.bpm.engine.models.ControlProcessReferentModel;
 
 
 @Service
 public class ControlProcessReferentServiceImplement implements ControlProcessReferentService {
 
-    protected static final Log logger = LogFactory.getLog(ControlProcessReferentServiceImplement.class);
+//    protected static final Log logger = LogFactory.getLog(ControlProcessReferentServiceImplement.class);
+	 private static final Logger logger = LogManager.getLogger(ControlProcessReferentServiceImplement.class);
+	
+	
     @Autowired
     private ControlProcessReferentRepository controlprocessrepository;
 

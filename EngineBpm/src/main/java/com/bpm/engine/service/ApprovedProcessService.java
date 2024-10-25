@@ -1,7 +1,7 @@
 package com.bpm.engine.service;
 
 import com.bpm.engine.entitys.ApprovedProcess;
-import com.bpm.engine.model.ApprovedProcessModel;
+import com.bpm.engine.models.ApprovedProcessModel;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,7 +1,7 @@
 package com.bpm.engine.notification.componet;
 
-import com.bpm.engine.model.InstanceDataInfoModel;
-import com.bpm.engine.model.TemplateFlexibleDataModel;
+import com.bpm.engine.models.InstanceDataInfoModel;
+import com.bpm.engine.models.TemplateFlexibleDataModel;
 import com.bpm.engine.notification.componet.SystenTemplateFlexibleDataComponet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

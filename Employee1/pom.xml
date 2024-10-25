@@ -10,19 +10,19 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.js</groupId>
+    <groupId>com.bpm</groupId>
     <artifactId>employee</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>Employee</name>
     <description>Employee’s hamblet</description>
 
     <properties>
-        <java.version>11.0</java.version>
-        <maven.compiler.source>11.0</maven.compiler.source>
-        <maven.compiler.target>11.0</maven.compiler.target>
-        <!-- The main class to start by executing java -jar -->
-        <start-class>com.js.employee.EmployeeApplication</start-class>
+        <java.version>11</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <start-class>com.bpm.employee.EmployeeApplication</start-class>
     </properties>
+
 
 
     <dependencies>
@@ -34,12 +34,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
-        <!-- <dependency>
-            <groupId>org.modelmapper</groupId>
-            <artifactId>modelmapper</artifactId>
-            <version>2.1.1</version>
-        </dependency> -->
+  
 
         <dependency>
             <groupId>org.modelmapper</groupId>
@@ -69,17 +64,17 @@
             <optional>true</optional>
         </dependency>
 
-        <dependency>
+    <!--    <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
-        </dependency>
+        </dependency>-->
 
-        <!--        <dependency>-->
-        <!--            <groupId>com.h2database</groupId>-->
-        <!--            <artifactId>h2</artifactId>-->
-        <!--            <scope>runtime</scope>-->
-        <!--        </dependency>-->
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
 
         <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
         <dependency>

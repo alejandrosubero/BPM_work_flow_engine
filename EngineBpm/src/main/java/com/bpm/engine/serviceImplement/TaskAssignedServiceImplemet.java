@@ -1,10 +1,13 @@
 package com.bpm.engine.serviceImplement;
 
 import com.bpm.engine.entitys.TaskAssigned;
-import com.bpm.engine.mapper.TaskAssignedMapper;
-import com.bpm.engine.model.TaskAssignedModel;
+import com.bpm.engine.mappers.TaskAssignedMapper;
+import com.bpm.engine.models.TaskAssignedModel;
 import com.bpm.engine.repository.TaskAssignedRepository;
 import com.bpm.engine.service.TaskAssignedService;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +17,13 @@ import java.util.Optional;
 @Service
 public class TaskAssignedServiceImplemet implements TaskAssignedService {
 
+	private static final Logger logger = LogManager.getLogger(TaskAssignedServiceImplemet.class);
+	
     @Autowired
-    TaskAssignedRepository repository;
+    private TaskAssignedRepository repository;
 
     @Autowired
-    TaskAssignedMapper mapper;
+    private TaskAssignedMapper mapper;
 
     @Override
     public List<TaskAssignedModel> findByIdBpmAssigned(Long idBpmAssigned) {

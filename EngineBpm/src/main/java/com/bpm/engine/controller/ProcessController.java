@@ -14,12 +14,9 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 
 package com.bpm.engine.controller;
 
-import com.bpm.engine.componets.ProcessManager;
 import com.bpm.engine.entitys.Process;
 import com.bpm.engine.validation.ProcessValidation;
-import com.bpm.engine.mapper.ProcessMapper;
 import com.bpm.engine.service.ProcessService;
-import com.bpm.engine.mapper.MapperEntityRespone;
 import com.bpm.engine.dto.EntityRespone;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +28,15 @@ import java.util.ArrayList;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import com.bpm.engine.model.ProcessModel;
-import com.bpm.engine.model.ProcessModel;
+
 import com.bpm.engine.entitys.Stage;
+import com.bpm.engine.managers.ProcessManager;
+import com.bpm.engine.mappers.MapperEntityRespone;
+import com.bpm.engine.mappers.ProcessMapper;
+import com.bpm.engine.mappers.StageMapper;
+import com.bpm.engine.models.ProcessModel;
+import com.bpm.engine.models.StageModel;
 import com.bpm.engine.validation.StageValidation;
-import com.bpm.engine.mapper.StageMapper;
-import com.bpm.engine.model.StageModel;
-import com.bpm.engine.model.StageModel;
 
 
 @RestController
@@ -104,17 +103,7 @@ public class ProcessController {
         }
     }
 
-    @GetMapping("/Getusercreate/{usercreate}")
-    private ResponseEntity<EntityRespone> findByUserCreate(@PathVariable("usercreate") String usercreate) {
-        String busca = (String) processValidationService.validation(usercreate);
-        try {
-            EntityRespone entityRespone = mapperEntityRespone.setEntityTobj(processService.findByUserCreate(busca));
-            return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.OK);
-        } catch (DataAccessException e) {
-            EntityRespone entityRespone = mapperEntityRespone.setEntityResponT(null, "Ocurrio un error", e.getMessage());
-            return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.BAD_REQUEST);
-        }
-    }
+
 
     @GetMapping("/Getprocestitle/{procestitle}")
     private ResponseEntity<EntityRespone> findByProcesTitle(@PathVariable("procestitle") String procestitle) {
@@ -128,23 +117,12 @@ public class ProcessController {
         }
     }
 
-    @GetMapping("/Getstate/{state}")
-    private ResponseEntity<EntityRespone> findByState(@PathVariable("state") String state) {
-        String busca = (String) processValidationService.validation(state);
-        try {
-            EntityRespone entityRespone = mapperEntityRespone.setEntityTobj(processService.findByState(busca));
-            return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.OK);
-        } catch (DataAccessException e) {
-            EntityRespone entityRespone = mapperEntityRespone.setEntityResponT(null, "Ocurrio un error", e.getMessage());
-            return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.BAD_REQUEST);
-        }
-    }
+   
 
     @GetMapping("/Getprocescode/{procescode}")
     private ResponseEntity<EntityRespone> findByProcesCode(@PathVariable("procescode") String procescode) {
-        String busca = (String) processValidationService.validation(procescode);
         try {
-            EntityRespone entityRespone = mapperEntityRespone.setEntityTobj(processService.findByProcesCode(busca));
+            EntityRespone entityRespone = mapperEntityRespone.setEntityTobj(processService.findByProcesCode(procescode));
             return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.OK);
         } catch (DataAccessException e) {
             EntityRespone entityRespone = mapperEntityRespone.setEntityResponT(null, "Ocurrio un error", e.getMessage());
@@ -152,29 +130,7 @@ public class ProcessController {
         }
     }
 
-    @GetMapping("/Getvisible/{visible}")
-    private ResponseEntity<EntityRespone> findByVisible(@PathVariable("visible") Boolean visible) {
-        Boolean busca = (Boolean) processValidationService.validation(visible);
-        try {
-            EntityRespone entityRespone = mapperEntityRespone.setEntityTobj(processService.findByVisible(busca));
-            return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.OK);
-        } catch (DataAccessException e) {
-            EntityRespone entityRespone = mapperEntityRespone.setEntityResponT(null, "Ocurrio un error", e.getMessage());
-            return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.BAD_REQUEST);
-        }
-    }
 
-    @GetMapping("/Getglobal/{global}")
-    private ResponseEntity<EntityRespone> findByGlobal(@PathVariable("global") Boolean global) {
-        Boolean busca = (Boolean) processValidationService.validation(global);
-        try {
-            EntityRespone entityRespone = mapperEntityRespone.setEntityTobj(processService.findByGlobal(busca));
-            return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.OK);
-        } catch (DataAccessException e) {
-            EntityRespone entityRespone = mapperEntityRespone.setEntityResponT(null, "Ocurrio un error", e.getMessage());
-            return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.BAD_REQUEST);
-        }
-    }
 
     @GetMapping("/Getactivo/{activo}")
     private ResponseEntity<EntityRespone> findByActivo(@PathVariable("activo") Boolean activo) {

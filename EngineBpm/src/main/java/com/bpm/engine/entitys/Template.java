@@ -5,9 +5,8 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "template")
+@Table(name = "bpm_template")
 public class Template  {
-
 
     @Id
     @GeneratedValue(generator = "sequence_mat_id_generator")

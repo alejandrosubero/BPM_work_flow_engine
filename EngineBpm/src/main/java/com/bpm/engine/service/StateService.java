@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bpm.engine.entitys.State;
-import com.bpm.engine.model.StateModel;
+import com.bpm.engine.models.StateModel;
 
 
 public interface StateService {

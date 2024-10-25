@@ -19,8 +19,10 @@ import java.util.List;import java.util.Date;
 
 import com.bpm.engine.entitys.Assigned;import java.util.regex.Pattern;
 import org.springframework.stereotype.Service;
-import com.bpm.engine.model.AssignedModel;import com.bpm.engine.model.AssignedModel;import com.bpm.engine.entitys.Role;
-import com.bpm.engine.model.RoleModel;
+
+import com.bpm.engine.entitys.Role;
+import com.bpm.engine.models.AssignedModel;
+import com.bpm.engine.models.RoleModel;
 
 
 

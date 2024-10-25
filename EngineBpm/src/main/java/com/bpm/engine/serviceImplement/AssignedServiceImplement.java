@@ -14,7 +14,6 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 
 package com.bpm.engine.serviceImplement;
 
-import com.bpm.engine.model.TaskAssignedModel;
 import com.bpm.engine.service.AssignedService;
 import com.bpm.engine.repository.AssignedRepository;
 
@@ -25,22 +24,25 @@ import java.util.stream.Collectors;
 
 import com.bpm.engine.service.BpmAssignedService;
 import com.bpm.engine.service.TaskAssignedService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+//import org.apache.commons.logging.Log;
+//import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import com.bpm.engine.entitys.Assigned;
-import com.bpm.engine.model.AssignedModel;
-import com.bpm.engine.mapper.AssignedMapper;
-
 import com.bpm.engine.entitys.Role;
+import com.bpm.engine.mappers.AssignedMapper;
+import com.bpm.engine.models.AssignedModel;
+import com.bpm.engine.models.TaskAssignedModel;
 
 
 @Service
 public class AssignedServiceImplement implements AssignedService {
 
-    protected static final Log logger = LogFactory.getLog(AssignedServiceImplement.class);
+	 private static final Logger logger = LogManager.getLogger(AssignedServiceImplement.class);
+	 
     @Autowired
     private AssignedRepository assignedrepository;
 
@@ -48,12 +50,15 @@ public class AssignedServiceImplement implements AssignedService {
     private AssignedMapper assignedMapper;
 
     @Autowired
-    private TaskAssignedService taskAssignedService;
-
-    @Autowired
     private BpmAssignedService bpmAssignedService;
 
 
+    @Override
+    public AssignedModel findById(Long id) {
+        return assignedMapper.entityToPojo(assignedrepository.findById(id).get());
+    }
+    
+    
     @Override
     public AssignedModel findByName(String name) {
 
@@ -70,6 +75,7 @@ public class AssignedServiceImplement implements AssignedService {
         return assignedMapper.entityToPojo(assignedEntity);
     }
 
+    
     @Override
     public AssignedModel findByCodeEmployee(String codeEmployee) {
         logger.info("Starting find Assigned By Code Employee ");
@@ -96,30 +102,13 @@ public class AssignedServiceImplement implements AssignedService {
         return listaAssigned;
     }
 
-    @Override
-    public AssignedModel save(AssignedModel assigned) {
-        Assigned response = null;
-        try {
-            logger.info("Save a new assigned direct");
-            response = assignedrepository.save(this.assignedMapper.pojoToEntity(assigned));
-            if(response!= null){
-                return this.assignedMapper.entityToPojo(response);
-            }
-        }catch (Exception e){
-            logger.error("Error happen during the direct saved of assigned.. employ code: "+ assigned.getCodeEmployee());
-            logger.error(e);
-            e.printStackTrace();
-            return null;
-        }
-       return null;
-    }
 
 
     @Override
-    public boolean saveAssigned(Assigned assigned) {
+    public boolean saveAssigned(AssignedModel assigned) {
         logger.info("Save Proyect");
         try {
-            assignedrepository.save(assigned);
+            assignedrepository.save(assignedMapper.pojoToEntity(assigned));
             return true;
         } catch (DataAccessException e) {
             logger.error(" ERROR : " + e);
@@ -128,47 +117,47 @@ public class AssignedServiceImplement implements AssignedService {
     }
 
 
-    @Override
-    public boolean updateAssigned(Assigned assigned) {
-        logger.info("Update ENTITY");
-        boolean clave = false;
-        Assigned empre = assignedrepository.findById(assigned.getId()).get();
-        empre = assigned;
 
+    @Override
+    public AssignedModel saveOrUpdateAssigned(AssignedModel assigned) {
+    	logger.info("Update Proyect");
+        AssignedModel clave = null;
+        if(assigned!=null) {
+            Optional<Assigned> fileOptional2 = this.assignedrepository.findById(assigned.getId());
+            if (fileOptional2.isPresent()) {
+            	AssignedModel fileDataBase = assignedMapper.entityToPojo(fileOptional2.get());
+            	logger.info(" Update this model...");
+            	fileDataBase.updateThis(assigned);
+            	 clave =  saveAndFormat(fileDataBase);
+                logger.info(" save update model ...");
+            } else {
+                clave =  saveAndFormat(assigned);
+                logger.info(" model is save");
+            }
+        }
+        return clave;
+    }
+
+
+    private AssignedModel saveAndFormat(AssignedModel model) {
+	   logger.info("save And Format...... ");
+	   
+	   AssignedModel entityResponse = null;
         try {
-            assignedrepository.save(empre);
-            clave = true;
+        	entityResponse = assignedMapper.entityToPojo(assignedrepository.save(assignedMapper.pojoToEntity(model)));
         } catch (DataAccessException e) {
             logger.error(" ERROR : " + e);
-            clave = false;
+            logger.error("Error happen during the direct saved of assigned... ");
+            e.printStackTrace();
+            //TODO: registrar en el sistema de notificacion error and set logger
+            return entityResponse;
         }
-
-        return clave;
+    			
+    	return entityResponse;
     }
-
-
-    @Override
-    public AssignedModel findById(Long id) {
-        return assignedMapper.entityToPojo(assignedrepository.findById(id).get());
-    }
-
-
-    @Override
-    public boolean saveOrUpdateAssigned(Assigned assigned) {
-        logger.info("Update Proyect");
-        boolean clave = false;
-        Optional<Assigned> fileOptional2 = assignedrepository.findById(assigned.getId());
-        if (fileOptional2.isPresent()) {
-            clave = this.updateAssigned(assigned);
-            logger.info(" is update");
-        } else {
-            clave = this.saveAssigned(assigned);
-            logger.info(" is save");
-        }
-        return clave;
-    }
-
-
+    
+    
+    
 
 
     @Override
@@ -199,25 +188,33 @@ public class AssignedServiceImplement implements AssignedService {
                         assignedrepository.findByEmployeeRole(role)).stream()
                 .filter(assignedModel -> assignedModel.getemployeeRole().equals(role))
                 .collect(Collectors.toList());
-
-//        List<AssignedModel> listaAssigned = new ArrayList<AssignedModel>();
-//        List<AssignedModel> listaAssignedEntitys =  assignedMapper.entityListToPojoList(assignedrepository.findByEmployeeRole(role));
-//        for (AssignedModel assigned : this.getAllAssigned()) {
-//            if (assigned.getemployeeRole().equals(role)) {
-//                listaAssigned.add(assigned);
-//            }
-//        }
-
         return listaAssigned;
     }
 
-    @Override
+    
+    @SuppressWarnings("finally")
+	@Override
     public AssignedModel findByCodeEmployeeAndActive(String codeEmployee, Boolean active) {
-        Optional<Assigned> fileOptional2 = assignedrepository.findByCodeEmployeeAndActive(codeEmployee, active);
-        if(fileOptional2.isPresent()){
-            return assignedMapper.entityToPojo(fileOptional2.get());
-        }
-        return null;
+      
+    	AssignedModel assignedModel = null;
+        try {
+        	  Optional<Assigned> fileOptional2 = assignedrepository.findByCodeEmployeeAndActive(codeEmployee, active);
+              if(fileOptional2.isPresent()){
+            	  assignedModel = assignedMapper.entityToPojo(fileOptional2.get());
+              }
+        }catch( DataAccessException e) {
+			 logger.error("Error in find a AssignedModel by codeEmployee: ", e);
+			e.printStackTrace();	
+		}catch(IllegalArgumentException e) {
+			logger.error("the codeEmployee parameters are null");
+			e.printStackTrace();
+		}catch (Exception e) {
+			logger.error("Error in findByCodeEmployeeAndActive...", e);
+			e.printStackTrace();
+		}finally {
+			return assignedModel;
+		}
+        
     }
 
     @Override
@@ -225,12 +222,11 @@ public class AssignedServiceImplement implements AssignedService {
         List<AssignedModel> listTaskAssignedModel = new ArrayList<>();
         try {
             taskAssignedList.stream().forEach(taskAssignedModel ->
-                    listTaskAssignedModel.add(
-                            assignedMapper.entityToPojo(
-                                    assignedrepository.findById(
-                                            bpmAssignedService.findByIdBpmAssigned(
+                    listTaskAssignedModel.add( assignedMapper.entityToPojo(
+                                    assignedrepository.findById(bpmAssignedService.findByIdBpmAssigned(
                                                     taskAssignedModel.getIdBpmAssigned()).getIdAssigned()).get()))
             );
+            
         }catch (Exception e){
             e.printStackTrace();
            // TODO: START A NOTIFICATION FOR ERROR
@@ -238,6 +234,13 @@ public class AssignedServiceImplement implements AssignedService {
         }
         return listTaskAssignedModel;
     }
+
+	@Override
+	public Boolean checkCodeEmployeeExists(String codeEmployee) {
+		  	Integer result = assignedrepository.checkCodeEmployeeExists(codeEmployee);
+	        return result != null;
+		
+	}
 
 
 

@@ -1,0 +1,22 @@
+{"properties": [
+  {
+    "name": "appender.rollingFile.type",
+    "type": "java.lang.String",
+    "description": "A description for 'appender.rollingFile.type'"
+  },
+  {
+    "name": "appender.rollingFile.name",
+    "type": "java.lang.String",
+    "description": "A description for 'appender.rollingFile.name'"
+  },
+  {
+    "name": "root.level",
+    "type": "java.lang.String",
+    "description": "A description for 'root.level'"
+  },
+  {
+    "name": "root.appender.rollingFile",
+    "type": "java.lang.String",
+    "description": "A description for 'root.appender.rollingFile'"
+  }
+]}

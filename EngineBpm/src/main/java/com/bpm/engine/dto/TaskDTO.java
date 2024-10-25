@@ -1,15 +1,28 @@
 package com.bpm.engine.dto;
 
-import com.bpm.engine.model.RoleModel;
-import com.bpm.engine.model.RulerModel;
-import com.bpm.engine.model.TaskModel;
-import com.bpm.engine.model.TaskTypeModel;
+import com.bpm.engine.models.RoleModel;
+import com.bpm.engine.models.RulerModel;
+import com.bpm.engine.models.TaskModel;
+import com.bpm.engine.models.TaskTypeModel;
+import com.bpm.engine.utility.InstanOf;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class TaskDTO {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class TaskDTO implements Serializable {
+	
+    private static final long serialVersionUID = 3L;
 
     private Long id;
 
@@ -27,12 +40,20 @@ public class TaskDTO {
 
     private TaskTypeModel type;
 
+    private String userCode;
+    
+    private String status;
+    
+    private String response;
+    
+    private String instanceOf;
+    
+    
     private List<RoleDTO> roles = new ArrayList<>();
 
     private List<RulerDTO> rulers = new ArrayList<>();
 
-    public TaskDTO() {
-    }
+ 
 
     public TaskDTO(TaskModel taskModel) {
 
@@ -57,18 +78,19 @@ public class TaskDTO {
         if( taskModel.getCode() != null)
         this.codeOfTask = taskModel.getCode();
 
-        if( taskModel.getType() != null)
-        this.type = taskModel.getType();
-
-
+        this.instanceOf = InstanOf.TASK.getValue();
+        
         if(taskModel.getRoles().size() >0)
         this.roles = this.getRoles(taskModel.getRoles());
 
-        if(taskModel.getRulers().size()>0)
-        this.rulers = this.getRules(taskModel.getRulers());
+//        if(taskModel.getRulers().size()>0)
+//        this.rulers = this.getRules(taskModel.getRulers());
     }
+    
+    
+       
 
-    public TaskDTO(Long id, String title, String name, String codeProcess, String url, String serviceUrl, String codeOfTask, TaskTypeModel type, List<RoleDTO> roles, List<RulerDTO> rulers) {
+    public TaskDTO(Long id, String title, String name, String codeProcess, String url, String serviceUrl, String codeOfTask, TaskTypeModel type) {
         this.id = id;
         this.title = title;
         this.name = name;
@@ -77,9 +99,8 @@ public class TaskDTO {
         this.serviceUrl = serviceUrl;
         this.codeOfTask = codeOfTask;
         this.type = type;
-        this.roles = roles;
-        this.rulers = rulers;
     }
+
 
 
     private List<RoleDTO> getRoles(List<RoleModel> roleModel){
@@ -99,83 +120,5 @@ public class TaskDTO {
     }
 
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCodeProcess() {
-        return codeProcess;
-    }
-
-    public void setCodeProcess(String codeProcess) {
-        this.codeProcess = codeProcess;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getServiceUrl() {
-        return serviceUrl;
-    }
-
-    public void setServiceUrl(String serviceUrl) {
-        this.serviceUrl = serviceUrl;
-    }
-
-    public String getCodeOfTask() {
-        return codeOfTask;
-    }
-
-    public void setCodeOfTask(String codeOfTask) {
-        this.codeOfTask = codeOfTask;
-    }
-
-    public TaskTypeModel getType() {
-        return type;
-    }
-
-    public void setType(TaskTypeModel type) {
-        this.type = type;
-    }
-
-    public List<RoleDTO> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<RoleDTO> roles) {
-        this.roles = roles;
-    }
-
-    public List<RulerDTO> getRulers() {
-        return rulers;
-    }
-
-    public void setRulers(List<RulerDTO> rulers) {
-        this.rulers = rulers;
-    }
+   
 }

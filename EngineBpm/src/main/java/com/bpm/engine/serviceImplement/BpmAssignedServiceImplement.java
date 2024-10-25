@@ -1,23 +1,30 @@
 package com.bpm.engine.serviceImplement;
 
 
-import com.bpm.engine.entitys.BpmAssigned;
-import com.bpm.engine.mapper.BpmAssignedMapper;
-import com.bpm.engine.model.AssignedModel;
-import com.bpm.engine.model.BpmAssignedModel;
-import com.bpm.engine.repository.BpmAssignedRepository;
-import com.bpm.engine.service.BpmAssignedService;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.bpm.engine.entitys.BpmAssigned;
+import com.bpm.engine.mappers.BpmAssignedMapper;
+import com.bpm.engine.models.BpmAssignedModel;
+import com.bpm.engine.repository.BpmAssignedRepository;
+import com.bpm.engine.service.BpmAssignedService;
 
 @Service
 public class BpmAssignedServiceImplement implements BpmAssignedService {
 
+
+	 private static final Logger logger = LogManager.getLogger(BpmAssignedServiceImplement.class);
+	
     @Autowired
     private BpmAssignedRepository repository;
 
+    @Autowired
     private BpmAssignedMapper mapper;
 
 
@@ -46,20 +53,36 @@ public class BpmAssignedServiceImplement implements BpmAssignedService {
         return mapper.entityListToPojoList(repository.findByTaskCodeContaining(taskCode));
     }
 
-    @Override
-    public boolean saveOrUpdateBpmAssigned(BpmAssignedModel assigned) {
+    @SuppressWarnings("finally")
+	@Override
+    public BpmAssignedModel saveOrUpdateBpmAssigned(BpmAssignedModel assigned) {
 
+    	BpmAssignedModel response = null;
+    try {
         if (assigned.getIdBpmAssigned() != null) {
             BpmAssignedModel assignedBase = this.findByIdBpmAssigned(assigned.getIdBpmAssigned());
-            assignedBase.setBpmAssignedModel(assigned);
-            repository.save(mapper.pojoToEntity(assignedBase));
-            return true;
+            assignedBase.updateThis(assigned);
+            response = mapper.entityToPojo( repository.save(mapper.pojoToEntity(assignedBase)));
         }
-        if (repository.save(mapper.pojoToEntity(assigned)) != null) {
-            return true;
+        
+        if ( assigned.getIdBpmAssigned() == null) {
+        	BpmAssigned bpmAssigned = repository.save(mapper.pojoToEntity(assigned));
+        	
+        	if(bpmAssigned.getIdBpmAssigned() != null) {
+        		response = mapper.entityToPojo(bpmAssigned);
+        	}
         }
-
-        return false;
+	}catch( DataAccessException e) {
+		 logger.error("Error change Role Assigned: ", e);
+		e.printStackTrace();	
+		 //TODO: registrar en el sistema de notificacion error and set logger
+	}catch(IllegalArgumentException e) {
+		logger.error("the one or all parameters are null");
+		e.printStackTrace();
+		 //TODO: registrar en el sistema de notificacion error and set logger
+	}finally {
+		return response;
+	}
     }
 
     @Override
@@ -79,8 +102,103 @@ public class BpmAssignedServiceImplement implements BpmAssignedService {
 
 
     @Override
-    public BpmAssignedModel instanceBpmAssigned(Long idAssigned, String taskCode, Long instanciaProccesId){
-        return mapper.entityToPojo(repository.save(mapper.pojoToEntity(new BpmAssignedModel(idAssigned, taskCode, instanciaProccesId))));
+    public BpmAssignedModel instanceBpmAssigned(Long idAssigned, String taskCode, Long instanciaProccesId){ 	
+    	BpmAssignedModel model = new BpmAssignedModel(idAssigned, taskCode, instanciaProccesId);
+    	BpmAssigned entity = mapper.pojoToEntity(model);
+    	BpmAssigned entitySave = repository.save(entity);
+        return mapper.entityToPojo(entitySave);
     }
 
+
+    
+	@Override
+	public List<BpmAssignedModel> findByTaskCodeAndInstanciaProccesIdNull(String taskCode, Boolean active) {
+		
+		List<BpmAssigned> find = repository.findByTaskCodeAndActiveAndInstanciaProccesIdNull(taskCode, active);
+		
+		if(find == null || find.isEmpty()) {
+			return null;
+		}
+		 return mapper.entityListToPojoList(find);
+	}
+	
+	@Override
+	public List<BpmAssignedModel> findByTaskCodeActive(String taskCode, Boolean active) {
+		 return mapper.entityListToPojoList(repository.findByTaskCodeAndActive(taskCode, active));
+	}
+
+
+
+	@Override
+	public BpmAssignedModel findByCodeEmployeeAndTaskCode(String codeEmployee, String taskCode) {
+		try {
+			return mapper.entityToPojo(repository.findByCodeEmployeeAndTaskCode(codeEmployee, taskCode));
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	
+	@Override
+	public List<BpmAssignedModel> findByCodeEmployee(String codeEmployee) {
+		
+		try {
+			return mapper.entityListToPojoList(repository.findByCodeEmployee(codeEmployee));
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<BpmAssignedModel> findByProccesIdAndCodeEmployeeAndActive(Long proccesId, String codeEmployee) {
+		return mapper.entityListToPojoList(repository.findByProccesIdAndCodeEmployeeAndActive(proccesId,codeEmployee, true));
+	}
+	
+
+	@Override
+	public List<BpmAssignedModel> findByCodeEmployeeActive(String codeEmployee) {
+		
+		try {
+			return mapper.entityListToPojoList(repository.findByCodeEmployeeAndActive(codeEmployee, true));	
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<BpmAssignedModel> findByCodeEmployeeAndActive(String codeEmployee, Boolean active) {
+		try {
+			return mapper.entityListToPojoList(repository.findByCodeEmployeeAndActive(codeEmployee,active));
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public void updateBpmAssignedActive(Boolean active, Long idBpmAssigned) {
+		try {
+			
+			repository.updateBpmAssignedActive(active, idBpmAssigned);
+			
+		} catch ( DataAccessException e) {
+			 logger.error("Error at update a BpmAssigned field: ", e);
+			e.printStackTrace();
+			
+		}catch(IllegalArgumentException e) {
+			logger.error("the one or all parameters are null");
+			e.printStackTrace();
+		}
+		
+	}
+	
+
 }
+
+
+

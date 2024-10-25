@@ -14,36 +14,27 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 
 package com.bpm.engine.service;
 
-import java.util.Optional;
 import java.util.Date;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import com.bpm.engine.entitys.Process;
-import com.bpm.engine.model.ProcessModel;
 import com.bpm.engine.entitys.Stage;
+import com.bpm.engine.models.ProcessModel;
 
 
 public interface ProcessService {
 
     public ProcessModel save(Process process);
+    
+    public ProcessModel save(ProcessModel process);
 
     public ProcessModel findByName(String name);
 
     public ProcessModel findByCreateDate(Date createDate);
 
-    public ProcessModel findByUserCreate(String userCreate);
-
     public ProcessModel findByProcesTitle(String procesTitle);
 
-    public ProcessModel findByState(String state);
-
     public ProcessModel findByProcesCode(String procesCode);
-
-    public ProcessModel findByVisible(Boolean visible);
-
-    public ProcessModel findByGlobal(Boolean global);
 
     public ProcessModel findByActivo(Boolean activo);
 
@@ -77,6 +68,8 @@ public interface ProcessService {
     public boolean saveOrUpdateProcess(Process process);
 
     public List<ProcessModel> findByStageContaining(Stage stages);
+    
+    public List<ProcessModel> findAllByRoleCodeRole(String codeRole);
 }
  /*
  Copyright (C) 2008 Google Inc.

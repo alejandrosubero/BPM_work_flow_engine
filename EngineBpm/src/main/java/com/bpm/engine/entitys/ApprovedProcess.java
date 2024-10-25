@@ -1,10 +1,19 @@
 package com.bpm.engine.entitys;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.Objects;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
-@Table(name = "ApprovedProcess")
+@Table(name = "bpm_approved_process")
 public class ApprovedProcess {
 
     @Id
@@ -22,51 +31,4 @@ public class ApprovedProcess {
     @Column(name = "granted", updatable = true, nullable = true)
     private Boolean granted;
 
-    public ApprovedProcess() {
-    }
-
-    public Long getIdApprovedProcess() {
-        return idApprovedProcess;
-    }
-
-    public void setIdApprovedProcess(Long idApprovedProcess) {
-        this.idApprovedProcess = idApprovedProcess;
-    }
-
-    public String getProcessCode() {
-        return processCode;
-    }
-
-    public void setProcessCode(String processCode) {
-        this.processCode = processCode;
-    }
-
-    public Long getIdProcess() {
-        return idProcess;
-    }
-
-    public void setIdProcess(Long idProcess) {
-        this.idProcess = idProcess;
-    }
-
-    public Boolean getGranted() {
-        return granted;
-    }
-
-    public void setGranted(Boolean granted) {
-        this.granted = granted;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ApprovedProcess that = (ApprovedProcess) o;
-        return Objects.equals(idApprovedProcess, that.idApprovedProcess) && Objects.equals(processCode, that.processCode) && Objects.equals(idProcess, that.idProcess) && Objects.equals(granted, that.granted);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idApprovedProcess, processCode, idProcess, granted);
-    }
 }

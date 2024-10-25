@@ -1,8 +1,8 @@
 package com.bpm.engine.controller;
 
 import com.bpm.engine.dto.EntityRespone;
-import com.bpm.engine.mapper.MapperEntityRespone;
-import com.bpm.engine.mapper.TemplateMapper;
+import com.bpm.engine.mappers.MapperEntityRespone;
+import com.bpm.engine.mappers.TemplateMapper;
 import com.bpm.engine.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;

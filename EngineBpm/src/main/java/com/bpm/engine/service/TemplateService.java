@@ -1,7 +1,8 @@
 package com.bpm.engine.service;
 
 import com.bpm.engine.entitys.Template;
-import com.bpm.engine.model.TemplateModel;
+import com.bpm.engine.models.TemplateModel;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;

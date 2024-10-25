@@ -2,12 +2,26 @@ package com.bpm.engine.dto;
 
 import java.util.Objects;
 
+import com.google.gson.annotations.SerializedName;
+
 public class AssignedDTO {
+
+    
+    @SerializedName("id")
     private Long id;
+
+    @SerializedName("name")
     private String name;
+
+    @SerializedName("codeEmployee")
     private String codeEmployee;
+
+    @SerializedName("employeeRole")
     private RoleDTO employeeRole;
+
+    @SerializedName("mail")
     private String mail;
+    
 
     public AssignedDTO() {
     }

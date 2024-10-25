@@ -15,6 +15,9 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 package com.bpm.engine.serviceImplement;
 
 import com.bpm.engine.interfaces.RadomCode;
+import com.bpm.engine.mappers.ProcessMapper;
+import com.bpm.engine.models.ProcessModel;
+import com.bpm.engine.models.StageModel;
 import com.bpm.engine.service.ProcessService;
 import com.bpm.engine.repository.ProcessRepository;
 
@@ -23,24 +26,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+//import org.apache.commons.logging.Log;
+//import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import com.bpm.engine.entitys.Process;
-import com.bpm.engine.model.ProcessModel;
-import com.bpm.engine.mapper.ProcessMapper;
-
 import com.bpm.engine.entitys.Stage;
-
-import com.bpm.engine.model.StageModel;
 
 
 @Service
 public class ProcessServiceImplement implements ProcessService, RadomCode {
 
-    protected static final Log logger = LogFactory.getLog(ProcessServiceImplement.class);
+	private static final Logger logger = LogManager.getLogger(ProcessServiceImplement.class);
     @Autowired
     private ProcessRepository processrepository;
 
@@ -80,21 +80,8 @@ public class ProcessServiceImplement implements ProcessService, RadomCode {
         return processMapper.entityToPojo(processEntity);
     }
 
-    @Override
-    public ProcessModel findByUserCreate(String userCreate) {
-        logger.info("Starting getProcess");
-        Process processEntity = new Process();
-        Optional<Process> fileOptional1 = processrepository.findByUserCreate(userCreate);
+  
 
-        if (fileOptional1.isPresent()) {
-            try {
-                processEntity = fileOptional1.get();
-            } catch (DataAccessException e) {
-                logger.error(" ERROR : " + e);
-            }
-        }
-        return processMapper.entityToPojo(processEntity);
-    }
 
     @Override
     public ProcessModel findByProcesTitle(String procesTitle) {
@@ -112,20 +99,7 @@ public class ProcessServiceImplement implements ProcessService, RadomCode {
     }
 
 
-    @Override
-    public ProcessModel findByState(String state) {
-        logger.info("Starting getProcess");
-        Process processEntity = new Process();
-        Optional<Process> fileOptional1 = processrepository.findByState(state);
-        if (fileOptional1.isPresent()) {
-            try {
-                processEntity = fileOptional1.get();
-            } catch (DataAccessException e) {
-                logger.error(" ERROR : " + e);
-            }
-        }
-        return processMapper.entityToPojo(processEntity);
-    }
+
 
 
     @Override
@@ -145,35 +119,7 @@ public class ProcessServiceImplement implements ProcessService, RadomCode {
     }
 
 
-    @Override
-    public ProcessModel findByVisible(Boolean visible) {
-        logger.info("Starting findByVisible");
-        Process processEntity = new Process();
-        Optional<Process> fileOptional1 = processrepository.findByVisible(visible);
-        if (fileOptional1.isPresent()) {
-            try {
-                processEntity = fileOptional1.get();
-            } catch (DataAccessException e) {
-                logger.error(" ERROR : " + e);
-            }
-        }
-        return processMapper.entityToPojo(processEntity);
-    }
 
-    @Override
-    public ProcessModel findByGlobal(Boolean global) {
-        logger.info("Starting findByGlobal");
-        Process processEntity = new Process();
-        Optional<Process> fileOptional1 = processrepository.findByGlobal(global);
-        if (fileOptional1.isPresent()) {
-            try {
-                processEntity = fileOptional1.get();
-            } catch (DataAccessException e) {
-                logger.error(" ERROR : " + e);
-            }
-        }
-        return processMapper.entityToPojo(processEntity);
-    }
 
 
     @Override
@@ -222,6 +168,20 @@ public class ProcessServiceImplement implements ProcessService, RadomCode {
         }
     }
 
+    
+    @Override
+    public ProcessModel save(ProcessModel process) {
+        logger.info("Save Process");
+        try {
+            return processMapper.entityToPojo(processrepository.save(processMapper.pojoToEntity(process)));
+        } catch (DataAccessException e) {
+            logger.error(" ERROR : " + e);
+            return new ProcessModel();
+        }
+    }
+    
+    
+    
     @Override
     public boolean updateProcess(Process process) {
         logger.info("Update ENTITY");
@@ -379,6 +339,17 @@ public class ProcessServiceImplement implements ProcessService, RadomCode {
         return listaProcess;
 
     }
+
+	@Override
+	public List<ProcessModel> findAllByRoleCodeRole(String codeRole) {
+		try {
+			return processMapper.entityListToPojoList(processrepository.findAllByRoleCodeRole(codeRole));
+		}catch(Exception e){
+			 logger.error(" ERROR : " + e);
+			e.printStackTrace();
+		}
+		return null;
+	}
 
  /*
  Copyright (C) 2008 Google Inc.

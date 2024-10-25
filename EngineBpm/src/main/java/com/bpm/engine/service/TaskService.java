@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bpm.engine.entitys.Task;
-import com.bpm.engine.model.TaskModel;
 import com.bpm.engine.entitys.TaskType;
+import com.bpm.engine.models.TaskModel;
 
 
 public interface TaskService {

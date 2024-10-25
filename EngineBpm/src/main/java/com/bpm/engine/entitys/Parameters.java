@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "parameters")
+@Table(name = "bpm_parameters")
 public class Parameters {
 
     @Id

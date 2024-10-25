@@ -14,12 +14,25 @@ Create on Sat Sep 30 10:44:39 EDT 2023
 package com.bpm.engine.entitys;
 
 import javax.persistence.*;
+
+import com.bpm.engine.models.BpmAssignedModel;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
-@Table(name = "controlProcessReferent")
+@Table(name = "bpm_control_process_referent")
 public class ControlProcessReferent {
 
     @Id
@@ -55,8 +68,11 @@ public class ControlProcessReferent {
     @Column(name = "dateClose", updatable = true, nullable = true, length = 200)
     private Date dateClose;
 
-    public ControlProcessReferent() {
-    }
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_Control_process_referent")    
+    private List<BpmAssigned> assignes = new ArrayList<>();
+    
+    
 
     public ControlProcessReferent(String code, String name, String title, String status, String type, Long idReference, Boolean active, Date dateCreate) {
         this.code = code;
@@ -68,102 +84,8 @@ public class ControlProcessReferent {
         this.active = active;
         this.dateCreate = dateCreate;
     }
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Long getIdReference() {
-        return idReference;
-    }
-
-    public void setIdReference(Long idReference) {
-        this.idReference = idReference;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    public Date getDateCreate() {
-        return dateCreate;
-    }
-
-    public void setDateCreate(Date dateCreate) {
-        this.dateCreate = dateCreate;
-    }
-
-    public Date getDateClose() {
-        return dateClose;
-    }
-
-    public void setDateClose(Date dateClose) {
-        this.dateClose = dateClose;
-    }
-
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ControlProcessReferent controlprocess = (ControlProcessReferent) o;
-        return Objects.equals(id, controlprocess.id) ||
-                Objects.equals(code, controlprocess.code) ||
-                Objects.equals(name, controlprocess.name) ||
-                Objects.equals(title, controlprocess.title) ||
-                Objects.equals(status, controlprocess.status) ||
-                Objects.equals(type, controlprocess.type) ||
-                Objects.equals(idReference, controlprocess.idReference) ||
-                Objects.equals(active, controlprocess.active) ||
-                Objects.equals(dateCreate, controlprocess.dateCreate) ||
-                Objects.equals(dateClose, controlprocess.dateClose);
-
-    }
+  
+ 
 }
  /*
  Copyright (C) 2008 Google Inc.
