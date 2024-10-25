@@ -85,6 +85,8 @@ public class StackMemory {
 
 					 		// Simular trabajo con el elemento // ............
 
+					 System.out.println("Simular trabajo con el elemento = " + element != null );
+					 
 					this.referentManager.removeInstanceOfReferentBook(element.getIdInstance());
 					
 				} else {
