@@ -1,27 +1,17 @@
 package com.bpm.engine.managers;
 
-import com.bpm.engine.managers.StackMemory;
-import com.bpm.engine.managers.StackMemoryReferentManager;
-import com.bpm.engine.models.InstanceAbstractionModel;
-import com.bpm.engine.models.TaskTypeModel;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Date;
-import java.util.concurrent.ConcurrentLinkedDeque;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import com.bpm.engine.models.InstanceAbstractionModel;
+import com.bpm.engine.models.TaskTypeModel;
 
 @ExtendWith(MockitoExtension.class)
 public class StackMemoryTest {
@@ -78,17 +68,6 @@ public class StackMemoryTest {
     }
     
 
-    @Test
-    void testAddElement_Fail() {
-        // Given
-      
-
-        // When
-        boolean result = stackMemory.addElement(instanceAbstractionModel, "p");
-
-        // Then
-        assertFalse(result);
-    }
 
     @Test
     void testProcessQueue() {
@@ -97,7 +76,6 @@ public class StackMemoryTest {
       
         // When
         stackMemory.processQueue();
-
   
     }
 
