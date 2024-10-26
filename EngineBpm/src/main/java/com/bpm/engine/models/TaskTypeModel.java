@@ -28,7 +28,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
 public class TaskTypeModel {
 
     private Long idTaskType;

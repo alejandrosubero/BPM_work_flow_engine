@@ -127,6 +127,11 @@ public class StackMemory {
 		
 	}
 	
+    public boolean isInDeque(Long idInstance, InstanceAbstractionModel element) {
+        InstanceAbstractionModel dequeElement = this.referentManager.getDeque(idInstance);
+        return dequeElement != null && dequeElement.equals(element);
+    }
+	
 
 	public Boolean addElement(InstanceAbstractionModel newElement, String type) {
 
@@ -137,7 +142,7 @@ public class StackMemory {
 // TODO: Al no cumplir y retornar false, hay que ver como retorna un mensaje tambien para indicar por que fallo separando el null 
 		// del elemento en el pool de trabajo
 			
-			Boolean isPresentInDeque = this.referentManager.getDeque(newElement.getIdInstance()).equals(newElement);
+			Boolean isPresentInDeque = this.isInDeque(newElement.getIdInstance(), newElement);
 			Boolean isWorkingInPool = this.referentManager.instanceIsInWorkingReferentBook(newElement.getIdInstance());
 			
 		if (!isPresentInDeque && !isWorkingInPool) {

@@ -20,6 +20,9 @@ public class StackMemoryReferentManager {
 	private  ConcurrentHashMap<Long, InstanceAbstractionModel> inConcurrentLinkedDeque = new ConcurrentHashMap<Long, InstanceAbstractionModel>();
 	
 	
+	
+	
+	
 	public  void putInConcurrentDequeMap(InstanceAbstractionModel instance) {
 		this.inConcurrentLinkedDeque.put(instance.getIdInstance(), instance);
 	}
