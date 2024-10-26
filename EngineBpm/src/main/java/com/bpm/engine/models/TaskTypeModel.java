@@ -14,8 +14,20 @@ Create on Sun Sep 24 00:38:17 EDT 2023
 package com.bpm.engine.models;
 
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 
 public class TaskTypeModel {
 

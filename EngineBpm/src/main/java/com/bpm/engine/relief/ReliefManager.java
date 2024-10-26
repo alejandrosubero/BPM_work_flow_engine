@@ -23,11 +23,10 @@ public class ReliefManager {
 	private ChangeBpmRole changeBpmRole;
 
 	@Autowired
-	public ReliefManager(ReliefAssignedMapper mapper, IReliefAssignedService service, IReliefStrategy reliefStrategy,
+	public ReliefManager(ReliefAssignedMapper mapper, IReliefAssignedService service,
 			Unsuscribe unsuscribe, TemporaryChange changePermissions, ChangeBpmRole changeBpmRole) {
 		this.mapper = mapper;
 		this.service = service;
-		this.reliefStrategy = reliefStrategy;
 		this.unsuscribe = unsuscribe;
 		this.temporaryChange = changePermissions;
 		this.changeBpmRole = changeBpmRole;
@@ -49,7 +48,7 @@ public class ReliefManager {
 	}
 
 	
-	public boolean executeRelief(ReliefDTO reliefDTO) {
+	public boolean executeStrategy(ReliefDTO reliefDTO) {
 		ReliefAssignedModel reliefModel = mapper.toModel(reliefDTO);
 		service.createReliefAssigned(reliefModel);
 		return reliefStrategy.executeRelief(reliefDTO);

@@ -9,8 +9,8 @@ import com.bpm.engine.models.InstanceAbstractionModel;
 
 
 /***
- * this class manage the instances in of BlockingQueue<Runnable> java.util.concurrent.ThreadPoolExecutor.getQueue
- * or task in execution. 
+ * this class is backup of operation in  the instances in concurrent Queue
+ * for manager error
  */
 @Service
 public class StackMemoryReferentManager {
@@ -23,7 +23,6 @@ public class StackMemoryReferentManager {
 	public  void putInConcurrentDequeMap(InstanceAbstractionModel instance) {
 		this.inConcurrentLinkedDeque.put(instance.getIdInstance(), instance);
 	}
-	
 	
 	public  InstanceAbstractionModel getDeque(Long instanceId) {
 		return this.inConcurrentLinkedDeque.get(instanceId);
@@ -38,20 +37,20 @@ public class StackMemoryReferentManager {
 	}
 	
 	
-	public  void putInstanceInReferentBook(InstanceAbstractionModel instance) {
+	public  void putInstanceInWorkingReferentBook(InstanceAbstractionModel instance) {
 		this.concurrentHashMap.put(instance.getIdInstance(), instance);
 	}
 	
 	
-	public  InstanceAbstractionModel getInstance(Long instanceId) {
+	public  InstanceAbstractionModel getInstanceInWorkingReferentBook(Long instanceId) {
 		return this.concurrentHashMap.get(instanceId);
 	}
 	
-	public  Boolean instanceIsWorking(Long instanceId) {
+	public  Boolean instanceIsInWorkingReferentBook(Long instanceId) {
 		return this.concurrentHashMap.contains(instanceId);
 	}
 	
-	public  Boolean removeInstanceOfReferentBook(Long instanceId) {
+	public  Boolean removeInstanceOfWorkingReferentBook(Long instanceId) {
 		return this.concurrentHashMap.remove(instanceId) != null;
 	}
 	

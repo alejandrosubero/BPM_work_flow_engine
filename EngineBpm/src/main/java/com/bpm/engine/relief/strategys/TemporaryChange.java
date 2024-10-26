@@ -1,5 +1,6 @@
 package com.bpm.engine.relief.strategys;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bpm.engine.relief.dto.ReliefDTO;
@@ -12,6 +13,7 @@ import com.bpm.engine.relief.model.ReliefAssignedModel;
 public class TemporaryChange implements IReliefStrategy{
 
 	
+	@Autowired
 	private ReliefAssignedMapper mapper;
 	
 	

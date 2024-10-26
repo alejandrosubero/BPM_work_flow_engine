@@ -35,6 +35,7 @@ public class ChangeBpmRole implements IReliefStrategy {
 	private BpmAssignedManager bpmAssignedManager;
 	
 	private ReliefAssignedMapper mapper;
+		
 	
 
 	@Autowired
@@ -46,6 +47,7 @@ public class ChangeBpmRole implements IReliefStrategy {
 		this.mapper = mapper;
 	}
 	
+
 	
 	
 	@Override
