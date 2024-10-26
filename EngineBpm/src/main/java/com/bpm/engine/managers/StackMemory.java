@@ -12,6 +12,7 @@ import javax.annotation.PreDestroy;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -45,7 +46,8 @@ public class StackMemory {
 	private long keepAliveTime = 60L;
 	
 	private StackMemoryReferentManager referentManager;
-
+	
+	@Autowired
 	public StackMemory(@Value("${deque.maxSize:15}") int maxQueueSize, StackMemoryReferentManager referentManager) {
 		this.maxQueueSize = maxQueueSize;
 		this.workQueue = new ArrayBlockingQueue<>(maxQueueSize);
@@ -74,20 +76,21 @@ public class StackMemory {
 
 			InstanceAbstractionModel element = null;
 			logger.info(Thread.currentThread().getName() + "In processQueue... ");
+			
 			try {
 				 element = !queuePriorityTask.isEmpty()? queuePriorityTask.pollLast():deque.pollLast();
 				
 				
 				 if (element != null) {
 					 this.referentManager.removeInstanceOfConcurrentDequeMap(element.getIdInstance());
-					 this.referentManager.putInstanceInReferentBook(element);
+					 this.referentManager.putInstanceInWorkingReferentBook(element);
 					 System.out.println(Thread.currentThread().getName() + " procesando: " + element);
 
 					 		// Simular trabajo con el elemento // ............
 
 					 System.out.println("Simular trabajo con el elemento = " + element != null );
 					 
-					this.referentManager.removeInstanceOfReferentBook(element.getIdInstance());
+					this.referentManager.removeInstanceOfWorkingReferentBook(element.getIdInstance());
 					
 				} else {
 						this.status2.compareAndSet(true, false);
@@ -107,8 +110,8 @@ public class StackMemory {
 	
 	private void managerError(InstanceAbstractionModel element) {
 		
-		InstanceAbstractionModel intanceInError = this.referentManager.getInstance(element.getIdInstance());
-		this.referentManager.removeInstanceOfReferentBook(intanceInError.getIdInstance());
+		InstanceAbstractionModel intanceInError = this.referentManager.getInstanceInWorkingReferentBook(element.getIdInstance());
+		this.referentManager.removeInstanceOfWorkingReferentBook(intanceInError.getIdInstance());
 		
 		if(returnOfError <= maxreturnOfError) {
 			returnOfError++;
@@ -135,7 +138,7 @@ public class StackMemory {
 		// del elemento en el pool de trabajo
 			
 			Boolean isPresentInDeque = this.referentManager.getDeque(newElement.getIdInstance()).equals(newElement);
-			Boolean isWorkingInPool = this.referentManager.instanceIsWorking(newElement.getIdInstance());
+			Boolean isWorkingInPool = this.referentManager.instanceIsInWorkingReferentBook(newElement.getIdInstance());
 			
 		if (!isPresentInDeque && !isWorkingInPool) {
 
