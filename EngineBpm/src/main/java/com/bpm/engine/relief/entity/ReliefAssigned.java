@@ -57,10 +57,10 @@ public class ReliefAssigned {
 		@Column(name = "unsuscribe", updatable = true, nullable = true, length = 10)
 		private Boolean unsuscribe;
 		
-		@Column(name = "unsuscribe", updatable = true, nullable = true, length = 10)
+		@Column(name = "type", updatable = true, nullable = true, length = 10)
 		private Integer type;
 		
-		@Column(name = "unsuscribe", updatable = true, nullable = true, length = 10)
+		@Column(name = "delegateAll", updatable = true, nullable = true, length = 10)
 		private Boolean delegateAll;
 	 	
 }
