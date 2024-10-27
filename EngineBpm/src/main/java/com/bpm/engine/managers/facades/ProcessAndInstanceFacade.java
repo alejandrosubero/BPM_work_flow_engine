@@ -1,7 +1,10 @@
-package com.bpm.engine.managers;
+package com.bpm.engine.managers.facades;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.bpm.engine.managers.InstanceManager;
+import com.bpm.engine.managers.ProcessManager;
 
 @Service
 public class ProcessAndInstanceFacade {

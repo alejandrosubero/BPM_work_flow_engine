@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bpm.engine.dto.BpmAssignedDTO;
+import com.bpm.engine.managers.facades.ServiceBpmAndAssignedFacade;
 import com.bpm.engine.models.AssignedModel;
 import com.bpm.engine.models.BpmAssignedModel;
 import com.bpm.engine.models.SystemReferentModel;
@@ -19,28 +20,24 @@ import com.bpm.engine.service.BpmAssignedService;
 public class BpmAssignedManager {
 
 	private static final Logger logger = LogManager.getLogger(BpmAssignedManager.class);
+	
+	private ServiceBpmAndAssignedFacade service;
 
-	private AssignedService assignedService;
-	private BpmAssignedService bpmAssignedService;
 
 	@Autowired
-	public BpmAssignedManager(AssignedService assignedService, BpmAssignedService bpmAssignedService) {
-		this.assignedService = assignedService;
-		this.bpmAssignedService = bpmAssignedService;
-	}
-
-	public BpmAssignedService service() {
-		return this.bpmAssignedService;
+	public BpmAssignedManager(ServiceBpmAndAssignedFacade service) {
+		super();
+		this.service = service;
 	}
 
 
 	public Boolean desactiveBpmAssigned(String codeEmployee ) {
 		
-		List<BpmAssignedModel> bpmAssignedByEmployeeCode = bpmAssignedService.findByCodeEmployeeActive(codeEmployee);
+		List<BpmAssignedModel> bpmAssignedByEmployeeCode =  service.getBpmAssignedService().findByCodeEmployeeActive(codeEmployee);
 		
 		bpmAssignedByEmployeeCode.parallelStream().forEach(bpmAssignedModel -> bpmAssignedModel.setActive(false));
 		
-		return bpmAssignedByEmployeeCode.stream().allMatch(bpmAssignedModel -> bpmAssignedService.saveOrUpdateBpmAssigned(bpmAssignedModel) != null);
+		return bpmAssignedByEmployeeCode.stream().allMatch(bpmAssignedModel -> service.getBpmAssignedService().saveOrUpdateBpmAssigned(bpmAssignedModel) != null);
 		
 		
 	}
@@ -48,7 +45,7 @@ public class BpmAssignedManager {
 
 	public Boolean replaceUserAssignedForUserReliefInBpmAssigned(String codeEmployee, String codeEmployeeRelief, Long idAssignedRelief) {
 	
-		List<BpmAssignedModel> bpmAssignedByEmployeeCode = bpmAssignedService.findByCodeEmployeeActive(codeEmployee);
+		List<BpmAssignedModel> bpmAssignedByEmployeeCode = service.getBpmAssignedService().findByCodeEmployeeActive(codeEmployee);
 	
 		
 		if (bpmAssignedByEmployeeCode != null && !bpmAssignedByEmployeeCode.isEmpty() && codeEmployeeRelief != null && idAssignedRelief != null) {
@@ -64,7 +61,7 @@ public class BpmAssignedManager {
 				bpmAssignedModel.setActive(false);
 			});
 			
-			return bpmAssignedEmployeeRelief.stream().allMatch(bpmAssignedModel -> bpmAssignedService.saveOrUpdateBpmAssigned(bpmAssignedModel) != null);
+			return bpmAssignedEmployeeRelief.stream().allMatch(bpmAssignedModel -> service.getBpmAssignedService().saveOrUpdateBpmAssigned(bpmAssignedModel) != null);
 		} else {
 			
 		}
@@ -83,13 +80,13 @@ public class BpmAssignedManager {
 			if (assignedBPM.getAssigned() != null && assignedBPM.getAssigned().getId() != null
 					&& assignedBPM.getAssigned().getCodeEmployee() != null) {
 
-				assigned = assignedService.findByCodeEmployeeAndActive(assignedBPM.getAssigned().getCodeEmployee(),
+				assigned = service.getAssignedService().findByCodeEmployeeAndActive(assignedBPM.getAssigned().getCodeEmployee(),
 						true);
 
 				if (assignedBPM.getAssigned().getId() != null && assigned != null
 						&& assignedBPM.getAssigned().getId() == assigned.getId()
 						&& !assigned.equals(assignedBPM.getAssigned())) {
-					assignedService.saveOrUpdateAssigned(assignedBPM.getAssigned());
+					service.getAssignedService().saveOrUpdateAssigned(assignedBPM.getAssigned());
 					assigned = assignedBPM.getAssigned();
 				}
 
@@ -99,7 +96,7 @@ public class BpmAssignedManager {
 //                        bpmAssignedService.saveOrUpdateBpmAssigned( new BpmAssignedModel(idassigned, codeTask)));
 				
 				if(assignedBPM.getCodeTaskOrProces() != null && !assignedBPM.getCodeTaskOrProces().isEmpty()) {
-					response = assignedBPM.getCodeTaskOrProces().stream().allMatch(codeTask -> bpmAssignedService.saveOrUpdateBpmAssigned(new BpmAssignedModel(idassigned, codeTask)) != null);
+					response = assignedBPM.getCodeTaskOrProces().stream().allMatch(codeTask -> service.getBpmAssignedService().saveOrUpdateBpmAssigned(new BpmAssignedModel(idassigned, codeTask)) != null);
 				}
 				
 			}
@@ -120,7 +117,7 @@ public class BpmAssignedManager {
 	public List<BpmAssignedModel> getAssignedFromBpmAssigned(String taskCode) {
 		List<BpmAssignedModel> bpmAssigned = new ArrayList<>();
 		try {
-			List<BpmAssignedModel> temporaryList = bpmAssignedService.findByTaskCodeAndInstanciaProccesIdNull(taskCode,
+			List<BpmAssignedModel> temporaryList = service.getBpmAssignedService().findByTaskCodeAndInstanciaProccesIdNull(taskCode,
 					true);
 			if (temporaryList != null && !temporaryList.isEmpty()) {
 				bpmAssigned.addAll(temporaryList);
@@ -140,7 +137,7 @@ public class BpmAssignedManager {
 
 		try {
 			if (assignedSave != null && assignedSave.getId() != null) {
-				return bpmAssignedService.saveOrUpdateBpmAssigned(
+				return service.getBpmAssignedService().saveOrUpdateBpmAssigned(
 						new BpmAssignedModel(assignedSave.getId(), taskCode, instanceProccesId));
 			}
 		} catch (Exception e) {
@@ -153,23 +150,6 @@ public class BpmAssignedManager {
 
 }
 
-//List<SystemReferentModel> referentEmployee = new ArrayList<>();
-//referentEmployee.add(SystemReferentModel.builder()
-//		.referent0(codeEmployeeRelief)
-//		.referentLong0(idAssignedRelief)
-//		.referent1(bpmAssignedModel.getTaskCode())
-//		.referentLong1(bpmAssignedModel.getInstanciaProccesId())
-//		.referentLong2(bpmAssignedModel.getProccesId())
-//		.build());
 
-
-//referentEmployee.parallelStream().forEach(systemReferentModel -> 
-//bpmAssignedEmployeeRelief.add(new BpmAssignedModel(
-//		systemReferentModel.getReferentLong0(),
-//		systemReferentModel.getReferent1(), 
-//		systemReferentModel.getReferentLong1(), 
-//		systemReferentModel.getReferent0() ,
-//		systemReferentModel.getReferentLong2())
-//));
 
 

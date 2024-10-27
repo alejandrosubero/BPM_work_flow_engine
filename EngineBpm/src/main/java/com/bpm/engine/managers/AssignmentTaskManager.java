@@ -2,6 +2,7 @@ package com.bpm.engine.managers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import com.bpm.engine.dto.SystemRequest;
+import com.bpm.engine.managers.facades.ServiceBpmAndAssignedFacade;
 import com.bpm.engine.models.AssignedModel;
 import com.bpm.engine.models.BpmAssignedModel;
 import com.bpm.engine.models.RoleModel;
@@ -20,17 +22,17 @@ import com.bpm.engine.service.BpmAssignedService;
 public class AssignmentTaskManager {
 	 private static final Logger logger = LogManager.getLogger(AssignmentTaskManager.class);
 	
-	private BpmAssignedManager bpmAssignedManager;
+
 	private AssignedService assignedService;
 	private ConectBpmToEmployeeService conectBpmToEmployeeService;
+	private ServiceBpmAndAssignedFacade service;
 	
 	
 	@Autowired
-	public AssignmentTaskManager(BpmAssignedManager bpmAssignedManager, AssignedService assignedService, ConectBpmToEmployeeService conectBpmToEmployeeService) {
-	
-		this.bpmAssignedManager = bpmAssignedManager;
-		this.assignedService = assignedService;
+	public AssignmentTaskManager(ServiceBpmAndAssignedFacade service, ConectBpmToEmployeeService conectBpmToEmployeeService) {
+		this.service = service;
 		this.conectBpmToEmployeeService = conectBpmToEmployeeService;
+		this.assignedService = service.getAssignedService();
 	}
 	
 	//TODO: IN THE TASK (systemRequest) EXIST ROLE FOR THIS TASK HOW USE? 
@@ -174,7 +176,7 @@ public class AssignmentTaskManager {
 	public  List<BpmAssignedModel> getAssignedFromBpmAssigned(String taskCode) { 
 		List<BpmAssignedModel> bpmAssigned = new ArrayList<>();
 		try {
-			List<BpmAssignedModel> temporaryList =  bpmAssignedManager.service().findByTaskCodeAndInstanciaProccesIdNull(taskCode,true);
+			List<BpmAssignedModel> temporaryList =  this.service.getBpmAssignedService().findByTaskCodeAndInstanciaProccesIdNull(taskCode,true);
 			if (temporaryList != null && !temporaryList.isEmpty()) {
 				bpmAssigned.addAll(temporaryList);
 			}
@@ -226,7 +228,7 @@ public class AssignmentTaskManager {
 			}
 			
 					
-			  bpmAssignedModel =  bpmAssignedManager.service().findByCodeEmployeeAndTaskCode(assigned.getCodeEmployee(), taskCode); 
+			  bpmAssignedModel =  this.service.getBpmAssignedService().findByCodeEmployeeAndTaskCode(assigned.getCodeEmployee(), taskCode); 
 			
 			 if(bpmAssignedModel == null) {
 				
@@ -244,7 +246,7 @@ public class AssignmentTaskManager {
 			 }
 			 
 			if(assignedInSisten.getId() != null && bpmAssignedModel != null && bpmAssignedModel.getIdBpmAssigned() == null) {
-				 bpmAssignedManager.service().saveOrUpdateBpmAssigned(bpmAssignedModel);
+				this.service.getBpmAssignedService().saveOrUpdateBpmAssigned(bpmAssignedModel);
 			}
 			return bpmAssignedModel;
 			
@@ -258,10 +260,10 @@ public class AssignmentTaskManager {
 	
 	
 	public void saveAndCreteBpmAssigned(String taskCode, AssignedModel assigned, Long instanceProccesId) {
-		
 		try {
 			if(assigned != null) {
-				bpmAssignedManager.saveAndCreteNewBpmAssigned(taskCode, this.saveAssigned(assigned), instanceProccesId);
+				 AssignedModel assignedSave = this.saveAssigned(assigned);
+				 this.service.getBpmAssignedService().saveOrUpdateBpmAssigned(new BpmAssignedModel(assignedSave.getId(), taskCode, instanceProccesId));
 			}
 	
 		}catch (Exception e) {
@@ -272,8 +274,11 @@ public class AssignmentTaskManager {
 	
 	
 
-	@SuppressWarnings("finally")
 	public AssignedModel changeRoleAssigned(String codeEmployee, RoleModel newRole) {
+		  
+		if (codeEmployee == null) {
+		        throw new IllegalArgumentException("codeEmployee and newRole cannot be null");
+		    }
 		
 		AssignedModel assignedResponse = null;
 		
@@ -284,30 +289,76 @@ public class AssignmentTaskManager {
 				
 				if(newRole != null) {
 					updateAssigned.getemployeeRole().updatethis(newRole);
-					this.saveAssigned(updateAssigned);
-				
 				} else {
-					AssignedModel assigned = this.getEmployeeFromExternalService(codeEmployee);
-					if(assigned != null) {
-						updateAssigned.getemployeeRole().updatethis(assigned.getemployeeRole());
-						this.saveAssigned(updateAssigned);
+					AssignedModel assignedFromExternalService = this.getEmployeeFromExternalService(codeEmployee);
+					if(assignedFromExternalService != null) {
+						updateAssigned.getemployeeRole().updatethis(assignedFromExternalService.getemployeeRole());
+					} else {
+						throw new IllegalArgumentException("Employee From External Service are null need check the service or data send to External Service.");
 					}
 				}
+				assignedResponse = this.saveAssigned(updateAssigned);
+			} else {
+				AssignedModel assigned = this.getEmployeeFromExternalService(codeEmployee);
+				assignedResponse = this.saveAssigned(assigned);
 			}
 			
 		}catch( DataAccessException e) {
 			 logger.error("Error change Role Assigned: ", e);
 			e.printStackTrace();	
 			 //TODO: registrar en el sistema de notificacion error and set logger
+			return null;
 		}catch(IllegalArgumentException e) {
 			logger.error("the one or all parameters are null");
 			e.printStackTrace();
 			 //TODO: registrar en el sistema de notificacion error and set logger
-		}finally {
-			return assignedResponse;
+			return null;
 		}
+		
+		return assignedResponse;
 	}
 		
+	
+	
+	public AssignedModel changeRoleAssigned2(String codeEmployee, RoleModel newRole) {
+	    if (codeEmployee == null) {
+	        throw new IllegalArgumentException("codeEmployee and newRole cannot be null");
+	    }
+
+	    try {
+	        Optional<AssignedModel> optionalAssigned = Optional.ofNullable(getAssignedModel(codeEmployee));
+	        return optionalAssigned.map(assigned -> {
+	        	
+	        	if(newRole != null) {
+	        		 assigned.getemployeeRole().updatethis(newRole);
+	        	} else {
+					AssignedModel assignedFromExternalService = this.getEmployeeFromExternalService(codeEmployee);
+					if(assignedFromExternalService != null) {
+						assigned.getemployeeRole().updatethis(assigned.getemployeeRole());
+					}else {
+						throw new IllegalArgumentException("Employee From External Service are null need check the service or data send to External Service.");
+					}
+	        	}
+	            return saveAssigned(assigned);
+	        }).orElseGet(() -> {
+	            AssignedModel assigned = getEmployeeFromExternalService(codeEmployee);
+	            return saveAssigned(assigned);
+	        });
+	        
+	    } catch (DataAccessException e) {
+	        logger.error("Error changing role assignment: ", e);
+	        e.printStackTrace();	
+	        // Notify relevant parties about the error
+	        return null; // Or handle the error differently, e.g., return a default value
+	    } catch (IllegalArgumentException e) {
+	        logger.error("Invalid input parameters: ", e);
+	        e.printStackTrace();	
+	        // Notify relevant parties about the error
+	        return null; // Or handle the error differently, e.g., return a default value
+	    }
+	}
+	
+	
 	
 	
 	private AssignedModel getAssignedFromExternalService(String codeEmployee, String codeRole) {
@@ -364,6 +415,10 @@ public class AssignmentTaskManager {
 		return this.assignedService.saveOrUpdateAssigned(assigned);
 	}
 	
+	
+	public List<String> getCodeProces(String codeEmployee) {
+		return this.assignedService.getCodeProces(codeEmployee);
+	}
 	
 	public AssignedModel getAssignedOrCreateAssignedInBpmSystem(String codeEmployee) {
 		AssignedModel assignedFromDataBase = null;

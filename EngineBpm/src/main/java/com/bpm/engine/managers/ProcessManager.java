@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,14 +53,15 @@ public class ProcessManager implements RadomCode {
 		this.assignmentTaskManager = assignmentTaskManager;
 	}
 
-	public List<ProcessModel> getProcessOfUser(String user) {
+	public List<ProcessModel> getProcessOfUser(String codeEmployee) {
 
-		AssignedModel assignedUser = assignmentTaskManager.getAssignedModel(user);
+		AssignedModel assignedUser = assignmentTaskManager.getAssignedModel(codeEmployee);
 
 		List<ProcessModel> listProcessModel = new ArrayList<>();
 
-		listProcessModel.addAll(this.findAllByRoleCodeRole(assignedUser.getemployeeRole().getCodeRole()));
-
+//		listProcessModel.addAll(this.findAllByRoleCodeRole(assignedUser.getemployeeRole().getCodeRole()));
+		
+		listProcessModel.addAll(findProcessModelGrantedForAssigned(assignedUser.getCodeEmployee()));
 		listProcessModel.addAll(this.findByGlobal(true));
 
 		List<ProcessModel> distinctProcessModelList = listProcessModel.stream().distinct().collect(Collectors.toList());
@@ -67,6 +69,29 @@ public class ProcessManager implements RadomCode {
 		return distinctProcessModelList;
 	}
 
+	
+	public List<ProcessModel> findProcessModelGrantedForAssigned(String userCode) {
+		
+		List<String> codes = assignmentTaskManager.getCodeProces(userCode);
+		
+		List<ProcessModel> listProcess = new ArrayList<>();
+		
+//		codes.parallelStream().forEach(code -> {
+//			ProcessModel process = processService.findByProcesCode(code);
+//			if(process != null && !process.getGlobal()) {
+//				listProcess.add(process);
+//			}
+//		});
+		
+	 listProcess = codes.parallelStream()
+			    .map(processService::findByProcesCode)
+			    .filter(Objects::nonNull)
+			    .filter(process -> !process.getGlobal())
+			    .collect(Collectors.toList());
+		
+		return listProcess;
+	}
+	
 	public List<ProcessModel> findAllByRoleCodeRole(String codeRole) {
 		return processService.findAllByRoleCodeRole(codeRole);
 	}

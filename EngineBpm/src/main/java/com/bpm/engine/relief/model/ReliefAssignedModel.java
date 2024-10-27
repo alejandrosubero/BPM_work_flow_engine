@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -35,9 +34,9 @@ public class ReliefAssignedModel {
 	private Integer time;
 
 	private Integer timeActive;
-	
+
 	private Boolean unsuscribe;
-	
+
 	private Integer type;
 
 	private Boolean delegateAll;
@@ -67,46 +66,43 @@ public class ReliefAssignedModel {
 	}
 
 	public ReliefAssignedModel(ReliefDTO dto) {
-	
-		 if( dto.getId() !=null)
-		this.idRelief = dto.getId();
-		 
-		 if(dto.getUserCode() !=null)
-		this.userCode = dto.getUserCode();
-		 
-		 if( dto.getUserCode() !=null)
-		this.userReliefCode = dto.getUserReliefCode();
-		 
-		 if(dto.getUserCreateCode() !=null)
-		this.userCreateCode = dto.getUserCreateCode();
-		 
-		 if(dto.getPermanent() !=null)
-		this.permanent = dto.getPermanent();
-		 
-		 if( dto.getTemporary() !=null)
-		this.temporary = dto.getTemporary();
-		 
-		 if(dto.getReturnCommand() !=null)
-		this.returnCommand = dto.getReturnCommand();
-	
+
+		if (dto.getId() != null)
+			this.idRelief = dto.getId();
+
+		if (dto.getUserCode() != null)
+			this.userCode = dto.getUserCode();
+
+		if (dto.getUserCode() != null)
+			this.userReliefCode = dto.getUserReliefCode();
+
+		if (dto.getUserCreateCode() != null)
+			this.userCreateCode = dto.getUserCreateCode();
+
+		if (dto.getPermanent() != null)
+			this.permanent = dto.getPermanent();
+
+		if (dto.getTemporary() != null)
+			this.temporary = dto.getTemporary();
+
+		if (dto.getReturnCommand() != null)
+			this.returnCommand = dto.getReturnCommand();
+
 		this.active = true;
-		
-		 if(dto.getTime() !=null)
-		this.time = dto.getTime();
-		 
-		 if( dto.getUnsuscribe() != null)
-		this.unsuscribe = dto.getUnsuscribe();
-		 
-		 if( dto.getType() !=null)
-		this.type = dto.getType();
-		 
-		 if(dto.getDelegateAll() !=null)
-		this.delegateAll = dto.getDelegateAll();
-		 
+
+		if (dto.getTime() != null)
+			this.time = dto.getTime();
+
+		if (dto.getUnsuscribe() != null)
+			this.unsuscribe = dto.getUnsuscribe();
+
+		if (dto.getType() != null)
+			this.type = dto.getType();
+
+		if (dto.getDelegateAll() != null) {
+			this.delegateAll = dto.getDelegateAll();
+		}
+
 	}
-	
 
-	
-
-	
 }

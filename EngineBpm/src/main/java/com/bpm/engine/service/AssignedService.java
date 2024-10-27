@@ -54,6 +54,9 @@ public interface AssignedService {
     public List<AssignedModel> findByTaskAssignedModel(List<TaskAssignedModel> taskAssignedList);
     
     public Boolean checkCodeEmployeeExists(String codeEmployee);
+    
+    public List<String> getCodeProces(String codeEmployee);
+    
 }
  /*
  Copyright (C) 2008 Google Inc.

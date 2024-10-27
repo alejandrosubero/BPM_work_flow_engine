@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.bpm.engine.dto.ProcessDTO;
 import com.bpm.engine.dto.SystemRequest;
+import com.bpm.engine.managers.facades.ProcessAndInstanceFacade;
 import com.bpm.engine.mappers.ProcessDTOMapper;
 import com.bpm.engine.models.InstanceAbstractionModel;
 import com.bpm.engine.models.ProcessModel;
@@ -39,17 +40,20 @@ public class InstanceProcessManagerDTO {
 		
 		try {
 			
+			List<InstanceAbstractionModel> instancesProcessOfUser =  services.instanceManager().getInstancesOfUser(systemRequest.getCodeEmployee());
+			List<ProcessModel> processOfUser = services.processManager().getProcessOfUser(systemRequest.getCodeEmployee());
+			  
+			processOfUser.parallelStream().forEach(procesModel -> processList.add(new ProcessDTO(procesModel)));
+			
+			instancesProcessOfUser.parallelStream().forEach(InstanceAbstractionModel-> processList.add(processDTOMapper.instanceAbstractionModelToDTO(InstanceAbstractionModel)));
+			
+			
 		}catch(Exception e) {
 			logger.error("Error in DTO service...",e);
 			e.printStackTrace();
 		}
 		  
-		List<InstanceAbstractionModel> instancesProcessOfUser =  services.instanceManager().getInstancesOfUser(systemRequest.getCodeEmployee());
-		List<ProcessModel> processOfUser = services.processManager().getProcessOfUser(systemRequest.getCodeEmployee());
-		  
-		processOfUser.parallelStream().forEach(procesModel -> processList.add(new ProcessDTO(procesModel)));
-		
-		instancesProcessOfUser.parallelStream().forEach(InstanceAbstractionModel-> processList.add(processDTOMapper.instanceAbstractionModelToDTO(InstanceAbstractionModel)));
+
 
 		  return processList;
 	  }

@@ -19,6 +19,7 @@ import com.bpm.engine.repository.AssignedRepository;
 
 import java.util.Optional;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,7 @@ import org.springframework.stereotype.Service;
 import com.bpm.engine.entitys.Assigned;
 import com.bpm.engine.entitys.Role;
 import com.bpm.engine.mappers.AssignedMapper;
+import com.bpm.engine.models.ApprovedProcessModel;
 import com.bpm.engine.models.AssignedModel;
 import com.bpm.engine.models.TaskAssignedModel;
 
@@ -243,7 +245,50 @@ public class AssignedServiceImplement implements AssignedService {
 	}
 
 
+	@Override
+	public List<String> getCodeProces(String codeEmployee) {
+		AssignedModel model = this. findByCodeEmployeeAndActive(codeEmployee, true);
+	
+		
+		List<String> approvedProcessCodes = Optional.ofNullable(model.getApprovedProcess())
+			    .orElseGet(Collections::emptyList)
+			    .parallelStream()
+			    .filter(ApprovedProcessModel::getGranted)
+			    .map(ApprovedProcessModel::getProcessCode)
+			    .collect(Collectors.toList());
+		
+		return approvedProcessCodes;
+	}
 
+
+
+//	public List<String> filterGrantedgetProces(String codeEmployee, List<String> listCodeProces) {
+//
+//		if (listCodeProces != null && !listCodeProces.isEmpty()) {
+//			List<String> list1 = getCodeProces(codeEmployee);
+//
+//			List<String> grantedgetProces = list1.stream()
+//					.filter(listCodeProces::contains)
+//					.collect(Collectors.toList());
+//
+//			if (grantedgetProces != null && !grantedgetProces.isEmpty()) {
+//				return grantedgetProces;
+//			}
+//		}
+//		return new ArrayList<String>();
+//	}
+	
+	
+	
+	public List<String> filterGrantedgetProces(String codeEmployee, List<String> listCodeProces) {
+	    
+		return listCodeProces != null && !listCodeProces.isEmpty()? 
+				this.getCodeProces(codeEmployee).stream()
+					.filter(listCodeProces::contains)
+					.collect(Collectors.toList())
+	            : Collections.emptyList();
+	}
+	
 }
 
  /*
