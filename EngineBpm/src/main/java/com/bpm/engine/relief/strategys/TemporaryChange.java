@@ -7,6 +7,7 @@ import com.bpm.engine.relief.dto.ReliefDTO;
 import com.bpm.engine.relief.interfaces.IReliefStrategy;
 import com.bpm.engine.relief.mapper.ReliefAssignedMapper;
 import com.bpm.engine.relief.model.ReliefAssignedModel;
+import com.bpm.engine.relief.service.IReliefAssignedService;
 
 
 @Component
@@ -16,14 +17,30 @@ public class TemporaryChange implements IReliefStrategy{
 	@Autowired
 	private ReliefAssignedMapper mapper;
 	
+	private IReliefAssignedService serviceRelief;
+	
 	
 	@Override
 	public Boolean executeRelief(ReliefDTO reliefDTO) {
-	
+		
 		Boolean response = false;
-		ReliefAssignedModel reliefModel = mapper.toModel(reliefDTO);
 		
-		
+		try {
+			
+			ReliefAssignedModel reliefModel = serviceRelief.createReliefAssigned(reliefDTO);
+			
+			
+			
+			
+			
+			
+			serviceRelief.updateActive(false, reliefModel.getIdRelief());
+			
+			
+		} catch (Exception e) {
+			
+		}
+	
 		
 		return response;
 	}

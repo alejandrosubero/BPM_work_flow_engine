@@ -38,17 +38,20 @@ public class ChangeBpmRole implements IReliefStrategy {
 	private ReliefAssignedMapper mapper;
 	
 	private NoReliefFacade noRelief;
+	
+	private IReliefAssignedService serviceRelief;
 		
 	
 
 	@Autowired
 	public ChangeBpmRole(ProcessAndInstanceFacade services, AssignmentTaskManager assignmentTaskManager,
-			BpmAssignedManager bpmAssignedManager, ReliefAssignedMapper mapper, NoReliefFacade noRelief) {
+			BpmAssignedManager bpmAssignedManager, ReliefAssignedMapper mapper, NoReliefFacade noRelief, IReliefAssignedService serviceRelief) {
 		this.services = services;
 		this.assignmentTaskManager = assignmentTaskManager;
 		this.bpmAssignedManager = bpmAssignedManager;
 		this.mapper = mapper;
 		this.noRelief =noRelief;
+		this.serviceRelief = serviceRelief;
 	}
 	
 
@@ -58,15 +61,18 @@ public class ChangeBpmRole implements IReliefStrategy {
 	public Boolean executeRelief(ReliefDTO reliefDTO) {
 		
 		Boolean response = false;
-		ReliefAssignedModel reliefModel = mapper.toModel(reliefDTO);
+		ReliefAssignedModel reliefModel = serviceRelief.createReliefAssigned(reliefDTO);
 		
 		if(reliefDTO.getIdInstances() !=null && !reliefDTO.getIdInstances().isEmpty()) {
+			
 			reliefModel.setDelegateAll(false);
 			response = this.execute(reliefModel, reliefDTO.getIdInstances());
+			
 		}else {
 			response = this.execute(reliefModel);
 		}
 		
+		serviceRelief.updateActive(false, reliefModel.getIdRelief());
 		return response;
 	}
 	

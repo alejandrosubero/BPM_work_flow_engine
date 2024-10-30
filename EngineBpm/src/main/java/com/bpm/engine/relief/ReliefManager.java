@@ -16,43 +16,39 @@ import com.bpm.engine.relief.strategys.Unsuscribe;
 public class ReliefManager {
 
 	private IReliefAssignedService service;
-	private IReliefStrategy reliefStrategy;
-	private ReliefAssignedMapper mapper;
 	private Unsuscribe unsuscribe;
 	private TemporaryChange temporaryChange;
 	private ChangeBpmRole changeBpmRole;
 
 	@Autowired
-	public ReliefManager(ReliefAssignedMapper mapper, IReliefAssignedService service,
-			Unsuscribe unsuscribe, TemporaryChange changePermissions, ChangeBpmRole changeBpmRole) {
-		this.mapper = mapper;
+	public ReliefManager(IReliefAssignedService service, Unsuscribe unsuscribe, TemporaryChange changePermissions, ChangeBpmRole changeBpmRole) {
 		this.service = service;
 		this.unsuscribe = unsuscribe;
 		this.temporaryChange = changePermissions;
 		this.changeBpmRole = changeBpmRole;
 	}
 
-	public void setStrategy(Integer strategy) {
+	private  IReliefStrategy setStrategy(Integer strategy) {
 
 		switch (strategy) {
 		case 1:
-			this.reliefStrategy = this.changeBpmRole;
-			break;
+			return this.changeBpmRole;
 		case 2:
-			this.reliefStrategy = this.unsuscribe;
-			break;
+			return this.unsuscribe;
+			
 		default:
-			this.reliefStrategy = this.temporaryChange;
-			break;
+			return this.temporaryChange;
 		}
 	}
 
 	
-	public boolean executeStrategy(ReliefDTO reliefDTO) {
-		ReliefAssignedModel reliefModel = mapper.toModel(reliefDTO);
-		service.createReliefAssigned(reliefModel);
+	public boolean executeRelelief(Integer strategy, ReliefDTO reliefDTO) {
+		
+		IReliefStrategy reliefStrategy =  setStrategy(strategy);
+		
 		return reliefStrategy.executeRelief(reliefDTO);
 	}
+		
 	
-
+	
 }

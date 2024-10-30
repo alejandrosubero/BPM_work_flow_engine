@@ -1,5 +1,6 @@
 package com.bpm.engine.relief.service;
 
+import com.bpm.engine.relief.dto.ReliefDTO;
 import com.bpm.engine.relief.entity.ReliefAssigned;
 import com.bpm.engine.relief.mapper.ReliefAssignedMapper;
 import com.bpm.engine.relief.model.ReliefAssignedModel;
@@ -20,7 +21,31 @@ public class ReliefAssignedServiceImpl implements IReliefAssignedService {
 
     @Autowired
     private ReliefAssignedMapper reliefAssignedMapper;
+    
+    
 
+    @Override
+    @Transactional
+    public ReliefAssignedModel createReliefAssigned(ReliefDTO reliefDTO) {
+    	
+    	ReliefAssigned savedEntity = null;
+    	try {
+        
+    		
+    		ReliefAssignedModel model = reliefAssignedMapper.toModel(reliefDTO);
+    		
+        	if(model != null) {
+        		   ReliefAssigned entity = reliefAssignedMapper.toEntity(model);
+                    savedEntity = reliefAssignedRepository.save(entity);
+        	}
+         
+        } catch (Exception e) {
+            throw new RuntimeException("Error creating ReliefAssigned", e);
+        }
+        return reliefAssignedMapper.toModel(savedEntity);
+    }
+    
+    
     @Override
     @Transactional
     public ReliefAssignedModel createReliefAssigned(ReliefAssignedModel model) {
@@ -37,6 +62,7 @@ public class ReliefAssignedServiceImpl implements IReliefAssignedService {
         }
         return reliefAssignedMapper.toModel(savedEntity);
     }
+    
 
     @Override
     @Transactional

@@ -3,6 +3,7 @@ package com.bpm.engine.relief.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.bpm.engine.relief.dto.ReliefDTO;
 import com.bpm.engine.relief.entity.ReliefAssigned;
 import com.bpm.engine.relief.model.ReliefAssignedModel;
 
@@ -32,5 +33,8 @@ public interface IReliefAssignedService {
 	public List<ReliefAssignedModel> findByReturnCommandAndActive(Boolean returnCommand, Boolean active);
 
 	public List<ReliefAssignedModel> findByUserReliefCodeLike(String userReliefCode);
+	
+	 public ReliefAssignedModel createReliefAssigned(ReliefDTO reliefDTO);
+	
 
 }

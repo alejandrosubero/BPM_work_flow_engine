@@ -14,6 +14,7 @@ import com.bpm.engine.relief.dto.ReliefDTO;
 import com.bpm.engine.relief.interfaces.IReliefStrategy;
 import com.bpm.engine.relief.mapper.ReliefAssignedMapper;
 import com.bpm.engine.relief.model.ReliefAssignedModel;
+import com.bpm.engine.relief.service.IReliefAssignedService;
 
 
 @Component
@@ -25,11 +26,16 @@ public class Unsuscribe implements IReliefStrategy{
 	private ReliefAssignedMapper mapper;
 	private ServiceBpmAndAssignedFacade serviceFacade;
 	private NoReliefFacade noRelief;
+	private IReliefAssignedService serviceRelief;
 
 	
 	
 	@Override
 	public Boolean executeRelief(ReliefDTO reliefDTO) {
+		
+		
+		ReliefAssignedModel relief = serviceRelief.createReliefAssigned(reliefDTO);
+		
 		logger.info("Execute Unsuscribe... ");
 		Boolean response = false;
 		ReliefAssignedModel reliefModel = mapper.toModel(reliefDTO);
@@ -44,7 +50,9 @@ public class Unsuscribe implements IReliefStrategy{
 	   assignedInstance.setActive(false);
 	   serviceFacade.getAssignedService().saveOrUpdateAssigned(assignedInstance);
 	   response = this.noRelief.execute(reliefModel);
-	
+	   
+	   serviceRelief.updateActive(false, relief.getIdRelief());
+	   
 		return response;
 	}
 	
