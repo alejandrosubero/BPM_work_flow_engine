@@ -2,6 +2,7 @@ package com.bpm.engine.managers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -62,13 +63,71 @@ public class BpmAssignedManager {
 			});
 			
 			return bpmAssignedEmployeeRelief.stream().allMatch(bpmAssignedModel -> service.getBpmAssignedService().saveOrUpdateBpmAssigned(bpmAssignedModel) != null);
-		} else {
-			
-		}
+		} 
+		
+		
 		return false;
 	}
 	
 
+	
+	public Boolean updateUserAssignedForUserReliefInBpmAssigned(String codeEmployee, String codeEmployeeRelief, Long idAssignedRelief) {
+		
+		List<BpmAssignedModel> bpmAssignedByEmployeeCode = service.getBpmAssignedService().findByCodeEmployeeActive(codeEmployee);
+		
+		List<BpmAssignedModel> bpmAssignedByEmployeeRelief= service.getBpmAssignedService().findByCodeEmployeeActive(codeEmployeeRelief);
+		
+		List<BpmAssignedModel> matchingBpmAssignedModel = new ArrayList<>();
+		 
+		
+		
+		// se revisa si el usuario relief tiene las asignaciones del empleado si las tene se filtran y se verifica si estan activas se activan y se desactivan las del otro usuario 
+		
+		if(bpmAssignedByEmployeeCode != null && !bpmAssignedByEmployeeCode.isEmpty() && bpmAssignedByEmployeeRelief !=null && !bpmAssignedByEmployeeRelief.isEmpty()) {
+			
+			
+			// ak machamos con el empleado no el relief esto no esta bien hay que repensar. usando {} para poder trabajar los datos.
+			
+	        List<BpmAssignedModel> matchingEmployeeCode = 
+	        		bpmAssignedByEmployeeCode.stream().filter(userOld -> 
+	                bpmAssignedByEmployeeRelief.stream().anyMatch(userNew -> 
+	                userNew.getTaskCode().equals(userOld.getTaskCode()) && userNew.getProccesId().equals(userOld.getProccesId())))
+	                .collect(Collectors.toList());
+	      
+	        
+	        
+//	        if(matchingEmployeeCode != null && !matchingEmployeeCode.isEmpty()) {
+//	        	matchingBpmAssignedModel.addAll(matchingEmployeeCode);
+//	        	
+//	        }
+	       
+		}
+		
+	   
+		
+		
+		
+		if (!matchingBpmAssignedModel.isEmpty() && bpmAssignedByEmployeeCode != null && !bpmAssignedByEmployeeCode.isEmpty() && codeEmployeeRelief != null && idAssignedRelief != null) {
+			List<BpmAssignedModel> bpmAssignedEmployeeRelief = new ArrayList<>();
+			
+			bpmAssignedByEmployeeCode.parallelStream().forEach(bpmAssignedModel -> {
+		
+				bpmAssignedEmployeeRelief.add(new BpmAssignedModel(
+						idAssignedRelief,bpmAssignedModel.getTaskCode(), 
+						bpmAssignedModel.getInstanciaProccesId(), 
+						codeEmployeeRelief, bpmAssignedModel.getProccesId()));
+				
+				bpmAssignedModel.setActive(false);
+			});
+			
+			
+			return bpmAssignedEmployeeRelief.stream().allMatch(bpmAssignedModel -> service.getBpmAssignedService().saveOrUpdateBpmAssigned(bpmAssignedModel) != null);
+		} 
+		
+		
+		return false;
+	}
+	
 	
 	public Boolean saveOrUpdateBpmAssigned(BpmAssignedDTO assignedBPM) {
 
