@@ -83,18 +83,44 @@ public class BpmAssignedManager {
 		
 		// se revisa si el usuario relief tiene las asignaciones del empleado si las tene se filtran y se verifica si estan activas se activan y se desactivan las del otro usuario 
 		
-		if(bpmAssignedByEmployeeCode != null && !bpmAssignedByEmployeeCode.isEmpty() && bpmAssignedByEmployeeRelief !=null && !bpmAssignedByEmployeeRelief.isEmpty()) {
+		if (bpmAssignedByEmployeeCode != null && !bpmAssignedByEmployeeCode.isEmpty()
+				&& bpmAssignedByEmployeeRelief != null && !bpmAssignedByEmployeeRelief.isEmpty()) {
+
+			// ak machamos con el empleado no el relief esto no esta bien hay que repensar.
+			// usando {} para poder trabajar los datos.
+
+			for (BpmAssignedModel modelEmployeeCode : bpmAssignedByEmployeeCode) {
+
+				for (BpmAssignedModel modelEmployeeRelief : bpmAssignedByEmployeeRelief) {
+
+					if (modelEmployeeRelief.getTaskCode().equals(modelEmployeeCode.getTaskCode())
+							&& modelEmployeeRelief.getProccesId().equals(modelEmployeeCode.getProccesId())) {
+
+						if (!modelEmployeeRelief.getActive()) {
+							modelEmployeeRelief.setActive(true);
+						}
+
+						if (modelEmployeeCode.getActive()) {
+							modelEmployeeCode.setActive(false);
+						}
+					}
+				}
+
+			}
 			
 			
-			// ak machamos con el empleado no el relief esto no esta bien hay que repensar. usando {} para poder trabajar los datos.
+			bpmAssignedByEmployeeCode.forEach(modelEmployeeCode -> {
+			    bpmAssignedByEmployeeRelief.stream()
+			        .filter(modelEmployeeRelief -> modelEmployeeRelief.getTaskCode().equals(modelEmployeeCode.getTaskCode())
+			                                    && modelEmployeeRelief.getProccesId().equals(modelEmployeeCode.getProccesId()))
+			        .forEach(modelEmployeeRelief -> {
+			            modelEmployeeRelief.setActive(true);
+			            modelEmployeeCode.setActive(false);
+			        });
+			});
 			
-	        List<BpmAssignedModel> matchingEmployeeCode = 
-	        		bpmAssignedByEmployeeCode.stream().filter(userOld -> 
-	                bpmAssignedByEmployeeRelief.stream().anyMatch(userNew -> 
-	                userNew.getTaskCode().equals(userOld.getTaskCode()) && userNew.getProccesId().equals(userOld.getProccesId())))
-	                .collect(Collectors.toList());
-	      
-	        
+			
+	   
 	        
 //	        if(matchingEmployeeCode != null && !matchingEmployeeCode.isEmpty()) {
 //	        	matchingBpmAssignedModel.addAll(matchingEmployeeCode);
