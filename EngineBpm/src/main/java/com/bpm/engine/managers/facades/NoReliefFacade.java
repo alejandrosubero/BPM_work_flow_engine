@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
 
 import com.bpm.engine.managers.AssignmentTaskManager;
 import com.bpm.engine.managers.BpmAssignedManager;
@@ -15,6 +16,8 @@ import com.bpm.engine.models.InstanceAbstractionModel;
 import com.bpm.engine.relief.model.ReliefAssignedModel;
 import com.bpm.engine.utility.InstanOf;
 
+
+@Service
 public class NoReliefFacade {
 
 	private static final Logger logger = LogManager.getLogger(NoReliefFacade.class);

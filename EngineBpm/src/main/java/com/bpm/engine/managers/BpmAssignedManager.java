@@ -71,92 +71,88 @@ public class BpmAssignedManager {
 	
 
 	
-	public Boolean updateUserAssignedForUserReliefInBpmAssigned(String codeEmployee, String codeEmployeeRelief, Long idAssignedRelief) {
-		
-		List<BpmAssignedModel> bpmAssignedByEmployeeCode = service.getBpmAssignedService().findByCodeEmployeeActive(codeEmployee);
-		
-		List<BpmAssignedModel> bpmAssignedByEmployeeRelief= service.getBpmAssignedService().findByCodeEmployeeActive(codeEmployeeRelief);
-		
-		List<BpmAssignedModel> noMatchingBpmAssignedModel = new ArrayList<>();
-		 
-		
-		
-		// se revisa si el usuario relief tiene las asignaciones del empleado si las tene se filtran y se verifica si estan activas se activan y se desactivan las del otro usuario 
-		
-		if (bpmAssignedByEmployeeCode != null && !bpmAssignedByEmployeeCode.isEmpty()&& bpmAssignedByEmployeeRelief != null && !bpmAssignedByEmployeeRelief.isEmpty()) {
+	public Boolean updateUserAssignedForUserReliefInBpmAssigned(String codeEmployee, String codeEmployeeRelief,Long idAssignedRelief) {
 
-			// ak machamos con el empleado no el relief esto no esta bien hay que repensar.
+		List<BpmAssignedModel> bpmAssignedByEmployeeCode = service.getBpmAssignedService().findByCodeEmployeeActive(codeEmployee);
+
+		List<BpmAssignedModel> bpmAssignedByEmployeeRelief = service.getBpmAssignedService().findByCodeEmployeeActive(codeEmployeeRelief);
+
+		List<BpmAssignedModel> noMatchingBpmAssignedModel = new ArrayList<>();
+
+
+		if (bpmAssignedByEmployeeCode != null 
+				&& !bpmAssignedByEmployeeCode.isEmpty() 
+				&& bpmAssignedByEmployeeRelief != null 
+				&& !bpmAssignedByEmployeeRelief.isEmpty() 
+				&& codeEmployeeRelief != null && idAssignedRelief != null) {
+
 			
-			
-//			for (BpmAssignedModel modelEmployeeCode : bpmAssignedByEmployeeCode) {
-//
-//				for (BpmAssignedModel modelEmployeeRelief : bpmAssignedByEmployeeRelief) {
-//
-//					if (modelEmployeeRelief.getTaskCode().equals(modelEmployeeCode.getTaskCode()) && modelEmployeeRelief.getProccesId().equals(modelEmployeeCode.getProccesId())) {
-//
-//						if (!modelEmployeeRelief.getActive()) {
-//							modelEmployeeRelief.setActive(true);
-//						}
-//
-//						if (modelEmployeeCode.getActive()) {
-//							modelEmployeeCode.setActive(false);
-//						}
-//					}else {
-//						
-//						noMatchingBpmAssignedModel.add(modelEmployeeCode);
-//					
-//					}
-//				}
-//
-//			}
-			
-						
+			ElementBoolean matchFound = ElementBoolean.getInstance();
 			
 			bpmAssignedByEmployeeCode.forEach(modelEmployeeCode -> {
-			    // Bandera para ver si hay coincidencia
-			    boolean matchFound = false;
+			
+				matchFound.setElement(false);
 
-			    // Procesamos todos los elementos de bpmAssignedByEmployeeRelief para el modelo actual
-			    bpmAssignedByEmployeeRelief.forEach(modelEmployeeRelief -> {
-			    	
-			        if (modelEmployeeRelief.getTaskCode().equals(modelEmployeeCode.getTaskCode()) && modelEmployeeRelief.getProccesId().equals(modelEmployeeCode.getProccesId())) {
-			            modelEmployeeRelief.setActive(true);
-			            modelEmployeeCode.setActive(false);
-			            matchFound = true;
-			        }
-			    });
-			    
-			    // Si no hubo coincidencia en toda la lista bpmAssignedByEmployeeRelief, lo agregamos
-			    if (!matchFound) {
-			        noMatchingBpmAssignedModel.add(modelEmployeeCode);
-			    }
+				bpmAssignedByEmployeeRelief.forEach(modelEmployeeRelief -> {
+
+					if (modelEmployeeRelief.getTaskCode().equals(modelEmployeeCode.getTaskCode())
+							&& modelEmployeeRelief.getProccesId().equals(modelEmployeeCode.getProccesId())) {
+						modelEmployeeRelief.setActive(true);
+						modelEmployeeCode.setActive(false);
+						matchFound.setElement(true);
+					}
+				});
+
+			
+				if (!matchFound.getElement()) {
+					noMatchingBpmAssignedModel.add(modelEmployeeCode);
+				}
 			});
-	       
+
+			if (!noMatchingBpmAssignedModel.isEmpty()) {
+				List<BpmAssignedModel> bpmAssignedlist = this.createListOfBpmAssignedModel(noMatchingBpmAssignedModel,
+						codeEmployeeRelief, idAssignedRelief);
+				return bpmAssignedlist.stream().allMatch(bpmAssignedModel -> service.getBpmAssignedService()
+						.saveOrUpdateBpmAssigned(bpmAssignedModel) != null);
+			}
+
 		}
-		
-	   
-	
-		
-		if (!matchingBpmAssignedModel.isEmpty() && bpmAssignedByEmployeeCode != null && !bpmAssignedByEmployeeCode.isEmpty() && codeEmployeeRelief != null && idAssignedRelief != null) {
-			List<BpmAssignedModel> bpmAssignedEmployeeRelief = new ArrayList<>();
-			
-			bpmAssignedByEmployeeCode.parallelStream().forEach(bpmAssignedModel -> {
-		
-				bpmAssignedEmployeeRelief.add(new BpmAssignedModel(
-						idAssignedRelief,bpmAssignedModel.getTaskCode(), 
-						bpmAssignedModel.getInstanciaProccesId(), 
-						codeEmployeeRelief, bpmAssignedModel.getProccesId()));
-				
-				bpmAssignedModel.setActive(false);
-			});
-			
-			
-			return bpmAssignedEmployeeRelief.stream().allMatch(bpmAssignedModel -> service.getBpmAssignedService().saveOrUpdateBpmAssigned(bpmAssignedModel) != null);
-		} 
-		
-		
+
+		if (bpmAssignedByEmployeeCode != null && !bpmAssignedByEmployeeCode.isEmpty() 
+				&& codeEmployeeRelief != null && idAssignedRelief != null) {
+
+			List<BpmAssignedModel> bpmAssignedlist = this.createListOfBpmAssignedModel(bpmAssignedByEmployeeCode,
+					codeEmployeeRelief, idAssignedRelief);
+
+			return bpmAssignedlist.stream().allMatch(bpmAssignedModel -> service.getBpmAssignedService()
+					.saveOrUpdateBpmAssigned(bpmAssignedModel) != null);
+
+		}
+
 		return false;
 	}
+	
+	
+	
+	private List<BpmAssignedModel> createListOfBpmAssignedModel(List<BpmAssignedModel> bpmAssignedByEmployeeCode, String codeEmployeeRelief, Long idAssignedRelief ){
+		
+		List<BpmAssignedModel> bpmAssignedEmployeeRelief = new ArrayList<>();
+		
+		bpmAssignedByEmployeeCode.parallelStream().forEach(bpmAssignedModel -> {
+	
+			bpmAssignedEmployeeRelief.add(new BpmAssignedModel(
+					idAssignedRelief,bpmAssignedModel.getTaskCode(), 
+					bpmAssignedModel.getInstanciaProccesId(), 
+					codeEmployeeRelief, bpmAssignedModel.getProccesId()));
+			
+			bpmAssignedModel.setActive(false);
+		});
+		
+		return bpmAssignedEmployeeRelief;
+		
+	}
+	
+	
 	
 	
 	public Boolean saveOrUpdateBpmAssigned(BpmAssignedDTO assignedBPM) {
@@ -237,6 +233,37 @@ public class BpmAssignedManager {
 		return null;
 	}
 
+	
+	public static class ElementBoolean{
+		
+		private ElementBoolean() {
+			
+		}
+		
+		private static ElementBoolean instance;
+		
+		private Boolean element;
+		
+		public static ElementBoolean getInstance() {
+			if(instance == null) {
+				return new ElementBoolean();
+			}else {
+				return instance;
+			}
+		}
+		
+
+		public Boolean getElement() {
+			return element;
+		}
+
+		public void setElement(Boolean element) {
+			this.element = element;
+		}
+		
+		
+	}
+	
 }
 
 
