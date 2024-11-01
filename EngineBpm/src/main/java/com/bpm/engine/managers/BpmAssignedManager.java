@@ -77,61 +77,65 @@ public class BpmAssignedManager {
 		
 		List<BpmAssignedModel> bpmAssignedByEmployeeRelief= service.getBpmAssignedService().findByCodeEmployeeActive(codeEmployeeRelief);
 		
-		List<BpmAssignedModel> matchingBpmAssignedModel = new ArrayList<>();
+		List<BpmAssignedModel> noMatchingBpmAssignedModel = new ArrayList<>();
 		 
 		
 		
 		// se revisa si el usuario relief tiene las asignaciones del empleado si las tene se filtran y se verifica si estan activas se activan y se desactivan las del otro usuario 
 		
-		if (bpmAssignedByEmployeeCode != null && !bpmAssignedByEmployeeCode.isEmpty()
-				&& bpmAssignedByEmployeeRelief != null && !bpmAssignedByEmployeeRelief.isEmpty()) {
+		if (bpmAssignedByEmployeeCode != null && !bpmAssignedByEmployeeCode.isEmpty()&& bpmAssignedByEmployeeRelief != null && !bpmAssignedByEmployeeRelief.isEmpty()) {
 
 			// ak machamos con el empleado no el relief esto no esta bien hay que repensar.
-			// usando {} para poder trabajar los datos.
-
-			for (BpmAssignedModel modelEmployeeCode : bpmAssignedByEmployeeCode) {
-
-				for (BpmAssignedModel modelEmployeeRelief : bpmAssignedByEmployeeRelief) {
-
-					if (modelEmployeeRelief.getTaskCode().equals(modelEmployeeCode.getTaskCode())
-							&& modelEmployeeRelief.getProccesId().equals(modelEmployeeCode.getProccesId())) {
-
-						if (!modelEmployeeRelief.getActive()) {
-							modelEmployeeRelief.setActive(true);
-						}
-
-						if (modelEmployeeCode.getActive()) {
-							modelEmployeeCode.setActive(false);
-						}
-					}
-				}
-
-			}
 			
+			
+//			for (BpmAssignedModel modelEmployeeCode : bpmAssignedByEmployeeCode) {
+//
+//				for (BpmAssignedModel modelEmployeeRelief : bpmAssignedByEmployeeRelief) {
+//
+//					if (modelEmployeeRelief.getTaskCode().equals(modelEmployeeCode.getTaskCode()) && modelEmployeeRelief.getProccesId().equals(modelEmployeeCode.getProccesId())) {
+//
+//						if (!modelEmployeeRelief.getActive()) {
+//							modelEmployeeRelief.setActive(true);
+//						}
+//
+//						if (modelEmployeeCode.getActive()) {
+//							modelEmployeeCode.setActive(false);
+//						}
+//					}else {
+//						
+//						noMatchingBpmAssignedModel.add(modelEmployeeCode);
+//					
+//					}
+//				}
+//
+//			}
+			
+						
 			
 			bpmAssignedByEmployeeCode.forEach(modelEmployeeCode -> {
-			    bpmAssignedByEmployeeRelief.stream()
-			        .filter(modelEmployeeRelief -> modelEmployeeRelief.getTaskCode().equals(modelEmployeeCode.getTaskCode())
-			                                    && modelEmployeeRelief.getProccesId().equals(modelEmployeeCode.getProccesId()))
-			        .forEach(modelEmployeeRelief -> {
+			    // Bandera para ver si hay coincidencia
+			    boolean matchFound = false;
+
+			    // Procesamos todos los elementos de bpmAssignedByEmployeeRelief para el modelo actual
+			    bpmAssignedByEmployeeRelief.forEach(modelEmployeeRelief -> {
+			    	
+			        if (modelEmployeeRelief.getTaskCode().equals(modelEmployeeCode.getTaskCode()) && modelEmployeeRelief.getProccesId().equals(modelEmployeeCode.getProccesId())) {
 			            modelEmployeeRelief.setActive(true);
 			            modelEmployeeCode.setActive(false);
-			        });
+			            matchFound = true;
+			        }
+			    });
+			    
+			    // Si no hubo coincidencia en toda la lista bpmAssignedByEmployeeRelief, lo agregamos
+			    if (!matchFound) {
+			        noMatchingBpmAssignedModel.add(modelEmployeeCode);
+			    }
 			});
-			
-			
-	   
-	        
-//	        if(matchingEmployeeCode != null && !matchingEmployeeCode.isEmpty()) {
-//	        	matchingBpmAssignedModel.addAll(matchingEmployeeCode);
-//	        	
-//	        }
 	       
 		}
 		
 	   
-		
-		
+	
 		
 		if (!matchingBpmAssignedModel.isEmpty() && bpmAssignedByEmployeeCode != null && !bpmAssignedByEmployeeCode.isEmpty() && codeEmployeeRelief != null && idAssignedRelief != null) {
 			List<BpmAssignedModel> bpmAssignedEmployeeRelief = new ArrayList<>();
