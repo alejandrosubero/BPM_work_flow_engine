@@ -1,5 +1,7 @@
 package com.bpm.engine.relief.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -62,5 +64,17 @@ public class ReliefAssigned {
 		
 		@Column(name = "delegateAll", updatable = true, nullable = true, length = 10)
 		private Boolean delegateAll;
+		
+		@Column(name = "create_date", updatable = true, nullable = true, length = 10)
+		private Date createDate;
+		
+		@Column(name = "end_date", updatable = true, nullable = true, length = 10)
+		private Date endDate;
+		
+		@Column(name = "date_change_user_for_relief", updatable = true, nullable = true, length = 10)
+		private Date dateChangeUserForRelief;
+		
+		@Column(name = "date_change_relief_for_user", updatable = true, nullable = true, length = 10)
+		private Date dateChangeReliefForUser;
 	 	
 }

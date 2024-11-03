@@ -1,5 +1,6 @@
 package com.bpm.engine.relief.model;
 
+import java.util.Date;
 import java.util.Objects;
 
 import com.bpm.engine.relief.dto.ReliefDTO;
@@ -40,30 +41,14 @@ public class ReliefAssignedModel {
 	private Integer type;
 
 	private Boolean delegateAll;
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ReliefAssignedModel other = (ReliefAssignedModel) obj;
-		return Objects.equals(active, other.active) && Objects.equals(delegateAll, other.delegateAll)
-				&& Objects.equals(idRelief, other.idRelief) && Objects.equals(permanent, other.permanent)
-				&& Objects.equals(returnCommand, other.returnCommand) && Objects.equals(temporary, other.temporary)
-				&& Objects.equals(time, other.time) && Objects.equals(timeActive, other.timeActive)
-				&& Objects.equals(type, other.type) && Objects.equals(unsuscribe, other.unsuscribe)
-				&& Objects.equals(userCode, other.userCode) && Objects.equals(userCreateCode, other.userCreateCode)
-				&& Objects.equals(userReliefCode, other.userReliefCode);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(active, delegateAll, idRelief, permanent, returnCommand, temporary, time, timeActive, type,
-				unsuscribe, userCode, userCreateCode, userReliefCode);
-	}
+	
+	
+	private Date createDate;
+	private Date endDate;
+	private Date dateChangeUserForRelief;
+	private Date dateChangeReliefForUser;
+	
+	
 
 	public ReliefAssignedModel(ReliefDTO dto) {
 
@@ -102,7 +87,46 @@ public class ReliefAssignedModel {
 		if (dto.getDelegateAll() != null) {
 			this.delegateAll = dto.getDelegateAll();
 		}
+		
+		this.createDate = new Date();
+		
 
+	}
+
+
+
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ReliefAssignedModel other = (ReliefAssignedModel) obj;
+		return Objects.equals(active, other.active) && Objects.equals(createDate, other.createDate)
+				&& Objects.equals(dateChangeReliefForUser, other.dateChangeReliefForUser)
+				&& Objects.equals(dateChangeUserForRelief, other.dateChangeUserForRelief)
+				&& Objects.equals(delegateAll, other.delegateAll) && Objects.equals(endDate, other.endDate)
+				&& Objects.equals(idRelief, other.idRelief) && Objects.equals(permanent, other.permanent)
+				&& Objects.equals(returnCommand, other.returnCommand) && Objects.equals(temporary, other.temporary)
+				&& Objects.equals(time, other.time) && Objects.equals(timeActive, other.timeActive)
+				&& Objects.equals(type, other.type) && Objects.equals(unsuscribe, other.unsuscribe)
+				&& Objects.equals(userCode, other.userCode) && Objects.equals(userCreateCode, other.userCreateCode)
+				&& Objects.equals(userReliefCode, other.userReliefCode);
+	}
+
+
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(active, createDate, dateChangeReliefForUser, dateChangeUserForRelief, delegateAll, endDate,
+				idRelief, permanent, returnCommand, temporary, time, timeActive, type, unsuscribe, userCode,
+				userCreateCode, userReliefCode);
 	}
 
 }
