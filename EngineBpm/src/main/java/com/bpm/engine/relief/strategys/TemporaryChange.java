@@ -42,61 +42,61 @@ public class TemporaryChange implements IReliefStrategy{
 
 
 
-
 	@Override
 	public Boolean executeRelief(ReliefDTO reliefDTO) {
-		
+
 		Boolean response = false;
-		
+
 		try {
-			
+
 			ReliefAssignedModel reliefModel = serviceRelief.createReliefAssigned(reliefDTO);
-			
-			if(reliefModel.getUserReliefCode() != null) {
-				
-				AssignedModel reliefAssigned = null;
-				Boolean replaceAssignedInBpmAssigned = null;
-				Boolean IsChangeInstanceAbstraction = null;
-				
-				
-				 reliefAssigned = assignmentTaskManager.getAssignedOrCreateAssignedInBpmSystem(reliefModel.getUserReliefCode());
-			
-				if(reliefAssigned != null) {
-					
-					 replaceAssignedInBpmAssigned = bpmAssignedManager.updateUserAssignedForUserReliefInBpmAssigned(
-								reliefModel.getUserCode(), 
-								reliefModel.getUserReliefCode(),
-								reliefAssigned.getId()
-								);
-					
-						 IsChangeInstanceAbstraction = 
-								this.services.instanceManager().getInstanceAbstractionService()
-										.changeUserWorked(
-											reliefModel.getUserCode(), 
-											reliefModel.getUserReliefCode()
-										);
-				}
-				
-				if( reliefAssigned != null && replaceAssignedInBpmAssigned && IsChangeInstanceAbstraction) {
-					response = true;
-				}
+
+			if (reliefModel.getUserReliefCode() != null) {
+
+				response = this.executeTemporaryChanges(reliefModel.getUserReliefCode(), reliefModel.getUserCode());
 			}
-			
 //			serviceRelief.updateActive(false, reliefModel.getIdRelief());
-			
-			
 		} catch (Exception e) {
 			return response;
 		}
-	
-		
+
 		return response;
 	}
 
 
+	public Boolean executeTemporaryChanges(String userReliefCode, String userCode) {
 
+		Boolean response = false;
+		AssignedModel reliefAssigned = null;
+		Boolean replaceAssignedInBpmAssigned = null;
+		Boolean IsChangeInstanceAbstraction = null;
 
+		try {
 
+			reliefAssigned = assignmentTaskManager.getAssignedOrCreateAssignedInBpmSystem(userReliefCode);
+
+			if (reliefAssigned != null) {
+
+				replaceAssignedInBpmAssigned = bpmAssignedManager.updateUserAssignedForUserReliefInBpmAssigned(
+						userCode,
+						userReliefCode, 
+						reliefAssigned.getId()
+						);
+
+				IsChangeInstanceAbstraction = this.services.instanceManager()
+						.getInstanceAbstractionService()
+						.changeUserWorked(userCode, userReliefCode);
+			}
+
+			if (reliefAssigned != null && replaceAssignedInBpmAssigned && IsChangeInstanceAbstraction) {
+				response = true;
+			}
+			
+		} catch (Exception e) {
+			return response;
+		}
+		return response;
+	}
 
 
 }
