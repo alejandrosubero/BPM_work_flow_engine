@@ -38,6 +38,14 @@ public class returnCommandService {
 	    }
 	
 	
+	  @Scheduled(cron = "${app.cronExpressionCheckReturnCommand}")
+	    public void scheduleTaskCheckReturnCommand() {
+//	        TODO: COLOCAR EL CODIGO PARA CHEQUEAR Y EJECUTAR EL RETORNO DE COMANDO
+		  
+	    	 System.out.println("Task executed at....... ....... ..... : " + new Date());
+	    	 
+	    	 
+	    }
 	
 	@Scheduled(cron = "0 0/15 * * * ?")
     public void scheduleTaskWithFixedRate() {
@@ -45,11 +53,7 @@ public class returnCommandService {
         System.out.println("Task executed at....... ....... ..... : " + new Date());
     }
 
-    @Scheduled(cron = "${app.cronExpressionCheckReturnCommand}")
-    public void scheduleTaskCheckReturnCommand() {
-        // This task will execute every day at 10:00 AM
-        System.out.println("Fixed Rate Task executed at: " + new Date());
-    }
+  
 	
 	
 
