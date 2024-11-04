@@ -6,13 +6,23 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
+import com.bpm.engine.relief.configuration.AppScheduleProperties;
+
+@Component
 public class returnCommandService {
 	
+    
+    @Autowired
+    private AppScheduleProperties app;
 	
 	
-	public Integer DateDifference(Date startDate,  Date endDate){
+	
+	public Integer dateDifference(Date startDate,  Date endDate){
 
 	        // Convert to LocalDate
 	        LocalDate startLocalDate = Instant.ofEpochMilli(startDate.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
@@ -32,11 +42,11 @@ public class returnCommandService {
 	@Scheduled(cron = "0 0/15 * * * ?")
     public void scheduleTaskWithFixedRate() {
         // This task will execute every 15 minutes
-        System.out.println("Task executed at: " + new Date());
+        System.out.println("Task executed at....... ....... ..... : " + new Date());
     }
 
-    @Scheduled(cron = "0 0 10 * * ?")
-    public void scheduleFixedRateTaskAtSpecificTime() {
+    @Scheduled(cron = "${app.cronExpressionCheckReturnCommand}")
+    public void scheduleTaskCheckReturnCommand() {
         // This task will execute every day at 10:00 AM
         System.out.println("Fixed Rate Task executed at: " + new Date());
     }
