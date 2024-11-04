@@ -41,4 +41,15 @@ public interface ReliefAssignedRepository extends CrudRepository<ReliefAssigned,
 	public List<ReliefAssigned> finBySearch(@Param("keyword") String keyword);
 	
 	
+	
+	
+	 @Query(value = "SELECT e FROM ReliefAssigned e WHERE DATEDIFF(DAY, e.createDate, CURRENT_DATE) >= e.time AND e.active = true", nativeQuery = true)
+	    List<ReliefAssigned> getReliefreturnCommand();
+	
+	
+	//oracle
+//	 @Query(value = "SELECT e FROM ReliefAssigned e WHERE DATEDIFF(DAY, e.createDate, SYSDATE) >= e.time AND e.active = true", nativeQuery = true)
+//	 List<ReliefAssigned> getReliefreturnCommand();
+	 
+	 
 }
