@@ -44,7 +44,7 @@ public interface ReliefAssignedRepository extends CrudRepository<ReliefAssigned,
 	
 	
 	 @Query(value = "SELECT e FROM ReliefAssigned e WHERE DATEDIFF(DAY, e.createDate, CURRENT_DATE) >= e.time AND e.active = true", nativeQuery = true)
-	    List<ReliefAssigned> getReliefreturnCommand();
+	 public List<ReliefAssigned> getReliefreturnCommand();
 	
 	
 	//oracle

@@ -35,6 +35,6 @@ public interface IReliefAssignedService {
 
 	public ReliefAssignedModel createReliefAssigned(ReliefDTO reliefDTO);
 
-	public List<ReliefAssigned> getReliefreturnCommand();
+	public List<ReliefAssignedModel> getReliefreturnCommand();
 
 }

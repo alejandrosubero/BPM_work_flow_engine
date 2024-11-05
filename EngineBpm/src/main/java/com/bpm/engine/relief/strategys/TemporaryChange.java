@@ -52,10 +52,9 @@ public class TemporaryChange implements IReliefStrategy{
 			ReliefAssignedModel reliefModel = serviceRelief.createReliefAssigned(reliefDTO);
 
 			if (reliefModel.getUserReliefCode() != null) {
-
 				response = this.executeTemporaryChanges(reliefModel.getUserReliefCode(), reliefModel.getUserCode());
 			}
-//			serviceRelief.updateActive(false, reliefModel.getIdRelief());
+			
 		} catch (Exception e) {
 			return response;
 		}

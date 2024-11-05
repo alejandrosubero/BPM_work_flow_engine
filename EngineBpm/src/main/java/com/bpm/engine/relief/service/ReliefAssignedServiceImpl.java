@@ -192,12 +192,12 @@ public class ReliefAssignedServiceImpl implements IReliefAssignedService {
 
 
 	@Override
-	public List<ReliefAssigned> getReliefreturnCommand() {
+	public List<ReliefAssignedModel> getReliefreturnCommand() {
 	
-		List<ReliefAssigned>  response = null;
+		List<ReliefAssignedModel>  response = null;
 		
 		try {
-			 response =  reliefAssignedRepository.getReliefreturnCommand();
+			 response = reliefAssignedMapper.entityListToPojoList(reliefAssignedRepository.getReliefreturnCommand());
 	            
 	        } catch (Exception e) {
 	            e.printStackTrace();
