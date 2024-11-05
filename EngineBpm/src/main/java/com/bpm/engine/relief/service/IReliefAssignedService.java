@@ -9,7 +9,6 @@ import com.bpm.engine.relief.model.ReliefAssignedModel;
 
 public interface IReliefAssignedService {
 
-
 	public void updateTimeActive(Integer timeActive, Long idRelief);
 
 	public void updateActive(Boolean active, Long idRelief);
@@ -28,13 +27,14 @@ public interface IReliefAssignedService {
 
 	public List<ReliefAssignedModel> findByPermanentAndActive(Boolean permanent, Boolean active);
 
-	public List<ReliefAssignedModel> findByTemporaryAndReturnCommandAndActive(Boolean temporary, Boolean returnCommand, Boolean active);
+	public List<ReliefAssignedModel> findByTemporaryAndReturnCommandAndActive(Boolean temporary, Boolean returnCommand,Boolean active);
 
 	public List<ReliefAssignedModel> findByReturnCommandAndActive(Boolean returnCommand, Boolean active);
 
 	public List<ReliefAssignedModel> findByUserReliefCodeLike(String userReliefCode);
-	
-	 public ReliefAssignedModel createReliefAssigned(ReliefDTO reliefDTO);
-	
+
+	public ReliefAssignedModel createReliefAssigned(ReliefDTO reliefDTO);
+
+	public List<ReliefAssigned> getReliefreturnCommand();
 
 }

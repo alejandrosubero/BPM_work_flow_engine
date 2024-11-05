@@ -189,5 +189,21 @@ public class ReliefAssignedServiceImpl implements IReliefAssignedService {
             throw new RuntimeException("Error finding by userReliefCode like", e);
         }
     }
+
+
+	@Override
+	public List<ReliefAssigned> getReliefreturnCommand() {
+	
+		List<ReliefAssigned>  response = null;
+		
+		try {
+			 response =  reliefAssignedRepository.getReliefreturnCommand();
+	            
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+		
+		return response;
+	}
 }
 

@@ -1,4 +1,4 @@
-package com.bpm.engine.relief.configuration;
+package com.bpm.engine.configurations.schedule;
 
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
