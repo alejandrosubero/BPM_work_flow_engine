@@ -55,7 +55,7 @@ public class ChangeBpmRole implements IReliefStrategy {
 	}
 	
 
-	
+
 	
 	@Override
 	public Boolean executeRelief(ReliefDTO reliefDTO) {

@@ -65,15 +65,7 @@ public class ReturnCommandService {
 	}
 
 	
-	
 
-	public void scheduleTaskWithFixedRate() {
-		// This task will execute every 15 minutes
-		System.out.println("Task executed at....... ....... ..... : " + new Date());
-	}
-
-  
-	
 	
 	public Integer dateDifference(Date startDate, Date endDate) {
 
