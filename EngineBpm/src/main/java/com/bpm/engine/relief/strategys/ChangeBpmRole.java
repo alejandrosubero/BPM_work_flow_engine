@@ -80,7 +80,7 @@ public class ChangeBpmRole implements IReliefStrategy {
 
 	
 
-	public Boolean execute(ReliefAssignedModel reliefModel) {
+	private Boolean execute(ReliefAssignedModel reliefModel) {
 		
 		logger.info( "Started change Bpm role...");
 		
