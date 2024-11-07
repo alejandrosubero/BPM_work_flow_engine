@@ -35,7 +35,6 @@ public interface AssignedService {
 
     public AssignedModel saveOrUpdateAssigned(AssignedModel AssignedModel);
     
-//    public AssignedModel save(AssignedModel AssignedModel);
 
     public AssignedModel findByName(String name);
 
