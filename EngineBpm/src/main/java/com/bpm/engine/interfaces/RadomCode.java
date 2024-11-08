@@ -44,4 +44,19 @@ public interface RadomCode {
         return Math.abs(randomNumber);
     }
 
+    
+    default String stringEnsamble(String... stringPaths) {
+		StringBuffer newString = new StringBuffer();
+		String[] var3 = stringPaths;
+		int var4 = stringPaths.length;
+
+		for(int var5 = 0; var5 < var4; ++var5) {
+			String path = var3[var5];
+			newString.append(path);
+		}
+
+		return newString.toString();
+	}
+    
+    
 }
