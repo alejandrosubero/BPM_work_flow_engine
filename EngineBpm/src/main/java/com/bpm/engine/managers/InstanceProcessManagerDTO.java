@@ -45,7 +45,11 @@ public class InstanceProcessManagerDTO {
 			  
 			processOfUser.parallelStream().forEach(procesModel -> processList.add(new ProcessDTO(procesModel)));
 			
-			instancesProcessOfUser.parallelStream().forEach(InstanceAbstractionModel-> processList.add(processDTOMapper.instanceAbstractionModelToDTO(InstanceAbstractionModel)));
+			instancesProcessOfUser.parallelStream().forEach(
+					InstanceAbstractionModel-> processList.add(
+								processDTOMapper.instanceAbstractionModelToDTO(InstanceAbstractionModel)
+							)
+					);
 			
 			
 		}catch(Exception e) {

@@ -23,7 +23,7 @@ import com.bpm.engine.models.ProcessModel;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/engineBpm")
+@RequestMapping("/engine/bpm")
 public class EngineBpmController {
 
 	
@@ -45,7 +45,7 @@ public class EngineBpmController {
 
 			if (systemRequest != null && systemRequest.getCodeTask() != null) {
 				EntityRespone entityRespone = mapperEntityRespone
-						.setEntityTobj(instanceProcessManager.createInstanceProcess2(systemRequest));
+						.setEntityTobj(instanceProcessManager.createInstanceProcess(systemRequest));
 				return new ResponseEntity<EntityRespone>(entityRespone, HttpStatus.OK);
 			}
 

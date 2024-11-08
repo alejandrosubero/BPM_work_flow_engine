@@ -35,7 +35,7 @@ public class InstanceProcessManager {
     
     
    
-   public InstanceAbstractionModel createInstanceProcess2 (SystemRequest systemRequest) {
+   public InstanceAbstractionModel createInstanceProcess(SystemRequest systemRequest) {
 		
 	   logger.info("Started create Instance Process ...");
 	   

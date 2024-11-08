@@ -35,8 +35,6 @@ public class ChangeBpmRole implements IReliefStrategy {
 	
 	private BpmAssignedManager bpmAssignedManager;
 	
-	private ReliefAssignedMapper mapper;
-	
 	private NoReliefFacade noRelief;
 	
 	private IReliefAssignedService serviceRelief;
@@ -45,11 +43,10 @@ public class ChangeBpmRole implements IReliefStrategy {
 
 	@Autowired
 	public ChangeBpmRole(ProcessAndInstanceFacade services, AssignmentTaskManager assignmentTaskManager,
-			BpmAssignedManager bpmAssignedManager, ReliefAssignedMapper mapper, NoReliefFacade noRelief, IReliefAssignedService serviceRelief) {
+			BpmAssignedManager bpmAssignedManager, NoReliefFacade noRelief, IReliefAssignedService serviceRelief) {
 		this.services = services;
 		this.assignmentTaskManager = assignmentTaskManager;
 		this.bpmAssignedManager = bpmAssignedManager;
-		this.mapper = mapper;
 		this.noRelief =noRelief;
 		this.serviceRelief = serviceRelief;
 	}

@@ -1,4 +1,4 @@
-package com.bpm.engine.ReliefAssignedRepository;
+package com.bpm.engine.relief.repository;
 
 
 
