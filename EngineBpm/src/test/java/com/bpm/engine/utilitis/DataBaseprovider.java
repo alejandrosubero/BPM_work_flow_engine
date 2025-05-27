@@ -85,21 +85,21 @@ public class DataBaseprovider implements RadomCode {
 	                .build();
 	    }
 	
-	    
-	    public List<Process> getAllProces(){
-	    	
-	    	 List<String> name = Arrays.asList("Brake", "Inventary", "Save");
-	    	 
-	    	 List<String> contex = Arrays.asList("Employee", "Buisnes", "Bank");
-	    	 
-	    	 List<String> union = Arrays.asList("_", "_");
-	    	 
-	    	 List<String> user = Arrays.asList("123434", "345967");
-	    	
-	    	 stringEnsamble(String... stringPaths);
-	    	
-	    	
-	    }
+	    //TODO: CHECK IN WHAT TEST I I NEED TO USE THE METHOD 
+//	    public List<Process> getAllProces(){
+//	    	
+//	    	 List<String> name = Arrays.asList("Brake", "Inventary", "Save");
+//	    	 
+//	    	 List<String> contex = Arrays.asList("Employee", "Buisnes", "Bank");
+//	    	 
+//	    	 List<String> union = Arrays.asList("_", "_");
+//	    	 
+//	    	 List<String> user = Arrays.asList("123434", "345967");
+//	    	
+//	    	 stringEnsamble(String ...stringPaths);
+//	    	
+//	    	
+//	    }
 	    
 	    
 
