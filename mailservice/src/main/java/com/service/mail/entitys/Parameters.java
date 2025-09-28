@@ -13,7 +13,7 @@ public class Parameters {
     @Column(name = "idParameter", updatable = true, nullable = false, length = 25)
     private Long idParameter;
 
-    @Column(name = "key", updatable = true, nullable = true, length = 500)
+    @Column(name = "parameterKey", updatable = true, nullable = true, length = 500)
     private String key;
 
     @Column(name = "value", updatable = true, nullable = true, length = 4000)
